@@ -1,5 +1,3 @@
 .idea
-tmp
-nbproject
 node_modules
 npm-debug.log

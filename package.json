@@ -12,9 +12,13 @@
 		"email": "buntarb@gmail.com"
 	}],
 	"license": "Apache-2.0",
-	"homepage": "https://github.com/buntarb/zz",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/buntarb/imazzine-developer-kit.git"
+	},
+	"homepage": "https://github.com/buntarb/imazzine-developer-kit",
 	"bugs": {
-		"url": "https://github.com/buntarb/zz/issues"
+		"url": "https://github.com/buntarb/imazzine-developer-kit/issues"
 	},
 	"scripts": {
 		"install": "node install.js"
