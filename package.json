@@ -1,0 +1,34 @@
+{
+	"name": "imazzine-developer-kit",
+	"version": "20160404.0.0",
+	"description": "Imazzine developer toolkit",
+	"author": {
+		"name": "Artem Lytvynov",
+		"email": "buntarb@gmail.com",
+		"url": "http://buntarb.github.io/"
+	},
+	"maintainers": [{
+		"name": "buntarb",
+		"email": "buntarb@gmail.com"
+	}],
+	"license": "Apache-2.0",
+	"homepage": "https://github.com/buntarb/zz",
+	"bugs": {
+		"url": "https://github.com/buntarb/zz/issues"
+	},
+	"scripts": {
+		"install": "node install.js"
+	},
+	"main": "index.js",
+	"dependencies": {
+
+		"vhost": "^3.0.2",
+		"express": "^4.13.4",
+		"body-parser": "^1.15.0",
+		"gulp": "^3.9.1",
+		"gulp-sass": "^2.2.0",
+		"node-notifier": "^4.5.0",
+		"google-closure-library": "^20160315.0.0"
+	},
+	"directories": {}
+}

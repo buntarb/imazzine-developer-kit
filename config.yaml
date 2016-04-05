@@ -1,0 +1,77 @@
+# Defaults
+DEFAULTS:
+
+  # Default title for index.html
+  TITLE: 'Imazzine Developer Kit'
+
+  # Default locale
+  LOCALE: 'en'
+
+# Compile settings
+COMPILE:
+
+  # Root namespace
+  NAMESPACE: 'zz'
+
+  # Compilation level
+  COMPILE_LEVEL: 'ADVANCED_OPTIMIZATIONS'
+
+  # Source code input ECMAScript version
+  INPUT_LANGUAGE: 'ECMASCRIPT5_STRICT'
+
+  # Compiled code ECMAScript version
+  OUTPUT_LANGUAGE: 'ECMASCRIPT5_STRICT'
+
+  # Enable/disable source map file generation
+  SOURCE_MAP_ENABLE: false
+
+  # Version of source map files
+  SOURCE_MAP: 'V3'
+
+# Server settings
+SERVER:
+
+  # Server domain/IP
+  SERVER_DOMAIN: 'localhost'
+
+  # Server port
+  SERVER_PORT: 8888
+
+  # Developer server sub-domain
+  SERVER_DEV: 'dev'
+
+  # Test server sub-domain
+  SERVER_TST: 'tst'
+
+  # Production-like server sub-domain
+  SERVER_APP: 'app'
+
+# Project paths
+PATH:
+
+  # Project root
+  ROOT: '/var/www/zz'
+
+  # Binary/executable files
+  BIN: '/bin'
+
+  # Compiled script folder
+  APP: '/app'
+
+  # Messages files folder
+  MESSAGES: '/messages'
+
+  # Templates (.soy) files folder
+  TEMPLATES: '/templates'
+
+  # Resources (images/fonts) files folder
+  RESOURCES: '/resources'
+
+  # Stylesheets (.scss) sources files folder
+  SCSS: '/stylesheets/scss'
+
+  # Stylesheets (.gss) compiled files folder
+  GSS: '/stylesheets/_gss'
+
+  # Stylesheets (.css) compiled files folder
+  CSS: '/stylesheets/_css'
