@@ -1,4 +1,4 @@
-// Copyright 2005 The ZZ Library Authors. All Rights Reserved.
+// Copyright 2005 The Imazzine Developer Kit. All Rights Reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -25,14 +25,14 @@
  * Dependencies section                                                                                               *
  **********************************************************************************************************************/
 
-var CONST = require( './node_tools/constant.js' );
+var CONST = require( './lib/constant.js' );
 var gulp = require( 'gulp' );
-var server = require( './node_tools/server.js' );
-var compiler = require( './node_tools/compiler.js' );
-var template = require( './node_tools/template.js' );
-var filetools = require( './node_tools/filetools.js' );
-var stylesheet = require( './node_tools/stylesheet.js' );
-var documentation = require( './node_tools/documentation.js' );
+var server = require( './lib/server.js' );
+var compiler = require( './lib/compiler.js' );
+var template = require( './lib/template.js' );
+var filetools = require( './lib/filetools.js' );
+var stylesheet = require( './lib/stylesheet.js' );
+var documentation = require( './lib/documentation.js' );
 
 /**********************************************************************************************************************
  * Functions declare section                                                                                          *

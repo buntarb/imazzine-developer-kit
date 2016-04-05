@@ -26,6 +26,7 @@
 	"main": "index.js",
 	"dependencies": {
 
+		"yamljs": "^0.2.7",
 		"vhost": "^3.0.2",
 		"express": "^4.13.4",
 		"body-parser": "^1.15.0",

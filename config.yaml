@@ -1,32 +1,16 @@
-# Defaults
-DEFAULTS:
-
-  # Default title for index.html
-  TITLE: 'Imazzine Developer Kit'
-
-  # Default locale
-  LOCALE: 'en'
-
-# Compile settings
-COMPILE:
-
-  # Root namespace
-  NAMESPACE: 'zz'
-
-  # Compilation level
-  COMPILE_LEVEL: 'ADVANCED_OPTIMIZATIONS'
-
-  # Source code input ECMAScript version
-  INPUT_LANGUAGE: 'ECMASCRIPT5_STRICT'
-
-  # Compiled code ECMAScript version
-  OUTPUT_LANGUAGE: 'ECMASCRIPT5_STRICT'
-
-  # Enable/disable source map file generation
-  SOURCE_MAP_ENABLE: false
-
-  # Version of source map files
-  SOURCE_MAP: 'V3'
+# Copyright 2005 The Imazzine Developer Kit Authors. All Rights Reserved.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http:#www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS-IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
 
 # Server settings
 SERVER:
@@ -46,32 +30,23 @@ SERVER:
   # Production-like server sub-domain
   SERVER_APP: 'app'
 
-# Project paths
-PATH:
+# Compile settings
+COMPILATION:
 
-  # Project root
-  ROOT: '/var/www/zz'
+  # Default locale
+  LOCALE: 'en'
 
-  # Binary/executable files
-  BIN: '/bin'
+  # Compilation level
+  COMPILE_LEVEL: 'ADVANCED_OPTIMIZATIONS'
 
-  # Compiled script folder
-  APP: '/app'
+  # Source code input ECMAScript version
+  INPUT_LANGUAGE: 'ECMASCRIPT5_STRICT'
 
-  # Messages files folder
-  MESSAGES: '/messages'
+  # Compiled code ECMAScript version
+  OUTPUT_LANGUAGE: 'ECMASCRIPT5_STRICT'
 
-  # Templates (.soy) files folder
-  TEMPLATES: '/templates'
+  # Enable/disable source map file generation
+  SOURCE_MAP_ENABLE: false
 
-  # Resources (images/fonts) files folder
-  RESOURCES: '/resources'
-
-  # Stylesheets (.scss) sources files folder
-  SCSS: '/stylesheets/scss'
-
-  # Stylesheets (.gss) compiled files folder
-  GSS: '/stylesheets/_gss'
-
-  # Stylesheets (.css) compiled files folder
-  CSS: '/stylesheets/_css'
+  # Version of source map files
+  SOURCE_MAP: 'V3'
