@@ -21,26 +21,29 @@ NAMESPACE: '[{(NAMESPACE)}]'
 # Module paths
 PATH:
 
-  # Compiled script folder
-  APPLICATION: '/app'
+  # Compiled files folder
+  BIN: 'bin'
+
+  # Source files folder
+  LIB: 'lib'
+
+  # JavaScript sources folder
+  SOURCES: 'sources'
 
   # Messages files folder
-  MESSAGES: '/messages'
+  MESSAGES: 'messages'
 
   # Templates (.soy) files folder
-  TEMPLATES: '/templates'
+  TEMPLATES: 'templates'
 
   # Resources (images/fonts) files folder
-  RESOURCES: '/resources'
+  RESOURCES: 'resources'
 
   # Stylesheets folder
-  STYLESHEETS: '/stylesheets'
+  STYLESHEETS: 'stylesheets'
 
   # Stylesheets (.scss) sources files folder
-  SCSS: '/scss'
+  SCSS: 'scss'
 
   # Stylesheets (.gss) compiled files folder
-  GSS: '/_gss'
-
-  # Stylesheets (.css) compiled files folder
-  CSS: '/_css'
+  CSS: '.css'
