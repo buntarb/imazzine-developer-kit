@@ -6,10 +6,6 @@
 		"name": "[{(AUTHOR)}]",
 		"email": "[{(EMAIL)}]"
 	},
-	"maintainers": [{
-		"name": "[{(AUTHOR)}]",
-		"email": "[{(EMAIL)}]"
-	}],
 	"license": "[{(LICENSE_TYPE)}]",
     "homepage": "[{(HOMEPAGE)}]",
 	"repository": {
@@ -19,7 +15,8 @@
 	"scripts": {
 		"install": "node install.js"
 	},
-	"main": "index.js",
-	"dependencies": { },
-	"directories": { }
+	"dependencies": {
+
+	    "imazzine-developer-kit": "^20160405.0.0"
+	}
 }

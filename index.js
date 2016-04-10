@@ -16,3 +16,12 @@
  * @fileoverview
  * @author buntarb@gmail.com (Artem Lytvynov)
  */
+
+var filetools = require( './lib/filetools.js' );
+var compiler = require( './lib/compiler.js' );
+
+module.exports = {
+
+	filetools: filetools,
+	compiler: compiler
+};

@@ -12,11 +12,11 @@
 		"email": "buntarb@gmail.com"
 	}],
 	"license": "Apache-2.0",
+	"homepage": "https://github.com/buntarb/imazzine-developer-kit",
 	"repository": {
 		"type": "git",
 		"url": "git+https://github.com/buntarb/imazzine-developer-kit.git"
 	},
-	"homepage": "https://github.com/buntarb/imazzine-developer-kit",
 	"bugs": {
 		"url": "https://github.com/buntarb/imazzine-developer-kit/issues"
 	},
@@ -34,6 +34,5 @@
 		"gulp-sass": "^2.2.0",
 		"node-notifier": "^4.5.0",
 		"google-closure-library": "^20160315.0.0"
-	},
-	"directories": {}
+	}
 }
