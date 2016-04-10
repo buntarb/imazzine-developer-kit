@@ -11,13 +11,10 @@
 		"email": "[{(EMAIL)}]"
 	}],
 	"license": "[{(LICENSE_TYPE)}]",
+    "homepage": "[{(HOMEPAGE)}]",
 	"repository": {
 		"type": "[{(REPO_TYPE)}]",
 		"url": "[{(REPO_URL)}]"
-	},
-	"homepage": "[{(HOMEPAGE)}]",
-	"bugs": {
-		"url": "[{(BUGSPAGE)}]"
 	},
 	"scripts": {
 		"install": "node install.js"

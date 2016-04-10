@@ -29,6 +29,16 @@ var ft = require( './lib/filetools.js' );
  */
 var yaml = require( 'yamljs' );
 
+/**
+ * Read line interface.
+ * @type {*}
+ */
+var rl = readline.createInterface( {
+
+	input: process.stdin,
+	output: process.stdout
+} );
+
 if( __dirname === ft.getRootPath( ) ){
 
 	// Terminate installing process for imazzine-developer-kit
@@ -45,21 +55,7 @@ if( ft.getRootPath( ) +
 	ft.CONST.IDK_FOLDER_NAME === __dirname ){
 
 	// Start installation process.
-	console.log( '[' + ( new Date( ) ).toISOString() + '] Installation start...' );
-
-	const rl = readline.createInterface( {
-
-		input: process.stdin,
-		output: process.stdout
-	} );
-
-	rl.question( 'What do you think of Node.js? ', function( answer ){
-
-		// TODO: Log the answer in a database
-		console.log( 'Thank you for your valuable feedback:', answer );
-
-		rl.close( );
-	} );
+	console.log( '[' + ( new Date( ) ).toISOString() + '] installation start...' );
 
 	// Calculate default module name.
 	var tmpModuleName = ft.getRootPath().split( ft.CONST.PATH_DELIMITER );
@@ -67,159 +63,222 @@ if( ft.getRootPath( ) +
 		.replace( /\W+/g, '_' )
 		.toLowerCase( );
 
-	console.log( '[' + ( new Date( ) ).toISOString() + '] ' +
-		'[' + tmpModuleName + '] setting up...' );
+	var now = new Date( );
+	var modName = '';
+	var modVersion = '' +
+		now.getFullYear( ) +
+		( ( now.getMonth( ) + 1 ) < 10 ? '0' + ( now.getMonth( ) + 1 ) : ( now.getMonth( ) + 1 ) ) +
+		now.getDate( ) + '.0.0';
+	var modDescription = 'Module description.';
+	var modAuthName = 'Author Name';
+	var modAuthEmail = 'Email@example.com';
+	var modLicense = 'Apache-2.0';
+	var modHomepage = 'http://www.example.com';
+	var modRepoType = 'git';
+	var modRepoUrl = 'git+https://github.com/author/' + tmpModuleName + '.git';
 
-	// Creating module configuration file.
-	try{
+	rl.question( 'Please enter module name [' + tmpModuleName + ']: ', function( input ){
 
-		console.log( '[' + ( new Date( ) ).toISOString() + '] ' +
-			'[' + ft.getRootPath( ) + '/config.yaml] creating...' );
+		modName = input || tmpModuleName;
+		rl.question( 'Please enter module version [' + modVersion + ']: ', function( input ){
 
-		var yamlString = ft.openFile( '.' + ft.CONST.PATH_DELIMITER +
-			'tpl' + ft.CONST.PATH_DELIMITER +
-			'module.yaml' );
+			modVersion = input || modVersion;
+			rl.question( 'Please enter module description [Module description.]: ', function( input ){
 
-		yamlString = yamlString.replace( '[{(TITLE)}]', 'Imazzine Developer Kit - ' + tmpModuleName );
-		yamlString = yamlString.replace( '[{(NAMESPACE)}]', tmpModuleName + '' );
-		ft.saveFile( ft.getRootPath( ) + ft.CONST.PATH_DELIMITER + 'config.yaml', yamlString );
+				modDescription = input || modDescription;
+				rl.question( 'Please enter module author name [Author Name]: ', function( input ){
 
-	}catch( e ){
+					modAuthName = input || modAuthName;
+					rl.question( 'Please enter module author email [email@example.com]: ', function( input ){
 
-		console.log( '[' + ( new Date( ) ).toISOString() + '] ' +
-			'Error while creating [' + ft.getRootPath( ) + '/config.yaml]' );
+						modAuthEmail = input || modAuthEmail;
+						rl.question( 'Please enter module license [Apache-2.0]: ', function( input ){
 
-		console.log( e );
-	}
+							modLicense = input || modLicense;
+							rl.question( 'Please enter module homepage [http://www.example.com]: ', function( input ){
 
-	// Creating paths for module.
-	try{
+								modHomepage = input || modHomepage;
+								rl.question( 'Please enter module repository type [git]: ', function( input ){
 
-		/**
-		 * Created module configuration.
-		 * @type {*}
-		 */
-		var moduleConfig = yaml.load( ft.getRootPath( ) + ft.CONST.PATH_DELIMITER + 'config.yaml' );
+									modRepoType = input || modRepoType;
+									rl.question( 'Please enter module repository url [' + modRepoUrl + ']: ', function( input ){
 
-		console.log( '[' + ( new Date( ) ).toISOString( ) + '] ' +
-			'[' + ft.getRootPath( ) + '/' +
-			moduleConfig.PATH.BIN + '] creating...' );
+										modRepoUrl = input || modRepoUrl;
 
-		ft.execute( 'mkdir ' + ft.getRootPath( ) + ft.CONST.PATH_DELIMITER + moduleConfig.PATH.BIN );
+										console.log(modName);
+										console.log(modVersion);
+										console.log(modDescription);
+										console.log(modAuthName);
+										console.log(modAuthEmail);
+										console.log(modLicense);
+										console.log(modHomepage);
+										console.log(modRepoType);
+										console.log(modRepoUrl);
+										rl.close( );
+									} );
+								} );
+							} );
+						} );
+					} );
+				} );
+			} );
 
-		console.log( '[' + ( new Date( ) ).toISOString( ) + '] ' +
-			'[' + ft.getRootPath( ) + '/' +
-			moduleConfig.PATH.LIB + '] creating...' );
+		} );
+	} );
 
-		ft.execute( 'mkdir ' + ft.getRootPath( ) + ft.CONST.PATH_DELIMITER + moduleConfig.PATH.LIB );
-
-		console.log( '[' + ( new Date( ) ).toISOString( ) + '] ' +
-			'[' + ft.getRootPath( ) + '/' +
-			moduleConfig.PATH.LIB + '/' +
-			moduleConfig.PATH.SOURCES + '] creating...' );
-
-		ft.execute( 'mkdir ' + ft.getRootPath( ) + ft.CONST.PATH_DELIMITER +
-			moduleConfig.PATH.LIB + ft.CONST.PATH_DELIMITER +
-			moduleConfig.PATH.SOURCES );
-
-		console.log( '[' + ( new Date( ) ).toISOString( ) + '] ' +
-			'[' + ft.getRootPath( ) + '/' +
-			moduleConfig.PATH.LIB + '/' +
-			moduleConfig.PATH.MESSAGES + '] creating...' );
-
-		ft.execute( 'mkdir ' + ft.getRootPath( ) + ft.CONST.PATH_DELIMITER +
-			moduleConfig.PATH.LIB + ft.CONST.PATH_DELIMITER +
-			moduleConfig.PATH.MESSAGES );
-
-		console.log( '[' + ( new Date( ) ).toISOString() + '] ' +
-			'[' + ft.getRootPath( ) + '/' +
-			moduleConfig.PATH.LIB + '/' +
-			moduleConfig.PATH.TEMPLATES + '] creating...' );
-
-		ft.execute( 'mkdir ' + ft.getRootPath( ) + ft.CONST.PATH_DELIMITER +
-			moduleConfig.PATH.LIB + ft.CONST.PATH_DELIMITER +
-			moduleConfig.PATH.TEMPLATES );
-
-		console.log( '[' + ( new Date( ) ).toISOString() + '] ' +
-			'[' + ft.getRootPath( ) + '/' +
-			moduleConfig.PATH.LIB + '/' +
-			moduleConfig.PATH.RESOURCES + '] creating...' );
-
-		ft.execute( 'mkdir ' + ft.getRootPath( ) + ft.CONST.PATH_DELIMITER +
-			moduleConfig.PATH.LIB + ft.CONST.PATH_DELIMITER +
-			moduleConfig.PATH.RESOURCES );
-
-		console.log( '[' + ( new Date( ) ).toISOString() + '] ' +
-			'[' + ft.getRootPath( ) + '/' +
-			moduleConfig.PATH.LIB + '/' +
-			moduleConfig.PATH.STYLESHEETS + '] creating...' );
-
-		ft.execute( 'mkdir ' + ft.getRootPath( ) + ft.CONST.PATH_DELIMITER +
-			moduleConfig.PATH.LIB + ft.CONST.PATH_DELIMITER +
-			moduleConfig.PATH.STYLESHEETS );
-
-		console.log( '[' + ( new Date( ) ).toISOString() + '] ' +
-			'[' + ft.getRootPath( ) + '/' +
-			moduleConfig.PATH.LIB + '/' +
-			moduleConfig.PATH.STYLESHEETS + '/' +
-			moduleConfig.PATH.SCSS + '] creating...' );
-
-		ft.execute( 'mkdir ' + ft.getRootPath( ) + ft.CONST.PATH_DELIMITER +
-			moduleConfig.PATH.LIB + ft.CONST.PATH_DELIMITER +
-			moduleConfig.PATH.STYLESHEETS + ft.CONST.PATH_DELIMITER +
-			moduleConfig.PATH.SCSS);
-
-		console.log( '[' + ( new Date( ) ).toISOString() + '] ' +
-			'[' + ft.getRootPath( ) + '/' +
-			moduleConfig.PATH.LIB + '/' +
-			moduleConfig.PATH.STYLESHEETS + '/' +
-			moduleConfig.PATH.CSS + '] creating...' );
-
-		ft.execute( 'mkdir ' + ft.getRootPath( ) + ft.CONST.PATH_DELIMITER +
-			moduleConfig.PATH.LIB + ft.CONST.PATH_DELIMITER +
-			moduleConfig.PATH.STYLESHEETS + ft.CONST.PATH_DELIMITER +
-			moduleConfig.PATH.CSS);
-
-	}catch( e ){
-
-		console.log( '[' + ( new Date( ) ).toISOString() + '] ' +
-			'Error while creating paths' );
-
-		console.log( e );
-	}
-
-	// Copy .ignore files.
-	try{
-
-		console.log( '[' + ( new Date( ) ).toISOString( ) + '] ' +
-			'[' + ft.getRootPath( ) + '/.gitignore] copy...' );
-
-		ft.execute( 'cp ' + ft.getRootPath( ) + ft.CONST.PATH_DELIMITER +
-			ft.CONST.NODE_MODULE_FOLDER + ft.CONST.PATH_DELIMITER +
-			ft.CONST.IDK_FOLDER_NAME + ft.CONST.PATH_DELIMITER +
-			'tpl' + ft.CONST.PATH_DELIMITER +
-			'.gitignore.tpl ' +
-			ft.getRootPath( ) + ft.CONST.PATH_DELIMITER +
-			'.gitignore' );
-
-		console.log( '[' + ( new Date( ) ).toISOString( ) + '] ' +
-			'[' + ft.getRootPath( ) + '/.npmignore] copy...' );
-
-		ft.execute( 'cp ' + ft.getRootPath( ) + ft.CONST.PATH_DELIMITER +
-			ft.CONST.NODE_MODULE_FOLDER + ft.CONST.PATH_DELIMITER +
-			ft.CONST.IDK_FOLDER_NAME + ft.CONST.PATH_DELIMITER +
-			'tpl' + ft.CONST.PATH_DELIMITER +
-			'.npmignore.tpl ' +
-			ft.getRootPath( ) + ft.CONST.PATH_DELIMITER +
-			'.npmignore' );
-
-	}catch( e ){
-
-		console.log( '[' + ( new Date( ) ).toISOString() + '] ' +
-			'Error while copy ignore files' );
-
-		console.log( e );
-	}
+//	console.log( '[' + ( new Date( ) ).toISOString() + '] ' +
+//		'[' + tmpModuleName + '] setting up...' );
+//
+//	// Creating module configuration file.
+//	try{
+//
+//		console.log( '[' + ( new Date( ) ).toISOString() + '] ' +
+//			'[' + ft.getRootPath( ) + '/config.yaml] creating...' );
+//
+//		var yamlString = ft.openFile( '.' + ft.CONST.PATH_DELIMITER +
+//			'tpl' + ft.CONST.PATH_DELIMITER +
+//			'module.yaml' );
+//
+//		yamlString = yamlString.replace( '[{(TITLE)}]', 'Imazzine Developer Kit - ' + tmpModuleName );
+//		yamlString = yamlString.replace( '[{(NAMESPACE)}]', tmpModuleName + '' );
+//		ft.saveFile( ft.getRootPath( ) + ft.CONST.PATH_DELIMITER + 'config.yaml', yamlString );
+//
+//	}catch( e ){
+//
+//		console.log( '[' + ( new Date( ) ).toISOString() + '] ' +
+//			'Error while creating [' + ft.getRootPath( ) + '/config.yaml]' );
+//
+//		console.log( e );
+//	}
+//
+//	// Creating paths for module.
+//	try{
+//
+//		/**
+//		 * Created module configuration.
+//		 * @type {*}
+//		 */
+//		var moduleConfig = yaml.load( ft.getRootPath( ) + ft.CONST.PATH_DELIMITER + 'config.yaml' );
+//
+//		console.log( '[' + ( new Date( ) ).toISOString( ) + '] ' +
+//			'[' + ft.getRootPath( ) + '/' +
+//			moduleConfig.PATH.BIN + '] creating...' );
+//
+//		ft.execute( 'mkdir ' + ft.getRootPath( ) + ft.CONST.PATH_DELIMITER + moduleConfig.PATH.BIN );
+//
+//		console.log( '[' + ( new Date( ) ).toISOString( ) + '] ' +
+//			'[' + ft.getRootPath( ) + '/' +
+//			moduleConfig.PATH.LIB + '] creating...' );
+//
+//		ft.execute( 'mkdir ' + ft.getRootPath( ) + ft.CONST.PATH_DELIMITER + moduleConfig.PATH.LIB );
+//
+//		console.log( '[' + ( new Date( ) ).toISOString( ) + '] ' +
+//			'[' + ft.getRootPath( ) + '/' +
+//			moduleConfig.PATH.LIB + '/' +
+//			moduleConfig.PATH.SOURCES + '] creating...' );
+//
+//		ft.execute( 'mkdir ' + ft.getRootPath( ) + ft.CONST.PATH_DELIMITER +
+//			moduleConfig.PATH.LIB + ft.CONST.PATH_DELIMITER +
+//			moduleConfig.PATH.SOURCES );
+//
+//		console.log( '[' + ( new Date( ) ).toISOString( ) + '] ' +
+//			'[' + ft.getRootPath( ) + '/' +
+//			moduleConfig.PATH.LIB + '/' +
+//			moduleConfig.PATH.MESSAGES + '] creating...' );
+//
+//		ft.execute( 'mkdir ' + ft.getRootPath( ) + ft.CONST.PATH_DELIMITER +
+//			moduleConfig.PATH.LIB + ft.CONST.PATH_DELIMITER +
+//			moduleConfig.PATH.MESSAGES );
+//
+//		console.log( '[' + ( new Date( ) ).toISOString() + '] ' +
+//			'[' + ft.getRootPath( ) + '/' +
+//			moduleConfig.PATH.LIB + '/' +
+//			moduleConfig.PATH.TEMPLATES + '] creating...' );
+//
+//		ft.execute( 'mkdir ' + ft.getRootPath( ) + ft.CONST.PATH_DELIMITER +
+//			moduleConfig.PATH.LIB + ft.CONST.PATH_DELIMITER +
+//			moduleConfig.PATH.TEMPLATES );
+//
+//		console.log( '[' + ( new Date( ) ).toISOString() + '] ' +
+//			'[' + ft.getRootPath( ) + '/' +
+//			moduleConfig.PATH.LIB + '/' +
+//			moduleConfig.PATH.RESOURCES + '] creating...' );
+//
+//		ft.execute( 'mkdir ' + ft.getRootPath( ) + ft.CONST.PATH_DELIMITER +
+//			moduleConfig.PATH.LIB + ft.CONST.PATH_DELIMITER +
+//			moduleConfig.PATH.RESOURCES );
+//
+//		console.log( '[' + ( new Date( ) ).toISOString() + '] ' +
+//			'[' + ft.getRootPath( ) + '/' +
+//			moduleConfig.PATH.LIB + '/' +
+//			moduleConfig.PATH.STYLESHEETS + '] creating...' );
+//
+//		ft.execute( 'mkdir ' + ft.getRootPath( ) + ft.CONST.PATH_DELIMITER +
+//			moduleConfig.PATH.LIB + ft.CONST.PATH_DELIMITER +
+//			moduleConfig.PATH.STYLESHEETS );
+//
+//		console.log( '[' + ( new Date( ) ).toISOString() + '] ' +
+//			'[' + ft.getRootPath( ) + '/' +
+//			moduleConfig.PATH.LIB + '/' +
+//			moduleConfig.PATH.STYLESHEETS + '/' +
+//			moduleConfig.PATH.SCSS + '] creating...' );
+//
+//		ft.execute( 'mkdir ' + ft.getRootPath( ) + ft.CONST.PATH_DELIMITER +
+//			moduleConfig.PATH.LIB + ft.CONST.PATH_DELIMITER +
+//			moduleConfig.PATH.STYLESHEETS + ft.CONST.PATH_DELIMITER +
+//			moduleConfig.PATH.SCSS);
+//
+//		console.log( '[' + ( new Date( ) ).toISOString() + '] ' +
+//			'[' + ft.getRootPath( ) + '/' +
+//			moduleConfig.PATH.LIB + '/' +
+//			moduleConfig.PATH.STYLESHEETS + '/' +
+//			moduleConfig.PATH.CSS + '] creating...' );
+//
+//		ft.execute( 'mkdir ' + ft.getRootPath( ) + ft.CONST.PATH_DELIMITER +
+//			moduleConfig.PATH.LIB + ft.CONST.PATH_DELIMITER +
+//			moduleConfig.PATH.STYLESHEETS + ft.CONST.PATH_DELIMITER +
+//			moduleConfig.PATH.CSS);
+//
+//	}catch( e ){
+//
+//		console.log( '[' + ( new Date( ) ).toISOString() + '] ' +
+//			'Error while creating paths' );
+//
+//		console.log( e );
+//	}
+//
+//	// Copy .ignore files.
+//	try{
+//
+//		console.log( '[' + ( new Date( ) ).toISOString( ) + '] ' +
+//			'[' + ft.getRootPath( ) + '/.gitignore] copy...' );
+//
+//		ft.execute( 'cp ' + ft.getRootPath( ) + ft.CONST.PATH_DELIMITER +
+//			ft.CONST.NODE_MODULE_FOLDER + ft.CONST.PATH_DELIMITER +
+//			ft.CONST.IDK_FOLDER_NAME + ft.CONST.PATH_DELIMITER +
+//			'tpl' + ft.CONST.PATH_DELIMITER +
+//			'.gitignore.tpl ' +
+//			ft.getRootPath( ) + ft.CONST.PATH_DELIMITER +
+//			'.gitignore' );
+//
+//		console.log( '[' + ( new Date( ) ).toISOString( ) + '] ' +
+//			'[' + ft.getRootPath( ) + '/.npmignore] copy...' );
+//
+//		ft.execute( 'cp ' + ft.getRootPath( ) + ft.CONST.PATH_DELIMITER +
+//			ft.CONST.NODE_MODULE_FOLDER + ft.CONST.PATH_DELIMITER +
+//			ft.CONST.IDK_FOLDER_NAME + ft.CONST.PATH_DELIMITER +
+//			'tpl' + ft.CONST.PATH_DELIMITER +
+//			'.npmignore.tpl ' +
+//			ft.getRootPath( ) + ft.CONST.PATH_DELIMITER +
+//			'.npmignore' );
+//
+//	}catch( e ){
+//
+//		console.log( '[' + ( new Date( ) ).toISOString() + '] ' +
+//			'Error while copy ignore files' );
+//
+//		console.log( e );
+//	}
 
 }else{
 
