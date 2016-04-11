@@ -1,0 +1,4 @@
+#!/usr/bin/env node
+
+var idk = require( 'imazzine-developer-kit' );
+idk.compiler.compileApplication( );

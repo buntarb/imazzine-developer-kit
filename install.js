@@ -430,6 +430,31 @@ if( ft.getRootPath( ) +
 
 													ft.getRootPath( ) + ft.CONST.PATH_DELIMITER + 'calcdeps' );
 
+											console.log( '[' + ( new Date( ) ).toISOString( ) + '] ' +
+
+												'[' + ft.getRootPath( ) + '/compile] copy...' );
+
+											ft.execute(
+
+												'cp ' +
+
+													ft.getRootPath( ) + ft.CONST.PATH_DELIMITER +
+													ft.CONST.NODE_MODULE_FOLDER + ft.CONST.PATH_DELIMITER +
+													ft.CONST.IDK_FOLDER_NAME + ft.CONST.PATH_DELIMITER +
+													'tpl' + ft.CONST.PATH_DELIMITER +
+													'cmd' + ft.CONST.PATH_DELIMITER + 'compile ' +
+													ft.getRootPath( ) + ft.CONST.PATH_DELIMITER + 'compile' );
+
+											console.log( '[' + ( new Date( ) ).toISOString( ) + '] ' +
+
+												'[' + ft.getRootPath( ) + '/compile] change permissions...' );
+
+											ft.execute(
+
+												'chmod u+x ' +
+
+													ft.getRootPath( ) + ft.CONST.PATH_DELIMITER + 'compile' );
+
 										}catch( e ){
 
 											console.log( '[' + ( new Date( ) ).toISOString() + '] ' +
