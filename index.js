@@ -19,9 +19,11 @@
 
 var filetools = require( './lib/filetools.js' );
 var compiler = require( './lib/compiler.js' );
+var template = require( './lib/template.js' );
 
 module.exports = {
 
 	filetools: filetools,
-	compiler: compiler
+	compiler: compiler,
+	template: template
 };
