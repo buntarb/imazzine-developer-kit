@@ -402,6 +402,77 @@ if( ft.getRootPath( ) +
 											console.log( e );
 										}
 
+										// Creating module.scss, deps.scss.
+										try{
+
+											console.log( '[' + ( new Date( ) ).toISOString() + '] ' +
+
+												'[' + ft.getRootPath( ) + '/' +
+												moduleConfig.PATH.LIB + '/' +
+												moduleConfig.PATH.STYLESHEETS + '/' +
+												modName + '.scss] creating...' );
+
+											var moduleScss = ft.openFile(
+
+												'.' + ft.CONST.PATH_DELIMITER +
+													'tpl' + ft.CONST.PATH_DELIMITER +
+													'module.scss.tpl' );
+
+											moduleScss = moduleScss.replace( /\[\{\(NAMESPACE\)\}\]/g, modName );
+											moduleScss = moduleScss.replace( /\[\{\(AUTHOR\)\}\]/g, modAuthName );
+											moduleScss = moduleScss.replace( /\[\{\(EMAIL\)\}\]/g, modAuthEmail );
+											moduleScss = moduleScss.replace( /\[\{\(LICENSE_TYPE\)\}\]/g, modLicense );
+											ft.saveFile(
+
+												ft.getRootPath( ) + ft.CONST.PATH_DELIMITER +
+
+													moduleConfig.PATH.LIB + ft.CONST.PATH_DELIMITER +
+													moduleConfig.PATH.STYLESHEETS + ft.CONST.PATH_DELIMITER +
+													moduleConfig.PATH.SCSS + ft.CONST.PATH_DELIMITER +
+													modName + '.scss',
+
+												moduleScss );
+
+											console.log( '[' + ( new Date( ) ).toISOString() + '] ' +
+
+												'[' + ft.getRootPath( ) + '/' +
+												moduleConfig.PATH.LIB + '/' +
+												moduleConfig.PATH.SOURCES + '/' +
+												'deps.scss] creating...' );
+
+											var depsScss = ft.openFile(
+
+												'.' + ft.CONST.PATH_DELIMITER +
+													'tpl' + ft.CONST.PATH_DELIMITER +
+													'deps.scss.tpl' );
+
+											depsScss = depsScss.replace( /\[\{\(NAMESPACE\)\}\]/g, modName );
+											depsScss = depsScss.replace( /\[\{\(AUTHOR\)\}\]/g, modAuthName );
+											depsScss = depsScss.replace( /\[\{\(EMAIL\)\}\]/g, modAuthEmail );
+											depsScss = depsScss.replace( /\[\{\(LICENSE_TYPE\)\}\]/g, modLicense );
+											ft.saveFile(
+
+												ft.getRootPath( ) + ft.CONST.PATH_DELIMITER +
+
+													moduleConfig.PATH.LIB + ft.CONST.PATH_DELIMITER +
+													moduleConfig.PATH.STYLESHEETS + ft.CONST.PATH_DELIMITER +
+													moduleConfig.PATH.SCSS + ft.CONST.PATH_DELIMITER +
+													'deps.scss',
+
+												depsScss );
+
+										}catch( e ){
+
+											console.log( '[' + ( new Date( ) ).toISOString() + '] ' +
+
+												'Error while creating [' + ft.getRootPath( ) + '/' +
+												moduleConfig.PATH.LIB + '/' +
+												moduleConfig.PATH.SOURCES + '/' +
+												'/base.js]' );
+
+											console.log( e );
+										}
+
 										// Copy command files.
 										try{
 
