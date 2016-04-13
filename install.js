@@ -390,6 +390,23 @@ if( ft.getRootPath( ) +
 
 												baseJs );
 
+											console.log( '[' + ( new Date( ) ).toISOString() + '] ' +
+
+												'[' + ft.getRootPath( ) + '/' +
+												moduleConfig.PATH.LIB + '/' +
+												moduleConfig.PATH.SOURCES + '/' +
+												'/cssmap.js] creating...' );
+
+											ft.saveFile(
+
+												ft.getRootPath( ) + ft.CONST.PATH_DELIMITER +
+
+													moduleConfig.PATH.LIB + ft.CONST.PATH_DELIMITER +
+													moduleConfig.PATH.SOURCES + ft.CONST.PATH_DELIMITER +
+													'cssmap.js',
+
+												'' );
+
 										}catch( e ){
 
 											console.log( '[' + ( new Date( ) ).toISOString() + '] ' +
