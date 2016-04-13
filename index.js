@@ -1,4 +1,4 @@
-// Copyright 2005 The Imazzine Developer Kit. All Rights Reserved.
+// Copyright 2016 The Imazzine Developer Kit. All Rights Reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -20,10 +20,12 @@
 var filetools = require( './lib/filetools.js' );
 var compiler = require( './lib/compiler.js' );
 var template = require( './lib/template.js' );
+var stylesheet = require( './lib/stylesheet.js' );
 
 module.exports = {
 
 	filetools: filetools,
 	compiler: compiler,
-	template: template
+	template: template,
+	stylesheet: stylesheet
 };

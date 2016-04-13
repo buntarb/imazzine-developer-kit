@@ -11,3 +11,11 @@ if( args[ 0 ] === '-t' || args[ 0 ] === '--templates' ){
 
     idk.template.compileTemplates( );
 }
+if( args[ 0 ] === '-s' || args[ 0 ] === '--scss' ){
+
+    idk.stylesheet.scss2gss( );
+}
+if( args[ 0 ] === '-g' || args[ 0 ] === '--gss' ){
+
+    idk.stylesheet.gss2css( );
+}
