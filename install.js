@@ -13,7 +13,7 @@
 // limitations under the License.
 
 /**
- * @fileoverview
+ * @fileoverview IDK installation file.
  * @author buntarb@gmail.com (Artem Lytvynov)
  */
 
@@ -110,11 +110,13 @@ if( ft.getRootPath( ) +
 										// Creating module configuration file.
 										try{
 
+											var yamlString;
+
 											console.log( '[' + ( new Date( ) ).toISOString() + '] ' +
 
 												'[' + ft.getRootPath( ) + '/config.yaml] creating...' );
 
-											var yamlString = ft.openFile(
+											yamlString = ft.openFile(
 
 												'.' + ft.CONST.PATH_DELIMITER +
 												'tpl' + ft.CONST.PATH_DELIMITER +
@@ -128,6 +130,36 @@ if( ft.getRootPath( ) +
 
 												ft.getRootPath( ) + ft.CONST.PATH_DELIMITER + 'config.yaml',
 												yamlString );
+
+											console.log( '[' + ( new Date( ) ).toISOString() + '] ' +
+
+												'[' + ft.getRootPath( ) + '/dependency.yaml] creating...' );
+
+											yamlString = ft.openFile(
+
+													'.' + ft.CONST.PATH_DELIMITER +
+														'tpl' + ft.CONST.PATH_DELIMITER +
+														'dependency.yaml' );
+
+											ft.saveFile(
+
+												ft.getRootPath( ) + ft.CONST.PATH_DELIMITER + 'dependency.yaml',
+												yamlString );
+
+											console.log( '[' + ( new Date( ) ).toISOString() + '] ' +
+
+												'[' + ft.getRootPath( ) + '/install.js] creating...' );
+
+											var installJs = ft.openFile(
+
+												'.' + ft.CONST.PATH_DELIMITER +
+													'tpl' + ft.CONST.PATH_DELIMITER +
+													'install.js' );
+
+											ft.saveFile(
+
+												ft.getRootPath( ) + ft.CONST.PATH_DELIMITER + 'install.js',
+												installJs );
 
 										}catch( e ){
 
