@@ -78,11 +78,16 @@ if( ft.getRootPath( ) +
 			sourceConf.PATH.SCSS + '/' +
 			sourceConf.NAMESPACE + "\";";
 
-		ft.execute( 'rm -r ' +
-
-			__dirname + d +
+		if( ft.isFileExist( __dirname + d +
 			ft.CONST.NODE_MODULE_FOLDER + d +
-			ft.CONST.IDK_FOLDER_NAME );
+			ft.CONST.IDK_FOLDER_NAME ) ){
+
+			ft.execute( 'rm -r ' +
+
+				__dirname + d +
+				ft.CONST.NODE_MODULE_FOLDER + d +
+				ft.CONST.IDK_FOLDER_NAME );
+		}
 
 	}else{
 
@@ -99,13 +104,19 @@ if( ft.getRootPath( ) +
 				ft.getRootPath( ) )[ 1 ] +
 				sourceDeps[ dep ];
 
-			ft.execute( 'rm -r ' +
 
-				ft.getRootPath( ) +
+			if( ft.isFileExist( ft.getRootPath( ) +
 				targetDeps[ dep ] + d +
 				ft.CONST.NODE_MODULE_FOLDER + d +
-				ft.CONST.IDK_FOLDER_NAME );
+				ft.CONST.IDK_FOLDER_NAME ) ){
 
+				ft.execute( 'rm -r ' +
+
+					ft.getRootPath( ) +
+					targetDeps[ dep ] + d +
+					ft.CONST.NODE_MODULE_FOLDER + d +
+					ft.CONST.IDK_FOLDER_NAME );
+			}
 			// Sub dependency already added in modules deps.scss
 //			var depConf = ft.openYaml( ft.getRootPath( ) + targetDeps[ dep ] + d + 'config.yaml' );
 //			targetScss = targetScss + "\n";
