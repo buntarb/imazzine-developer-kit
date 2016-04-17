@@ -46,26 +46,30 @@ if( __dirname === idk.filetools.getRootPath( ) ){
  * Node modules folder.
  */
 var nmf = __dirname.split( idk.filetools.CONST.PATH_DELIMITER );
-	nmf.pop( );
-	nmf = nmf.join( idk.filetools.CONST.PATH_DELIMITER );
+nmf.pop( );
+nmf = nmf.join( idk.filetools.CONST.PATH_DELIMITER );
 
 if( ft.getRootPath( ) +
 	ft.CONST.PATH_DELIMITER +
 	ft.CONST.NODE_MODULE_FOLDER === nmf ){
 
 	var targetDeps = ft.openYaml( ft.getRootPath( ) + d + 'dependencies.yaml' );
-	var sourceConf = ft.openYaml( __dirname + d + 'config.yaml' );
+	targetDeps = targetDeps ? targetDeps : {};
 	var sourceDeps = ft.openYaml( __dirname + d + 'dependencies.yaml' );
+	sourceDeps = sourceDeps ? sourceDeps : {};
+	var sourceConf = ft.openYaml( __dirname + d + 'config.yaml' );
 	if( typeof targetDeps[ sourceConf.NAMESPACE ] == 'undefined' ){
 
-		targetDeps[ sourceConf.NAMESPACE ] = __dirname;
+		targetDeps[ sourceConf.NAMESPACE ] = __dirname.split(
+
+			ft.getRootPath( ) + d + ft.CONST.NODE_MODULE_FOLDER )[ 1 ];
 	}
-//	for( var dep in sourceDeps ){
-//
-//		if( typeof targetDeps[ dep ] == 'undefined' ){
-//
-//			targetDeps[ dep ] = __dirname;
-//		}
-//	}
+	for( var dep in sourceDeps ){
+
+		if( typeof targetDeps[ dep ] == 'undefined' ){
+
+			targetDeps[ dep ] = d + ft.CONST.NODE_MODULE_FOLDER + sourceDeps[ dep ];
+		}
+	}
 	ft.saveYaml( ft.getRootPath( ) + d + 'dependencies.yaml', targetDeps );
 }
