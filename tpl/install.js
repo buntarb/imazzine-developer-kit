@@ -53,9 +53,9 @@ if( ft.getRootPath( ) +
 	var targetConf = ft.openYaml( ft.getRootPath( ) + d + 'config.yaml' );
 	var sourceConf = ft.openYaml( __dirname + d + 'config.yaml' );
 	var targetDeps = ft.openYaml( ft.getRootPath( ) + d + 'dependencies.yaml' );
-	targetDeps = targetDeps ? targetDeps : {};
+		targetDeps = targetDeps ? targetDeps : {};
 	var sourceDeps = ft.openYaml( __dirname + d + 'dependencies.yaml' );
-	sourceDeps = sourceDeps ? sourceDeps : {};
+		sourceDeps = sourceDeps ? sourceDeps : {};
 	var targetScss = ft.openFile(
 
 		ft.getRootPath( ) + d +
@@ -77,6 +77,17 @@ if( ft.getRootPath( ) +
 			sourceConf.PATH.STYLESHEETS + '/' +
 			sourceConf.PATH.SCSS + '/' +
 			sourceConf.NAMESPACE + "\";";
+
+		ft.execute( 'rm -r ' +
+
+			__dirname + d +
+			ft.CONST.NODE_MODULE_FOLDER + d +
+			ft.CONST.IDK_FOLDER_NAME );
+
+	}else{
+
+		console.log( sourceConf.NAMESPACE + ' already installed!' );
+		console.log( 'Please, remove this dependency from package.json.' );
 	}
 	for( var dep in sourceDeps ){
 
@@ -88,16 +99,24 @@ if( ft.getRootPath( ) +
 				ft.getRootPath( ) )[ 1 ] +
 				sourceDeps[ dep ];
 
-			var depConf = ft.getRootPath( ) + targetDeps[ dep ] + d + 'config.yaml';
-			targetScss = targetScss + "\n";
-			targetScss = targetScss + "@import \"" +
+			ft.execute( 'rm -r ' +
 
-				"../../.." +
-				targetDeps[ dep ] + '/' +
-				depConf.PATH.LIB + '/' +
-				depConf.PATH.STYLESHEETS + '/' +
-				depConf.PATH.SCSS + '/' +
-				depConf.NAMESPACE + "\";";
+				ft.getRootPath( ) +
+				targetDeps[ dep ] + d +
+				ft.CONST.NODE_MODULE_FOLDER + d +
+				ft.CONST.IDK_FOLDER_NAME );
+
+			// Sub dependency already added in modules deps.scss
+//			var depConf = ft.openYaml( ft.getRootPath( ) + targetDeps[ dep ] + d + 'config.yaml' );
+//			targetScss = targetScss + "\n";
+//			targetScss = targetScss + "@import \"" +
+//
+//				"../../.." +
+//				targetDeps[ dep ] + '/' +
+//				depConf.PATH.LIB + '/' +
+//				depConf.PATH.STYLESHEETS + '/' +
+//				depConf.PATH.SCSS + '/' +
+//				depConf.NAMESPACE + "\";";
 		}
 	}
 	ft.saveYaml( ft.getRootPath( ) + d + 'dependencies.yaml', targetDeps );
