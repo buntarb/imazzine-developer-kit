@@ -110,13 +110,13 @@ if( ft.getRootPath( ) +
 										// Creating module configuration file.
 										try{
 
-											var yamlString;
+											var fileString;
 
 											console.log( '[' + ( new Date( ) ).toISOString() + '] ' +
 
 												'[' + ft.getRootPath( ) + '/config.yaml] creating...' );
 
-											yamlString = ft.openFile(
+											fileString = ft.openFile(
 
 												'.' + ft.CONST.PATH_DELIMITER +
 												'tpl' + ft.CONST.PATH_DELIMITER +
@@ -129,22 +129,22 @@ if( ft.getRootPath( ) +
 											ft.saveFile(
 
 												ft.getRootPath( ) + ft.CONST.PATH_DELIMITER + 'config.yaml',
-												yamlString );
+												fileString );
 
 											console.log( '[' + ( new Date( ) ).toISOString() + '] ' +
 
-												'[' + ft.getRootPath( ) + '/dependencies] creating...' );
+												'[' + ft.getRootPath( ) + '/dependencies.yaml] creating...' );
 
-											yamlString = ft.openFile(
+											fileString = ft.openFile(
 
 													'.' + ft.CONST.PATH_DELIMITER +
 														'tpl' + ft.CONST.PATH_DELIMITER +
-														'dependencies' );
+														'dependencies.yaml' );
 
 											ft.saveFile(
 
-												ft.getRootPath( ) + ft.CONST.PATH_DELIMITER + 'dependencies',
-												yamlString );
+												ft.getRootPath( ) + ft.CONST.PATH_DELIMITER + 'dependencies.yaml',
+												fileString );
 
 											console.log( '[' + ( new Date( ) ).toISOString() + '] ' +
 

@@ -28,6 +28,12 @@ var idk = require( 'imazzine-developer-kit' );
  */
 var ft = idk.filetools;
 
+/**
+ * OS folder delimiter.
+ * @type {string}
+ */
+var d = ft.CONST.PATH_DELIMITER;
+
 // Check installation necessary.
 if( __dirname === idk.filetools.getRootPath( ) ){
 
@@ -47,5 +53,19 @@ if( ft.getRootPath( ) +
 	ft.CONST.PATH_DELIMITER +
 	ft.CONST.NODE_MODULE_FOLDER === nmf ){
 
-	console.log( 'Run!' );
+	var targetDeps = ft.openYaml( ft.getRootPath( ) + d + 'dependencies.yaml' );
+	var sourceConf = ft.openYaml( __dirname + d + 'config.yaml' );
+	var sourceDeps = ft.openYaml( __dirname + d + 'dependencies.yaml' );
+	if( typeof targetDeps[ sourceConf.NAMESPACE ] == 'undefined' ){
+
+		targetDeps[ sourceConf.NAMESPACE ] = __dirname;
+	}
+//	for( var dep in sourceDeps ){
+//
+//		if( typeof targetDeps[ dep ] == 'undefined' ){
+//
+//			targetDeps[ dep ] = __dirname;
+//		}
+//	}
+	ft.saveYaml( ft.getRootPath( ) + d + 'dependencies.yaml', targetDeps );
 }
