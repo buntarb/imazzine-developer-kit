@@ -28,7 +28,7 @@ var idk = require( 'imazzine-developer-kit' );
  */
 var ft = idk.filetools;
 
-// Check...
+// Check installation necessary.
 if( __dirname === idk.filetools.getRootPath( ) ){
 
 	// Terminate installing process for IDK or module project itself.
@@ -38,10 +38,9 @@ if( __dirname === idk.filetools.getRootPath( ) ){
 
 /**
  * Node modules folder.
- * @type {Array}
  */
 var nmf = __dirname.split( idk.filetools.CONST.PATH_DELIMITER );
-	nmf = nmf.pop( );
+	nmf.pop( );
 	nmf = nmf.join( idk.filetools.CONST.PATH_DELIMITER );
 
 if( ft.getRootPath( ) +

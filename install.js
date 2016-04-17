@@ -133,17 +133,17 @@ if( ft.getRootPath( ) +
 
 											console.log( '[' + ( new Date( ) ).toISOString() + '] ' +
 
-												'[' + ft.getRootPath( ) + '/dependency.yaml] creating...' );
+												'[' + ft.getRootPath( ) + '/dependencies] creating...' );
 
 											yamlString = ft.openFile(
 
 													'.' + ft.CONST.PATH_DELIMITER +
 														'tpl' + ft.CONST.PATH_DELIMITER +
-														'dependency.yaml' );
+														'dependencies' );
 
 											ft.saveFile(
 
-												ft.getRootPath( ) + ft.CONST.PATH_DELIMITER + 'dependency.yaml',
+												ft.getRootPath( ) + ft.CONST.PATH_DELIMITER + 'dependencies',
 												yamlString );
 
 											console.log( '[' + ( new Date( ) ).toISOString() + '] ' +
