@@ -2,35 +2,57 @@
 
 var idk = require( 'imazzine-developer-kit' );
 var args = process.argv.slice(2);
-
-if( args[ 0 ] === '--compile' ){
+if( args[ 0 ] === 'compile' ){
 
     if( !args[ 1 ] ){
 
-        console.log( 'Error! Second argument must be specified. Use --help argument to see help.' );
+        getHelp( );
     }
-    if( args[ 1 ] === '--app' ){
+    if( args[ 1 ] === 'app' ){
 
         idk.compiler.compileApplication( );
-    }
-    if( args[ 1 ] === '--tpl' ){
+
+    }else if( args[ 1 ] === 'soy' ){
 
         idk.template.compileTemplates( );
-    }
-    if( args[ 1 ] === '--scss' ){
+
+    }else if( args[ 1 ] === 'scss' ){
 
         idk.stylesheet.scss2gss( );
-    }
-    if( args[ 1 ] === '--gss' ){
+
+    }else if( args[ 1 ] === 'gss' ){
 
         idk.stylesheet.gss2css( );
+
+    }else{
+
+        getHelp( );
     }
-}
-if( args[ 0 ] === '--calcdeps' ){
+}else if( args[ 0 ] === 'calcdeps' ){
 
     idk.compiler.calculateDependencies( );
-}
-if( args[ 0 ] === '--extractmsg' ){
+
+}else if( args[ 0 ] === 'extractmsg' ){
 
     idk.template.extractMessages( );
+
+}else if( args[ 0 ] === 'help' ){
+
+    getHelp( );
+
+}else{
+
+    getHelp( );
+}
+function getHelp( ){
+
+    console.log( '' );
+    console.log( 'Usage: idk <command>' );
+    console.log( '' );
+    console.log( 'where <command> is one of:' );
+    console.log( '    help                see this help' );
+    console.log( '    compile <argument>  running compiling process of specified in argument entity: app, soy, scss, gss' );
+    console.log( '    calcdeps            running dependency calculation process' );
+    console.log( '    extractmsg          extract i18n messages from soy files' );
+    console.log( '' );
 }
