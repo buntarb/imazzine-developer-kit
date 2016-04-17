@@ -495,7 +495,7 @@ if( ft.getRootPath( ) +
 
 											console.log( '[' + ( new Date( ) ).toISOString( ) + '] ' +
 
-												'[' + ft.getRootPath( ) + '/calcdeps] copy...' );
+												'[' + ft.getRootPath( ) + '/idk] copy...' );
 
 											ft.execute(
 
@@ -505,68 +505,18 @@ if( ft.getRootPath( ) +
 													ft.CONST.NODE_MODULE_FOLDER + ft.CONST.PATH_DELIMITER +
 													ft.CONST.IDK_FOLDER_NAME + ft.CONST.PATH_DELIMITER +
 													'tpl' + ft.CONST.PATH_DELIMITER +
-													'cmd' + ft.CONST.PATH_DELIMITER + 'calcdeps ' +
-													ft.getRootPath( ) + ft.CONST.PATH_DELIMITER + 'calcdeps' );
+													'cmd' + ft.CONST.PATH_DELIMITER + 'idk ' +
+													ft.getRootPath( ) + ft.CONST.PATH_DELIMITER + 'idk' );
 
 											console.log( '[' + ( new Date( ) ).toISOString( ) + '] ' +
 
-												'[' + ft.getRootPath( ) + '/calcdeps] change permissions...' );
+												'[' + ft.getRootPath( ) + '/idk] change permissions...' );
 
 											ft.execute(
 
 												'chmod u+x ' +
 
-													ft.getRootPath( ) + ft.CONST.PATH_DELIMITER + 'calcdeps' );
-
-											console.log( '[' + ( new Date( ) ).toISOString( ) + '] ' +
-
-												'[' + ft.getRootPath( ) + '/compile] copy...' );
-
-											ft.execute(
-
-												'cp ' +
-
-													ft.getRootPath( ) + ft.CONST.PATH_DELIMITER +
-													ft.CONST.NODE_MODULE_FOLDER + ft.CONST.PATH_DELIMITER +
-													ft.CONST.IDK_FOLDER_NAME + ft.CONST.PATH_DELIMITER +
-													'tpl' + ft.CONST.PATH_DELIMITER +
-													'cmd' + ft.CONST.PATH_DELIMITER + 'compile ' +
-													ft.getRootPath( ) + ft.CONST.PATH_DELIMITER + 'compile' );
-
-											console.log( '[' + ( new Date( ) ).toISOString( ) + '] ' +
-
-												'[' + ft.getRootPath( ) + '/compile] change permissions...' );
-
-											ft.execute(
-
-												'chmod u+x ' +
-
-													ft.getRootPath( ) + ft.CONST.PATH_DELIMITER + 'compile' );
-
-											console.log( '[' + ( new Date( ) ).toISOString( ) + '] ' +
-
-												'[' + ft.getRootPath( ) + '/extractmsg] copy...' );
-
-											ft.execute(
-
-												'cp ' +
-
-													ft.getRootPath( ) + ft.CONST.PATH_DELIMITER +
-													ft.CONST.NODE_MODULE_FOLDER + ft.CONST.PATH_DELIMITER +
-													ft.CONST.IDK_FOLDER_NAME + ft.CONST.PATH_DELIMITER +
-													'tpl' + ft.CONST.PATH_DELIMITER +
-													'cmd' + ft.CONST.PATH_DELIMITER + 'extractmsg ' +
-													ft.getRootPath( ) + ft.CONST.PATH_DELIMITER + 'extractmsg' );
-
-											console.log( '[' + ( new Date( ) ).toISOString( ) + '] ' +
-
-												'[' + ft.getRootPath( ) + '/extractmsg] change permissions...' );
-
-											ft.execute(
-
-												'chmod u+x ' +
-
-													ft.getRootPath( ) + ft.CONST.PATH_DELIMITER + 'extractmsg' );
+													ft.getRootPath( ) + ft.CONST.PATH_DELIMITER + 'idk' );
 
 										}catch( e ){
 
