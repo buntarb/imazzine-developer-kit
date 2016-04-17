@@ -42,9 +42,6 @@ if( __dirname === idk.filetools.getRootPath( ) ){
 	return;
 }
 
-/**
- * Node modules folder.
- */
 var nmf = __dirname.split( idk.filetools.CONST.PATH_DELIMITER );
 nmf.pop( );
 nmf = nmf.join( idk.filetools.CONST.PATH_DELIMITER );
@@ -53,23 +50,63 @@ if( ft.getRootPath( ) +
 	ft.CONST.PATH_DELIMITER +
 	ft.CONST.NODE_MODULE_FOLDER === nmf ){
 
+	var targetConf = ft.openYaml( ft.getRootPath( ) + d + 'config.yaml' );
+	var sourceConf = ft.openYaml( __dirname + d + 'config.yaml' );
 	var targetDeps = ft.openYaml( ft.getRootPath( ) + d + 'dependencies.yaml' );
 	targetDeps = targetDeps ? targetDeps : {};
 	var sourceDeps = ft.openYaml( __dirname + d + 'dependencies.yaml' );
 	sourceDeps = sourceDeps ? sourceDeps : {};
-	var sourceConf = ft.openYaml( __dirname + d + 'config.yaml' );
+	var targetScss = ft.openFile(
+
+		ft.getRootPath( ) + d +
+
+			targetConf.PATH.LIB + d +
+			targetConf.PATH.STYLESHEETS + d +
+			targetConf.PATH.SCSS + d + 'deps.scss' );
+
 	if( typeof targetDeps[ sourceConf.NAMESPACE ] == 'undefined' ){
 
-		targetDeps[ sourceConf.NAMESPACE ] = __dirname.split(
+		targetDeps[ sourceConf.NAMESPACE ] = __dirname.split( ft.getRootPath( ) )[ 1 ];
 
-			ft.getRootPath( ) + d + ft.CONST.NODE_MODULE_FOLDER )[ 1 ];
+		targetScss = targetScss + "\n";
+		targetScss = targetScss + "@import \"" +
+
+			"../../.." +
+			targetDeps[ sourceConf.NAMESPACE ] + '/' +
+			sourceConf.PATH.LIB + '/' +
+			sourceConf.PATH.STYLESHEETS + '/' +
+			sourceConf.PATH.SCSS + '/' +
+			sourceConf.NAMESPACE + "\";";
 	}
 	for( var dep in sourceDeps ){
 
 		if( typeof targetDeps[ dep ] == 'undefined' ){
 
-			targetDeps[ dep ] = d + ft.CONST.NODE_MODULE_FOLDER + sourceDeps[ dep ];
+
+			targetDeps[ dep ] = __dirname.split(
+
+				ft.getRootPath( ) )[ 1 ] +
+				sourceDeps[ dep ];
+
+			var depConf = ft.getRootPath( ) + targetDeps[ dep ] + d + 'config.yaml';
+			targetScss = targetScss + "\n";
+			targetScss = targetScss + "@import \"" +
+
+				"../../.." +
+				targetDeps[ dep ] + '/' +
+				depConf.PATH.LIB + '/' +
+				depConf.PATH.STYLESHEETS + '/' +
+				depConf.PATH.SCSS + '/' +
+				depConf.NAMESPACE + "\";";
 		}
 	}
 	ft.saveYaml( ft.getRootPath( ) + d + 'dependencies.yaml', targetDeps );
+	ft.saveFile(
+
+		ft.getRootPath( ) + d +
+			targetConf.PATH.LIB + d +
+			targetConf.PATH.STYLESHEETS + d +
+			targetConf.PATH.SCSS + d + 'deps.scss',
+
+		targetScss);
 }
