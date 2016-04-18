@@ -259,6 +259,118 @@ if( ft.getRootPath( ) +
 
 												'[' + ft.getRootPath( ) + '/' +
 												moduleConfig.PATH.LIB + '/' +
+												moduleConfig.PATH.SOURCES + '/controllers] creating...' );
+
+											ft.execute(
+
+												'mkdir ' +
+
+													ft.getRootPath( ) + ft.CONST.PATH_DELIMITER +
+													moduleConfig.PATH.LIB + ft.CONST.PATH_DELIMITER +
+													moduleConfig.PATH.SOURCES + '/controllers' );
+
+											console.log( '[' + ( new Date( ) ).toISOString( ) + '] ' +
+
+												'[' + ft.getRootPath( ) + '/' +
+												moduleConfig.PATH.LIB + '/' +
+												moduleConfig.PATH.SOURCES + '/models] creating...' );
+
+											ft.execute(
+
+												'mkdir ' +
+
+													ft.getRootPath( ) + ft.CONST.PATH_DELIMITER +
+													moduleConfig.PATH.LIB + ft.CONST.PATH_DELIMITER +
+													moduleConfig.PATH.SOURCES + '/models' );
+
+											console.log( '[' + ( new Date( ) ).toISOString( ) + '] ' +
+
+												'[' + ft.getRootPath( ) + '/' +
+												moduleConfig.PATH.LIB + '/' +
+												moduleConfig.PATH.SOURCES + '/views] creating...' );
+
+											ft.execute(
+
+												'mkdir ' +
+
+													ft.getRootPath( ) + ft.CONST.PATH_DELIMITER +
+													moduleConfig.PATH.LIB + ft.CONST.PATH_DELIMITER +
+													moduleConfig.PATH.SOURCES + '/views' );
+
+											console.log( '[' + ( new Date( ) ).toISOString( ) + '] ' +
+
+												'[' + ft.getRootPath( ) + '/' +
+												moduleConfig.PATH.LIB + '/' +
+												moduleConfig.PATH.SOURCES + '/events] creating...' );
+
+											ft.execute(
+
+												'mkdir ' +
+
+													ft.getRootPath( ) + ft.CONST.PATH_DELIMITER +
+													moduleConfig.PATH.LIB + ft.CONST.PATH_DELIMITER +
+													moduleConfig.PATH.SOURCES + '/events' );
+
+											console.log( '[' + ( new Date( ) ).toISOString( ) + '] ' +
+
+												'[' + ft.getRootPath( ) + '/' +
+												moduleConfig.PATH.LIB + '/' +
+												moduleConfig.PATH.SOURCES + '/services] creating...' );
+
+											ft.execute(
+
+												'mkdir ' +
+
+													ft.getRootPath( ) + ft.CONST.PATH_DELIMITER +
+													moduleConfig.PATH.LIB + ft.CONST.PATH_DELIMITER +
+													moduleConfig.PATH.SOURCES + '/services' );
+
+											console.log( '[' + ( new Date( ) ).toISOString( ) + '] ' +
+
+												'[' + ft.getRootPath( ) + '/' +
+												moduleConfig.PATH.LIB + '/' +
+												moduleConfig.PATH.SOURCES + '/tests] creating...' );
+
+											ft.execute(
+
+												'mkdir ' +
+
+													ft.getRootPath( ) + ft.CONST.PATH_DELIMITER +
+													moduleConfig.PATH.LIB + ft.CONST.PATH_DELIMITER +
+													moduleConfig.PATH.SOURCES + '/tests' );
+
+											console.log( '[' + ( new Date( ) ).toISOString( ) + '] ' +
+
+												'[' + ft.getRootPath( ) + '/' +
+												moduleConfig.PATH.LIB + '/' +
+												moduleConfig.PATH.SOURCES + '/factories] creating...' );
+
+											ft.execute(
+
+												'mkdir ' +
+
+													ft.getRootPath( ) + ft.CONST.PATH_DELIMITER +
+													moduleConfig.PATH.LIB + ft.CONST.PATH_DELIMITER +
+													moduleConfig.PATH.SOURCES + '/factories' );
+
+											console.log( '[' + ( new Date( ) ).toISOString( ) + '] ' +
+
+												'[' + ft.getRootPath( ) + '/' +
+												moduleConfig.PATH.LIB + '/' +
+												moduleConfig.PATH.SOURCES + '/errors] creating...' );
+
+											ft.execute(
+
+												'mkdir ' +
+
+													ft.getRootPath( ) + ft.CONST.PATH_DELIMITER +
+													moduleConfig.PATH.LIB + ft.CONST.PATH_DELIMITER +
+													moduleConfig.PATH.SOURCES + '/errors' );
+
+											console.log( '[' + ( new Date( ) ).toISOString( ) + '] ' +
+
+												'[' + ft.getRootPath( ) + '/' +
+												moduleConfig.PATH.LIB + '/' +
 												moduleConfig.PATH.MESSAGES + '] creating...' );
 
 											ft.execute(
