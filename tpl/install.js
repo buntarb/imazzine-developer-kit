@@ -78,17 +78,6 @@ if( ft.getRootPath( ) +
 			sourceConf.PATH.SCSS + '/' +
 			sourceConf.NAMESPACE + "\";";
 
-		if( ft.isFileExist( __dirname + d +
-			ft.CONST.NODE_MODULE_FOLDER + d +
-			ft.CONST.IDK_FOLDER_NAME ) ){
-
-			ft.execute( 'rm -r ' +
-
-				__dirname + d +
-				ft.CONST.NODE_MODULE_FOLDER + d +
-				ft.CONST.IDK_FOLDER_NAME );
-		}
-
 	}else{
 
 		console.log( sourceConf.NAMESPACE + ' already installed!' );
@@ -98,25 +87,11 @@ if( ft.getRootPath( ) +
 
 		if( typeof targetDeps[ dep ] == 'undefined' ){
 
-
 			targetDeps[ dep ] = __dirname.split(
 
 				ft.getRootPath( ) )[ 1 ] +
 				sourceDeps[ dep ];
 
-
-			if( ft.isFileExist( ft.getRootPath( ) +
-				targetDeps[ dep ] + d +
-				ft.CONST.NODE_MODULE_FOLDER + d +
-				ft.CONST.IDK_FOLDER_NAME ) ){
-
-				ft.execute( 'rm -r ' +
-
-					ft.getRootPath( ) +
-					targetDeps[ dep ] + d +
-					ft.CONST.NODE_MODULE_FOLDER + d +
-					ft.CONST.IDK_FOLDER_NAME );
-			}
 			// Sub dependency already added in modules deps.scss
 //			var depConf = ft.openYaml( ft.getRootPath( ) + targetDeps[ dep ] + d + 'config.yaml' );
 //			targetScss = targetScss + "\n";
