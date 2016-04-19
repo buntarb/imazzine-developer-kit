@@ -1,6 +1,6 @@
 {
 	"name": "imazzine-developer-kit",
-	"version": "20160418.0.1",
+	"version": "20160419.0.0",
 	"description": "Imazzine developer toolkit",
 	"author": {
 		"name": "Artem Lytvynov",
@@ -21,7 +21,7 @@
 		"url": "https://github.com/buntarb/imazzine-developer-kit/issues"
 	},
 	"scripts": {
-		"install": "node install.js"
+		"postinstall": "node install.js"
 	},
 	"main": "index.js",
 	"dependencies": {

@@ -13,7 +13,7 @@
 		"url": "[{(REPO_URL)}]"
 	},
 	"scripts": {
-		"install": "node install.js"
+		"postinstall": "node install.js"
 	},
 	"dependencies": {
 
