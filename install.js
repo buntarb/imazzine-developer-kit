@@ -40,8 +40,52 @@ var rl = readline.createInterface( {
 } );
 
 // TODO: Add real production condition here.
-if( __dirname === ft.getRootPath( ) ||
-	ft.isDirExist( ft.getRootPath( ) + ft.CONST.PATH_DELIMITER + 'lib' ) ){
+if( __dirname === ft.getRootPath( ) || (
+
+		ft.isDirExist(
+
+			ft.getRootPath( ) + ft.CONST.PATH_DELIMITER +
+			'lib' ) &&
+
+		ft.isDirExist(
+
+			ft.getRootPath( ) + ft.CONST.PATH_DELIMITER +
+			'lib' + ft.CONST.PATH_DELIMITER +
+			'sources' ) &&
+
+		ft.isFileExist(
+
+			ft.getRootPath( ) + ft.CONST.PATH_DELIMITER +
+			'lib' + ft.CONST.PATH_DELIMITER +
+			'sources' + ft.CONST.PATH_DELIMITER +
+			'base.js' ) &&
+
+		ft.isFileExist(
+
+			ft.getRootPath( ) + ft.CONST.PATH_DELIMITER +
+			'lib' + ft.CONST.PATH_DELIMITER +
+			'sources' + ft.CONST.PATH_DELIMITER +
+			'cssmap.js' ) &&
+
+		ft.isDirExist(
+
+			ft.getRootPath( ) + ft.CONST.PATH_DELIMITER +
+			'lib' + ft.CONST.PATH_DELIMITER +
+			'stylesheets' ) &&
+
+		ft.isDirExist(
+
+			ft.getRootPath( ) + ft.CONST.PATH_DELIMITER +
+			'lib' + ft.CONST.PATH_DELIMITER +
+			'stylesheets' + ft.CONST.PATH_DELIMITER +
+			'scss' ) &&
+
+		ft.isFileExist(
+
+			'lib' + ft.CONST.PATH_DELIMITER +
+			'stylesheets' + ft.CONST.PATH_DELIMITER +
+			'scss'+ ft.CONST.PATH_DELIMITER +
+			'deps.scss' ) ) ){
 
 	// Terminate installing process for imazzine-developer-kit project itself.
 	console.log( '[' + ( new Date( ) ).toISOString() + '] Installation don\'t needed.' );
