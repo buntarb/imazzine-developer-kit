@@ -343,6 +343,34 @@ if( ft.getRootPath( ) +
 
 												'[' + ft.getRootPath( ) + '/' +
 												moduleConfig.PATH.LIB + '/' +
+												moduleConfig.PATH.SOURCES + '/enums] creating...' );
+
+											ft.execute(
+
+												'mkdir ' +
+
+													ft.getRootPath( ) + ft.CONST.PATH_DELIMITER +
+													moduleConfig.PATH.LIB + ft.CONST.PATH_DELIMITER +
+													moduleConfig.PATH.SOURCES + '/enums' );
+
+											console.log( '[' + ( new Date( ) ).toISOString( ) + '] ' +
+
+												'[' + ft.getRootPath( ) + '/' +
+												moduleConfig.PATH.LIB + '/' +
+												moduleConfig.PATH.SOURCES + '/docs] creating...' );
+
+											ft.execute(
+
+												'mkdir ' +
+
+													ft.getRootPath( ) + ft.CONST.PATH_DELIMITER +
+													moduleConfig.PATH.LIB + ft.CONST.PATH_DELIMITER +
+													moduleConfig.PATH.SOURCES + '/docs' );
+
+											console.log( '[' + ( new Date( ) ).toISOString( ) + '] ' +
+
+												'[' + ft.getRootPath( ) + '/' +
+												moduleConfig.PATH.LIB + '/' +
 												moduleConfig.PATH.MESSAGES + '] creating...' );
 
 											ft.execute(
