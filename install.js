@@ -39,7 +39,9 @@ var rl = readline.createInterface( {
 	output: process.stdout
 } );
 
-if( __dirname === ft.getRootPath( ) ){
+// TODO: Add real production condition here.
+if( __dirname === ft.getRootPath( ) ||
+	ft.isDirExist( ft.getRootPath( ) + ft.CONST.PATH_DELIMITER + 'lib' ) ){
 
 	// Terminate installing process for imazzine-developer-kit project itself.
 	console.log( '[' + ( new Date( ) ).toISOString() + '] Installation don\'t needed.' );
