@@ -12,11 +12,8 @@
 		"type": "[{(REPO_TYPE)}]",
 		"url": "[{(REPO_URL)}]"
 	},
-	"scripts": {
-		"postinstall": "node install.js"
-	},
 	"dependencies": {
 
-	    "imazzine-developer-kit": "^20160405.0.0"
+	    "imazzine-developer-kit": ""
 	}
 }

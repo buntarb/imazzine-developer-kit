@@ -131,36 +131,6 @@ if( ft.getRootPath( ) +
 												ft.getRootPath( ) + ft.CONST.PATH_DELIMITER + 'config.yaml',
 												fileString );
 
-											console.log( '[' + ( new Date( ) ).toISOString() + '] ' +
-
-												'[' + ft.getRootPath( ) + '/dependencies.yaml] creating...' );
-
-											fileString = ft.openFile(
-
-													'.' + ft.CONST.PATH_DELIMITER +
-														'tpl' + ft.CONST.PATH_DELIMITER +
-														'dependencies.yaml' );
-
-											ft.saveFile(
-
-												ft.getRootPath( ) + ft.CONST.PATH_DELIMITER + 'dependencies.yaml',
-												fileString );
-
-											console.log( '[' + ( new Date( ) ).toISOString() + '] ' +
-
-												'[' + ft.getRootPath( ) + '/install.js] creating...' );
-
-											var installJs = ft.openFile(
-
-												'.' + ft.CONST.PATH_DELIMITER +
-													'tpl' + ft.CONST.PATH_DELIMITER +
-													'install.js' );
-
-											ft.saveFile(
-
-												ft.getRootPath( ) + ft.CONST.PATH_DELIMITER + 'install.js',
-												installJs );
-
 										}catch( e ){
 
 											console.log( '[' + ( new Date( ) ).toISOString() + '] ' +
