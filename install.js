@@ -82,13 +82,14 @@ if( __dirname === ft.getRootPath( ) || (
 
 		ft.isFileExist(
 
+			ft.getRootPath( ) + ft.CONST.PATH_DELIMITER +
 			'lib' + ft.CONST.PATH_DELIMITER +
 			'stylesheets' + ft.CONST.PATH_DELIMITER +
 			'scss'+ ft.CONST.PATH_DELIMITER +
 			'deps.scss' ) ) ){
 
 	// Terminate installing process for imazzine-developer-kit project itself.
-	console.log( '[' + ( new Date( ) ).toISOString() + '] Installation don\'t needed.' );
+	console.log( '[' + ( new Date( ) ).toISOString() + '] Installation don\'t needed. Press [ctrl + c] to finish.' );
 	return;
 }
 
