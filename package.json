@@ -18,7 +18,7 @@
 		"url": "git+https://github.com/buntarb/imazzine-developer-kit.git"
 	},
 	"publishConfig": {
-		"registry": "https://www.npmjs.com"
+		"registry": "http://registry.npmjs.org/"
 	},
 	"bugs": {
 		"url": "https://github.com/buntarb/imazzine-developer-kit/issues"
