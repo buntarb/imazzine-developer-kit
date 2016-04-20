@@ -187,6 +187,35 @@ if( ft.getRootPath( ) +
 											console.log( e );
 										}
 
+										// Creating license file.
+										try{
+
+											var licenseString;
+
+											console.log( '[' + ( new Date( ) ).toISOString() + '] ' +
+
+												'[' + ft.getRootPath( ) + '/LICENSE] creating...' );
+
+											fileString = ft.openFile(
+
+													'.' + ft.CONST.PATH_DELIMITER +
+													'tpl' + ft.CONST.PATH_DELIMITER +
+													'LICENSE' );
+
+											ft.saveFile(
+
+												ft.getRootPath( ) + ft.CONST.PATH_DELIMITER + 'LICENSE',
+												fileString );
+
+										}catch( e ){
+
+											console.log( '[' + ( new Date( ) ).toISOString() + '] ' +
+
+												'Error while creating [' + ft.getRootPath( ) + '/LICENSE]' );
+
+											console.log( e );
+										}
+
 										// Creating module package.json.
 										try{
 
