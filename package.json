@@ -1,6 +1,6 @@
 {
 	"name": "imazzine-developer-kit",
-	"version": "20160420.0.1",
+	"version": "20160420.0.2",
 	"description": "Imazzine developer toolkit",
 	"author": {
 		"name": "Artem Lytvynov",
@@ -16,6 +16,9 @@
 	"repository": {
 		"type": "git",
 		"url": "git+https://github.com/buntarb/imazzine-developer-kit.git"
+	},
+	"publishConfig": {
+		"registry": "https://www.npmjs.com"
 	},
 	"bugs": {
 		"url": "https://github.com/buntarb/imazzine-developer-kit/issues"
