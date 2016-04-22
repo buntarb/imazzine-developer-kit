@@ -10,15 +10,11 @@ if( args[ 0 ] === 'compile' ){
     }
     if( args[ 1 ] === 'app' ){
 
-            idk.template.compileTemplates( );
-            idk.stylesheet.scss2gss( );
-            idk.stylesheet.gss2css( );
-            idk.compiler.calculateDependencies( );
             idk.compiler.compileApplication( );
 
     }else if( args[ 1 ] === 'js' ){
 
-        idk.compiler.compileApplication( );
+        idk.compiler.compileJs( );
 
     }else if( args[ 1 ] === 'soy' ){
 
