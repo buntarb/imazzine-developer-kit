@@ -39,6 +39,43 @@ var rl = readline.createInterface( {
 	output: process.stdout
 } );
 
+// Copy command files.
+try{
+
+	console.log( '[' + ( new Date( ) ).toISOString( ) + '] ' +
+
+		'[' + ft.getRootPath( ) + '/idk] copy...' );
+
+	ft.execute(
+
+		'cp ' +
+
+			ft.getRootPath( ) + ft.CONST.PATH_DELIMITER +
+			ft.CONST.NODE_MODULE_FOLDER + ft.CONST.PATH_DELIMITER +
+			ft.CONST.IDK_FOLDER_NAME + ft.CONST.PATH_DELIMITER +
+			'tpl' + ft.CONST.PATH_DELIMITER +
+			'cmd' + ft.CONST.PATH_DELIMITER + 'idk ' +
+			ft.getRootPath( ) + ft.CONST.PATH_DELIMITER + 'idk' );
+
+	console.log( '[' + ( new Date( ) ).toISOString( ) + '] ' +
+
+		'[' + ft.getRootPath( ) + '/idk] change permissions...' );
+
+	ft.execute(
+
+		'chmod u+x ' +
+
+			ft.getRootPath( ) + ft.CONST.PATH_DELIMITER + 'idk' );
+
+}catch( e ){
+
+	console.log( '[' + ( new Date( ) ).toISOString() + '] ' +
+
+		'Error while copy command files' );
+
+	console.log( e );
+}
+
 // TODO: Add real production condition here.
 if( __dirname === ft.getRootPath( ) || (
 
@@ -704,43 +741,6 @@ if( ft.getRootPath( ) +
 												moduleConfig.PATH.LIB + '/' +
 												moduleConfig.PATH.SOURCES + '/' +
 												'/base.js]' );
-
-											console.log( e );
-										}
-
-										// Copy command files.
-										try{
-
-											console.log( '[' + ( new Date( ) ).toISOString( ) + '] ' +
-
-												'[' + ft.getRootPath( ) + '/idk] copy...' );
-
-											ft.execute(
-
-												'cp ' +
-
-													ft.getRootPath( ) + ft.CONST.PATH_DELIMITER +
-													ft.CONST.NODE_MODULE_FOLDER + ft.CONST.PATH_DELIMITER +
-													ft.CONST.IDK_FOLDER_NAME + ft.CONST.PATH_DELIMITER +
-													'tpl' + ft.CONST.PATH_DELIMITER +
-													'cmd' + ft.CONST.PATH_DELIMITER + 'idk ' +
-													ft.getRootPath( ) + ft.CONST.PATH_DELIMITER + 'idk' );
-
-											console.log( '[' + ( new Date( ) ).toISOString( ) + '] ' +
-
-												'[' + ft.getRootPath( ) + '/idk] change permissions...' );
-
-											ft.execute(
-
-												'chmod u+x ' +
-
-													ft.getRootPath( ) + ft.CONST.PATH_DELIMITER + 'idk' );
-
-										}catch( e ){
-
-											console.log( '[' + ( new Date( ) ).toISOString() + '] ' +
-
-												'Error while copy command files' );
 
 											console.log( e );
 										}
