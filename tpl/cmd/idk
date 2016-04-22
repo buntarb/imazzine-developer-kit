@@ -10,6 +10,14 @@ if( args[ 0 ] === 'compile' ){
     }
     if( args[ 1 ] === 'app' ){
 
+            idk.template.compileTemplates( );
+            idk.stylesheet.scss2gss( );
+            idk.stylesheet.gss2css( );
+            idk.compiler.calculateDependencies( );
+            idk.compiler.compileApplication( );
+
+    }else if( args[ 1 ] === 'js' ){
+
         idk.compiler.compileApplication( );
 
     }else if( args[ 1 ] === 'soy' ){
@@ -51,7 +59,7 @@ function getHelp( ){
     console.log( '' );
     console.log( 'where <command> is one of:' );
     console.log( '    help                see this help' );
-    console.log( '    compile <argument>  running compiling process of specified in argument entity: app, soy, scss, gss' );
+    console.log( '    compile <argument>  running compiling process of specified in argument entity: app, js, soy, scss, gss' );
     console.log( '    calcdeps            running dependency calculation process' );
     console.log( '    extractmsg          extract i18n messages from soy files' );
     console.log( '' );
