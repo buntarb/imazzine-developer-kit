@@ -21,11 +21,13 @@ var filetools = require( './lib/filetools.js' );
 var compiler = require( './lib/compiler.js' );
 var template = require( './lib/template.js' );
 var stylesheet = require( './lib/stylesheet.js' );
+var server = require( './lib/server.js' );
 
 module.exports = {
 
 	filetools: filetools,
 	compiler: compiler,
 	template: template,
-	stylesheet: stylesheet
+	stylesheet: stylesheet,
+	server: server
 };

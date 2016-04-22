@@ -38,7 +38,18 @@ if( args[ 0 ] === 'compile' ){
 
 }else if( args[ 0 ] === 'extractmsg' ){
 
-    idk.template.extractMessages( );
+     idk.template.extractMessages( );
+
+ }else if( args[ 0 ] === 'start' ){
+
+    if( !args[ 1 ] ){
+
+        getHelp( );
+    }
+    if( args[ 1 ] === 'server' ){
+
+        idk.server.startServer( );
+    }
 
 }else if( args[ 0 ] === 'help' ){
 
