@@ -42,6 +42,25 @@ var rl = readline.createInterface( {
 // Copy command files.
 try{
 
+	var moduleConfig = yaml.load(
+
+		ft.getRootPath( ) + ft.CONST.PATH_DELIMITER + 'config.yaml' );
+
+	if( !ft.isDirExist( ft.getRootPath( ) + ft.CONST.PATH_DELIMITER + moduleConfig.PATH.BIN ) ){
+
+		console.log( '[' + ( new Date( ) ).toISOString( ) + '] ' +
+
+			'[' + ft.getRootPath( ) + '/' +
+			moduleConfig.PATH.BIN + '] creating...' );
+
+		ft.execute(
+
+			'mkdir ' +
+
+				ft.getRootPath( ) + ft.CONST.PATH_DELIMITER +
+				moduleConfig.PATH.BIN );
+	}
+
 	console.log( '[' + ( new Date( ) ).toISOString( ) + '] ' +
 
 		'[' + ft.getRootPath( ) + '/idk] copy...' );
@@ -299,18 +318,6 @@ if( ft.getRootPath( ) +
 											var moduleConfig = yaml.load(
 
 												ft.getRootPath( ) + ft.CONST.PATH_DELIMITER + 'config.yaml' );
-
-											console.log( '[' + ( new Date( ) ).toISOString( ) + '] ' +
-
-												'[' + ft.getRootPath( ) + '/' +
-												moduleConfig.PATH.BIN + '] creating...' );
-
-											ft.execute(
-
-												'mkdir ' +
-
-													ft.getRootPath( ) + ft.CONST.PATH_DELIMITER +
-													moduleConfig.PATH.BIN );
 
 											console.log( '[' + ( new Date( ) ).toISOString( ) + '] ' +
 
