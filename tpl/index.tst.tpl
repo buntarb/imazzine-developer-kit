@@ -9,6 +9,6 @@
     </head>
     <body>
         <div id="root"></div>
-        <script>[{(NAMESPACE)}]( );</script>
+        <script>[{(NAMESPACE)}].bootstrap( );</script>
     </body>
 </html>

@@ -19,4 +19,4 @@ goog.provide( '[{(NAMESPACE)}]' );
 
 	//
 };
-window[ 'bootstrap' ] = [{(NAMESPACE)}].bootstrap;
+window[ '[{(NAMESPACE)}]' ] = [{(NAMESPACE)}].bootstrap;
