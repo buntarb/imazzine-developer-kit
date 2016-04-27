@@ -95,6 +95,46 @@ try{
 	console.log( e );
 }
 
+// Copy .ignore files.
+try{
+
+	console.log( '[' + ( new Date( ) ).toISOString( ) + '] ' +
+
+		'[' + ft.getRootPath( ) + '/.gitignore] copy...' );
+
+	ft.execute(
+
+		'cp ' +
+
+			ft.getRootPath( ) + ft.CONST.PATH_DELIMITER +
+			ft.CONST.NODE_MODULE_FOLDER + ft.CONST.PATH_DELIMITER +
+			ft.CONST.IDK_FOLDER_NAME + ft.CONST.PATH_DELIMITER +
+			'tpl' + ft.CONST.PATH_DELIMITER + '.gitignore.tpl ' +
+			ft.getRootPath( ) + ft.CONST.PATH_DELIMITER + '.gitignore' );
+
+	console.log( '[' + ( new Date( ) ).toISOString( ) + '] ' +
+
+		'[' + ft.getRootPath( ) + '/.npmignore] copy...' );
+
+	ft.execute(
+
+		'cp ' +
+
+			ft.getRootPath( ) + ft.CONST.PATH_DELIMITER +
+			ft.CONST.NODE_MODULE_FOLDER + ft.CONST.PATH_DELIMITER +
+			ft.CONST.IDK_FOLDER_NAME + ft.CONST.PATH_DELIMITER +
+			'tpl' + ft.CONST.PATH_DELIMITER + '.npmignore.tpl ' +
+			ft.getRootPath( ) + ft.CONST.PATH_DELIMITER + '.npmignore' );
+
+}catch( e ){
+
+	console.log( '[' + ( new Date( ) ).toISOString() + '] ' +
+
+		'Error while copy ignore files' );
+
+	console.log( e );
+}
+
 // TODO: Add real production condition here.
 if( __dirname === ft.getRootPath( ) || (
 
@@ -578,46 +618,6 @@ if( ft.getRootPath( ) +
 											console.log( '[' + ( new Date( ) ).toISOString() + '] ' +
 
 												'Error while creating paths' );
-
-											console.log( e );
-										}
-
-										// Copy .ignore files.
-										try{
-
-											console.log( '[' + ( new Date( ) ).toISOString( ) + '] ' +
-
-												'[' + ft.getRootPath( ) + '/.gitignore] copy...' );
-
-											ft.execute(
-
-												'cp ' +
-
-													ft.getRootPath( ) + ft.CONST.PATH_DELIMITER +
-													ft.CONST.NODE_MODULE_FOLDER + ft.CONST.PATH_DELIMITER +
-													ft.CONST.IDK_FOLDER_NAME + ft.CONST.PATH_DELIMITER +
-													'tpl' + ft.CONST.PATH_DELIMITER + '.gitignore.tpl ' +
-													ft.getRootPath( ) + ft.CONST.PATH_DELIMITER + '.gitignore' );
-
-											console.log( '[' + ( new Date( ) ).toISOString( ) + '] ' +
-
-												'[' + ft.getRootPath( ) + '/.npmignore] copy...' );
-
-											ft.execute(
-
-												'cp ' +
-
-													ft.getRootPath( ) + ft.CONST.PATH_DELIMITER +
-													ft.CONST.NODE_MODULE_FOLDER + ft.CONST.PATH_DELIMITER +
-													ft.CONST.IDK_FOLDER_NAME + ft.CONST.PATH_DELIMITER +
-													'tpl' + ft.CONST.PATH_DELIMITER + '.npmignore.tpl ' +
-													ft.getRootPath( ) + ft.CONST.PATH_DELIMITER + '.npmignore' );
-
-										}catch( e ){
-
-											console.log( '[' + ( new Date( ) ).toISOString() + '] ' +
-
-												'Error while copy ignore files' );
 
 											console.log( e );
 										}
