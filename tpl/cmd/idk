@@ -57,17 +57,17 @@ if( args[ 0 ] === 'compile' ){
 
 }else if( args[ 0 ] === 'update' ){
 
-    idk.filetools.execute( idk.filetools.getRootPath( ) + '/git pull' );
-    idk.filetools.execute( idk.filetools.getRootPath( ) + '/npm update' );
+    idk.filetools.execute( 'git pull' );
+    idk.filetools.execute( 'npm update' );
 
 }else if( args[ 0 ] === 'publish' ){
 
     idk.compiler.calculateDependencies( );
     idk.compiler.compileApplication( );
-    idk.filetools.execute( idk.filetools.getRootPath( ) + '/git commit -a -m "idk auto commit [' + ( new Date( ) ).toISOString( ) + ']"' );
-    idk.filetools.execute( idk.filetools.getRootPath( ) + '/git pull' );
-    idk.filetools.execute( idk.filetools.getRootPath( ) + '/git push' );
-    idk.filetools.execute( idk.filetools.getRootPath( ) + '/npm publish' );
+    idk.filetools.execute( 'git commit -a -m "idk auto commit [' + ( new Date( ) ).toISOString( ) + ']"' );
+    idk.filetools.execute( 'git pull' );
+    idk.filetools.execute( 'git push' );
+    idk.filetools.execute( 'npm publish' );
 
 }else if( args[ 0 ] === 'help' ){
 
