@@ -64,6 +64,7 @@ if( args[ 0 ] === 'compile' ){
 
     idk.compiler.calculateDependencies( );
     idk.compiler.compileApplication( );
+    idk.filetools.execute( 'git add .' );
     idk.filetools.execute( 'git commit -a -m "idk auto commit [' + ( new Date( ) ).toISOString( ) + ']"' );
     idk.filetools.execute( 'git pull' );
     idk.filetools.execute( 'git push' );
