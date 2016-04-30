@@ -185,7 +185,7 @@ if( __dirname === ft.getRootPath( ) || (
 			'deps.scss' ) ) ){
 
 	// Terminate installing process for imazzine-developer-kit project itself.
-	console.log( '[' + ( new Date( ) ).toISOString() + '] done, press [ctrl + c] to finish' );
+	console.log( '[' + ( new Date( ) ).toISOString() + '] done' );
 	process.exit( 0 );
 }
 
