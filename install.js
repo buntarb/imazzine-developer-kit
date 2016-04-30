@@ -186,7 +186,7 @@ if( __dirname === ft.getRootPath( ) || (
 
 	// Terminate installing process for imazzine-developer-kit project itself.
 	console.log( '[' + ( new Date( ) ).toISOString() + '] done, press [ctrl + c] to finish' );
-	return;
+	process.exit( 0 );
 }
 
 if( ft.getRootPath( ) +
