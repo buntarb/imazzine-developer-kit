@@ -22,6 +22,7 @@ var compiler = require( './lib/compiler.js' );
 var template = require( './lib/template.js' );
 var stylesheet = require( './lib/stylesheet.js' );
 var server = require( './lib/server.js' );
+var ws = require( 'ws' );
 
 module.exports = {
 
@@ -29,5 +30,6 @@ module.exports = {
 	compiler: compiler,
 	template: template,
 	stylesheet: stylesheet,
-	server: server
+	server: server,
+	ws: ws
 };
