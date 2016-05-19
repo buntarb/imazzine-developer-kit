@@ -19,16 +19,22 @@
  * @nocompile
  */
 
-require( './node_modules/google-closure-library/closure/goog/bootstrap/nodejs.js' );
-require( '../../lib/sources/deps-node.js' );
-
+// Persistent modules requiring.
 var filetools = require( './lib/filetools.js' );
 var compiler = require( './lib/compiler.js' );
 var template = require( './lib/template.js' );
 var stylesheet = require( './lib/stylesheet.js' );
 var server = require( './lib/server.js' );
-
 var ws = require( 'ws' );
+
+// GCL nodejs module requiring.
+require( './node_modules/google-closure-library/closure/goog/bootstrap/nodejs.js' );
+
+// Module dependencies for node if exist.
+if( filetools.isFileExist( '../../lib/sources/deps-node.js' ) ){
+
+	require( '../../lib/sources/deps-node.js' );
+}
 
 // Exporting API
 module.exports = {
