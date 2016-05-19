@@ -13,17 +13,24 @@
 // limitations under the License.
 
 /**
- * @fileoverview
+ * @fileoverview Imazzine Developer Kit NodeJs index file. This file must be
+ * used instead of ./goog/bootstrap/nodejs.js.
  * @author buntarb@gmail.com (Artem Lytvynov)
+ * @nocompile
  */
+
+require( './node_modules/google-closure-library/closure/goog/bootstrap/nodejs.js' );
+require( '../../lib/sources/deps-node.js' );
 
 var filetools = require( './lib/filetools.js' );
 var compiler = require( './lib/compiler.js' );
 var template = require( './lib/template.js' );
 var stylesheet = require( './lib/stylesheet.js' );
 var server = require( './lib/server.js' );
+
 var ws = require( 'ws' );
 
+// Exporting API
 module.exports = {
 
 	filetools: filetools,
