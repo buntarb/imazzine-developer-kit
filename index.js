@@ -25,15 +25,30 @@ var compiler = require( './lib/compiler.js' );
 var template = require( './lib/template.js' );
 var stylesheet = require( './lib/stylesheet.js' );
 var server = require( './lib/server.js' );
+var yaml = require( 'yamljs' );
 var ws = require( 'ws' );
+
+// Base environment variables.
+var d = filetools.CONST.PATH_DELIMITER;
+var cfg = yaml.load( filetools.getRootPath( ) + d + 'config.yaml' );
 
 // GCL nodejs module requiring.
 require( './node_modules/google-closure-library/closure/goog/bootstrap/nodejs.js' );
 
 // Module dependencies for node if exist.
-if( filetools.isFileExist( '../../lib/sources/deps-node.js' ) ){
+if( filetools.isFileExist(
 
-	require( '../../lib/sources/deps-node.js' );
+	filetools.getRootPath( ) + d +
+		cfg.PATH.LIB + d +
+		cfg.PATH.SOURCES + d +
+		'deps-node.js' ) ){
+
+	require(
+
+		filetools.getRootPath( ) + d +
+			cfg.PATH.LIB + d +
+			cfg.PATH.SOURCES + d +
+			'deps-node.js' );
 }
 
 // Exporting API
