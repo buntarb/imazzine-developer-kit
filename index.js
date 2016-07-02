@@ -13,21 +13,53 @@
 // limitations under the License.
 
 /**
- * @fileoverview
+ * @fileoverview Imazzine Developer Kit NodeJs index file. This file must be
+ * used instead of ./goog/bootstrap/nodejs.js.
  * @author buntarb@gmail.com (Artem Lytvynov)
+ * @nocompile
  */
 
+// Persistent modules requiring.
 var filetools = require( './lib/filetools.js' );
 var compiler = require( './lib/compiler.js' );
+var document = require( './lib/document.js' );
 var template = require( './lib/template.js' );
 var stylesheet = require( './lib/stylesheet.js' );
 var server = require( './lib/server.js' );
+var yaml = require( 'yamljs' );
+var ws = require( 'ws' );
 
+// Base environment variables.
+var d = filetools.CONST.PATH_DELIMITER;
+var cfg = yaml.load( filetools.getRootPath( ) + d + 'config.yaml' );
+
+// GCL nodejs module requiring.
+require( './node_modules/google-closure-library/closure/goog/bootstrap/nodejs.js' );
+
+// Module dependencies for node if exist.
+if( filetools.isFileExist(
+
+		filetools.getRootPath( ) + d +
+		cfg.PATH.LIB + d +
+		cfg.PATH.SOURCES + d +
+		'deps-node.js' ) ){
+
+	require(
+
+		filetools.getRootPath( ) + d +
+		cfg.PATH.LIB + d +
+		cfg.PATH.SOURCES + d +
+		'deps-node.js' );
+}
+
+// Exporting API
 module.exports = {
 
 	filetools: filetools,
 	compiler: compiler,
+	document: document,
 	template: template,
 	stylesheet: stylesheet,
-	server: server
+	server: server,
+	ws: ws
 };
