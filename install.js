@@ -42,6 +42,25 @@ var rl = readline.createInterface( {
 // Copy command files.
 try{
 
+	var moduleConfig = yaml.load(
+
+		ft.getRootPath( ) + ft.CONST.PATH_DELIMITER + 'config.yaml' );
+
+	if( !ft.isDirExist( ft.getRootPath( ) + ft.CONST.PATH_DELIMITER + moduleConfig.PATH.BIN ) ){
+
+		console.log( '[' + ( new Date( ) ).toISOString( ) + '] ' +
+
+			'[' + ft.getRootPath( ) + '/' +
+			moduleConfig.PATH.BIN + '] creating...' );
+
+		ft.execute(
+
+			'mkdir ' +
+
+				ft.getRootPath( ) + ft.CONST.PATH_DELIMITER +
+				moduleConfig.PATH.BIN );
+	}
+
 	console.log( '[' + ( new Date( ) ).toISOString( ) + '] ' +
 
 		'[' + ft.getRootPath( ) + '/idk] copy...' );
@@ -72,6 +91,46 @@ try{
 	console.log( '[' + ( new Date( ) ).toISOString() + '] ' +
 
 		'Error while copy command files' );
+
+	console.log( e );
+}
+
+// Copy .ignore files.
+try{
+
+	console.log( '[' + ( new Date( ) ).toISOString( ) + '] ' +
+
+		'[' + ft.getRootPath( ) + '/.gitignore] copy...' );
+
+	ft.execute(
+
+		'cp ' +
+
+			ft.getRootPath( ) + ft.CONST.PATH_DELIMITER +
+			ft.CONST.NODE_MODULE_FOLDER + ft.CONST.PATH_DELIMITER +
+			ft.CONST.IDK_FOLDER_NAME + ft.CONST.PATH_DELIMITER +
+			'tpl' + ft.CONST.PATH_DELIMITER + '.gitignore.tpl ' +
+			ft.getRootPath( ) + ft.CONST.PATH_DELIMITER + '.gitignore' );
+
+	console.log( '[' + ( new Date( ) ).toISOString( ) + '] ' +
+
+		'[' + ft.getRootPath( ) + '/.npmignore] copy...' );
+
+	ft.execute(
+
+		'cp ' +
+
+			ft.getRootPath( ) + ft.CONST.PATH_DELIMITER +
+			ft.CONST.NODE_MODULE_FOLDER + ft.CONST.PATH_DELIMITER +
+			ft.CONST.IDK_FOLDER_NAME + ft.CONST.PATH_DELIMITER +
+			'tpl' + ft.CONST.PATH_DELIMITER + '.npmignore.tpl ' +
+			ft.getRootPath( ) + ft.CONST.PATH_DELIMITER + '.npmignore' );
+
+}catch( e ){
+
+	console.log( '[' + ( new Date( ) ).toISOString() + '] ' +
+
+		'Error while copy ignore files' );
 
 	console.log( e );
 }
@@ -126,8 +185,8 @@ if( __dirname === ft.getRootPath( ) || (
 			'deps.scss' ) ) ){
 
 	// Terminate installing process for imazzine-developer-kit project itself.
-	console.log( '[' + ( new Date( ) ).toISOString() + '] done, press [ctrl + c] to finish' );
-	return;
+	console.log( '[' + ( new Date( ) ).toISOString() + '] done' );
+	process.exit( 0 );
 }
 
 if( ft.getRootPath( ) +
@@ -299,18 +358,6 @@ if( ft.getRootPath( ) +
 											var moduleConfig = yaml.load(
 
 												ft.getRootPath( ) + ft.CONST.PATH_DELIMITER + 'config.yaml' );
-
-											console.log( '[' + ( new Date( ) ).toISOString( ) + '] ' +
-
-												'[' + ft.getRootPath( ) + '/' +
-												moduleConfig.PATH.BIN + '] creating...' );
-
-											ft.execute(
-
-												'mkdir ' +
-
-													ft.getRootPath( ) + ft.CONST.PATH_DELIMITER +
-													moduleConfig.PATH.BIN );
 
 											console.log( '[' + ( new Date( ) ).toISOString( ) + '] ' +
 
@@ -571,46 +618,6 @@ if( ft.getRootPath( ) +
 											console.log( '[' + ( new Date( ) ).toISOString() + '] ' +
 
 												'Error while creating paths' );
-
-											console.log( e );
-										}
-
-										// Copy .ignore files.
-										try{
-
-											console.log( '[' + ( new Date( ) ).toISOString( ) + '] ' +
-
-												'[' + ft.getRootPath( ) + '/.gitignore] copy...' );
-
-											ft.execute(
-
-												'cp ' +
-
-													ft.getRootPath( ) + ft.CONST.PATH_DELIMITER +
-													ft.CONST.NODE_MODULE_FOLDER + ft.CONST.PATH_DELIMITER +
-													ft.CONST.IDK_FOLDER_NAME + ft.CONST.PATH_DELIMITER +
-													'tpl' + ft.CONST.PATH_DELIMITER + '.gitignore.tpl ' +
-													ft.getRootPath( ) + ft.CONST.PATH_DELIMITER + '.gitignore' );
-
-											console.log( '[' + ( new Date( ) ).toISOString( ) + '] ' +
-
-												'[' + ft.getRootPath( ) + '/.npmignore] copy...' );
-
-											ft.execute(
-
-												'cp ' +
-
-													ft.getRootPath( ) + ft.CONST.PATH_DELIMITER +
-													ft.CONST.NODE_MODULE_FOLDER + ft.CONST.PATH_DELIMITER +
-													ft.CONST.IDK_FOLDER_NAME + ft.CONST.PATH_DELIMITER +
-													'tpl' + ft.CONST.PATH_DELIMITER + '.npmignore.tpl ' +
-													ft.getRootPath( ) + ft.CONST.PATH_DELIMITER + '.npmignore' );
-
-										}catch( e ){
-
-											console.log( '[' + ( new Date( ) ).toISOString() + '] ' +
-
-												'Error while copy ignore files' );
 
 											console.log( e );
 										}

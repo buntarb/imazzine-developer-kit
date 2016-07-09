@@ -10,7 +10,7 @@ if( args[ 0 ] === 'compile' ){
     }
     if( args[ 1 ] === 'app' ){
 
-            idk.compiler.compileApplication( );
+        idk.compiler.compileApplication( );
 
     }else if( args[ 1 ] === 'js' ){
 
@@ -55,6 +55,21 @@ if( args[ 0 ] === 'compile' ){
         idk.server.startServer( );
     }
 
+}else if( args[ 0 ] === 'update' ){
+
+    idk.filetools.execute( 'git pull' );
+    idk.filetools.execute( 'npm update' );
+
+}else if( args[ 0 ] === 'publish' ){
+
+    idk.compiler.calculateDependencies( );
+    idk.compiler.compileApplication( );
+    idk.filetools.execute( 'git add .' );
+    idk.filetools.execute( 'git commit -a -m "idk auto commit [' + ( new Date( ) ).toISOString( ) + ']"' );
+    idk.filetools.execute( 'git pull' );
+    idk.filetools.execute( 'git push' );
+    idk.filetools.execute( 'npm publish' );
+
 }else if( args[ 0 ] === 'help' ){
 
     getHelp( );
@@ -73,5 +88,7 @@ function getHelp( ){
     console.log( '    compile <argument>  running compiling process of specified in argument entity: app, js, soy, css, scss, gss' );
     console.log( '    calcdeps            running dependency calculation process' );
     console.log( '    extractmsg          extract i18n messages from soy files' );
+    console.log( '    update              update module from repositories' );
+    console.log( '    publish             publish module' );
     console.log( '' );
 }

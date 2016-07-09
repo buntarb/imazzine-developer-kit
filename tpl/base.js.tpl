@@ -19,4 +19,4 @@ goog.provide( '[{(NAMESPACE)}]' );
 
 	//
 };
-window[ 'bootstrap' ] = [{(NAMESPACE)}].bootstrap;
+goog.exportSymbol( '[{(NAMESPACE)}].bootstrap', [{(NAMESPACE)}].bootstrap );

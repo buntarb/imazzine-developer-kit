@@ -22,7 +22,7 @@
 // Persistent modules requiring.
 var filetools = require( './lib/filetools.js' );
 var compiler = require( './lib/compiler.js' );
-var document = require( './lib/document.js' );
+var documentation = require( './lib/documentation.js' );
 var template = require( './lib/template.js' );
 var stylesheet = require( './lib/stylesheet.js' );
 var server = require( './lib/server.js' );
@@ -39,7 +39,7 @@ require( './node_modules/google-closure-library/closure/goog/bootstrap/nodejs.js
 // Module dependencies for node if exist.
 if( filetools.isFileExist(
 
-		filetools.getRootPath( ) + d +
+	filetools.getRootPath( ) + d +
 		cfg.PATH.LIB + d +
 		cfg.PATH.SOURCES + d +
 		'deps-node.js' ) ){
@@ -47,9 +47,9 @@ if( filetools.isFileExist(
 	require(
 
 		filetools.getRootPath( ) + d +
-		cfg.PATH.LIB + d +
-		cfg.PATH.SOURCES + d +
-		'deps-node.js' );
+			cfg.PATH.LIB + d +
+			cfg.PATH.SOURCES + d +
+			'deps-node.js' );
 }
 
 // Exporting API
@@ -57,7 +57,7 @@ module.exports = {
 
 	filetools: filetools,
 	compiler: compiler,
-	document: document,
+	documentation: documentation,
 	template: template,
 	stylesheet: stylesheet,
 	server: server,

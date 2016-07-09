@@ -2,6 +2,6 @@
     </head>
     <body>
         <div id="root"></div>
-        <script>bootstrap( );</script>
+        <script>[{(NAMESPACE)}].bootstrap( );</script>
     </body>
 </html>

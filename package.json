@@ -1,44 +1,47 @@
 {
-	"name": "imazzine-developer-kit",
-	"version": "20160708.0.3",
-	"description": "Imazzine developer toolkit",
-	"author": {
-		"name": "Artem Lytvynov",
-		"email": "buntarb@gmail.com",
-		"url": "http://buntarb.github.io/"
-	},
-	"maintainers": [{
-		"name": "buntarb",
-		"email": "buntarb@gmail.com"
-	}],
-	"license": "Apache-2.0",
-	"homepage": "https://github.com/buntarb/imazzine-developer-kit",
-	"repository": {
-		"type": "git",
-		"url": "git+https://github.com/buntarb/imazzine-developer-kit.git"
-	},
-	"publishConfig": {
-		"registry": "http://registry.npmjs.org/"
-	},
-	"bugs": {
-		"url": "https://github.com/buntarb/imazzine-developer-kit/issues"
-	},
-	"scripts": {
-		"install": "node install.js"
-	},
-	"main": "index.js",
-	"dependencies": {
-
-		"yamljs": "^0.2.7",
-		"vhost": "^3.0.2",
-		"express": "^4.13.4",
-		"body-parser": "^1.15.0",
-		"gulp": "^3.9.1",
-		"gulp-sass": "^2.2.0",
-		"gulp-css-base64": "^1.3.4",
-		"node-notifier": "^4.5.0",
-		"google-closure-library": "^20160315.0.0",
-		"ws": "",
-		"jsdoc-api": ""
-	}
+  "name": "imazzine-developer-kit",
+  "version": "20160708.0.3",
+  "description": "Imazzine developer toolkit",
+  "author": {
+    "name": "Artem Lytvynov",
+    "email": "buntarb@gmail.com",
+    "url": "http://buntarb.github.io/"
+  },
+  "maintainers": [
+    {
+      "name": "buntarb",
+      "email": "buntarb@gmail.com"
+    }
+  ],
+  "license": "Apache-2.0",
+  "homepage": "https://github.com/buntarb/imazzine-developer-kit",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/buntarb/imazzine-developer-kit.git"
+  },
+  "publishConfig": {
+    "registry": "http://registry.npmjs.org/"
+  },
+  "bugs": {
+    "url": "https://github.com/buntarb/imazzine-developer-kit/issues"
+  },
+  "scripts": {
+    "install": "node install.js"
+  },
+  "main": "index.js",
+  "dependencies": {
+    "yamljs": "^0.2.7",
+    "vhost": "^3.0.2",
+    "express": "^4.13.4",
+    "body-parser": "^1.15.0",
+    "gulp": "^3.9.1",
+    "gulp-sass": "^2.2.0",
+    "gulp-css-base64": "^1.3.4",
+    "node-notifier": "^4.5.0",
+    "google-closure-library": "^20160315.0.0",
+    "google-closure-compiler": "",
+    "closurecompiler-externs": "",
+    "ws": "",
+	"jsdoc-api": ""
+  }
 }
