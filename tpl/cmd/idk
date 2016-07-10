@@ -32,6 +32,10 @@ if( args[ 0 ] === 'compile' ){
 
          idk.stylesheet.css( );
 
+    }else if( args[ 1 ] === 'doc' ){
+
+         idk.documentation.compileDocument( );
+
     }else{
 
         getHelp( );
@@ -85,7 +89,7 @@ function getHelp( ){
     console.log( '' );
     console.log( 'where <command> is one of:' );
     console.log( '    help                see this help' );
-    console.log( '    compile <argument>  running compiling process of specified in argument entity: app, js, soy, css, scss, gss' );
+    console.log( '    compile <argument>  running compiling process of specified in argument entity: app, js, soy, css, scss, gss, doc' );
     console.log( '    calcdeps            running dependency calculation process' );
     console.log( '    extractmsg          extract i18n messages from soy files' );
     console.log( '    update              update module from repositories' );
