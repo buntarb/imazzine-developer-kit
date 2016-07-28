@@ -40,26 +40,40 @@ var rl = readline.createInterface( {
 } );
 
 // Copy command files.
-try{
+if( ft.isFileExist( ft.getRootPath( ) + ft.CONST.PATH_DELIMITER + 'config.yaml' )){
 
-	var moduleConfig = yaml.load(
+	try{
 
-		ft.getRootPath( ) + ft.CONST.PATH_DELIMITER + 'config.yaml' );
+		var moduleConfig = yaml.load(
 
-	if( !ft.isDirExist( ft.getRootPath( ) + ft.CONST.PATH_DELIMITER + moduleConfig.PATH.BIN ) ){
+			ft.getRootPath( ) + ft.CONST.PATH_DELIMITER + 'config.yaml' );
 
-		console.log( '[' + ( new Date( ) ).toISOString( ) + '] ' +
+		if( !ft.isDirExist( ft.getRootPath( ) + ft.CONST.PATH_DELIMITER + moduleConfig.PATH.BIN ) ){
 
-			'[' + ft.getRootPath( ) + '/' +
-			moduleConfig.PATH.BIN + '] creating...' );
+			console.log( '[' + ( new Date( ) ).toISOString( ) + '] ' +
 
-		ft.execute(
+				'[' + ft.getRootPath( ) + '/' +
+				moduleConfig.PATH.BIN + '] creating...' );
 
-			'mkdir ' +
+			ft.execute(
+
+				'mkdir ' +
 
 				ft.getRootPath( ) + ft.CONST.PATH_DELIMITER +
 				moduleConfig.PATH.BIN );
+		}
+	}catch( e ){
+
+		console.log( '[' + ( new Date( ) ).toISOString() + '] ' +
+
+			'Error create ' +  ft.getRootPath( ) + ft.CONST.PATH_DELIMITER +
+			moduleConfig.PATH.BIN);
+
+		console.log( e );
 	}
+}
+
+try{
 
 	console.log( '[' + ( new Date( ) ).toISOString( ) + '] ' +
 
@@ -69,12 +83,12 @@ try{
 
 		'cp ' +
 
-			ft.getRootPath( ) + ft.CONST.PATH_DELIMITER +
-			ft.CONST.NODE_MODULE_FOLDER + ft.CONST.PATH_DELIMITER +
-			ft.CONST.IDK_FOLDER_NAME + ft.CONST.PATH_DELIMITER +
-			'tpl' + ft.CONST.PATH_DELIMITER +
-			'cmd' + ft.CONST.PATH_DELIMITER + 'idk ' +
-			ft.getRootPath( ) + ft.CONST.PATH_DELIMITER + 'idk' );
+		ft.getRootPath( ) + ft.CONST.PATH_DELIMITER +
+		ft.CONST.NODE_MODULE_FOLDER + ft.CONST.PATH_DELIMITER +
+		ft.CONST.IDK_FOLDER_NAME + ft.CONST.PATH_DELIMITER +
+		'tpl' + ft.CONST.PATH_DELIMITER +
+		'cmd' + ft.CONST.PATH_DELIMITER + 'idk ' +
+		ft.getRootPath( ) + ft.CONST.PATH_DELIMITER + 'idk' );
 
 	console.log( '[' + ( new Date( ) ).toISOString( ) + '] ' +
 
@@ -84,7 +98,7 @@ try{
 
 		'chmod u+x ' +
 
-			ft.getRootPath( ) + ft.CONST.PATH_DELIMITER + 'idk' );
+		ft.getRootPath( ) + ft.CONST.PATH_DELIMITER + 'idk' );
 
 }catch( e ){
 
@@ -106,11 +120,11 @@ try{
 
 		'cp ' +
 
-			ft.getRootPath( ) + ft.CONST.PATH_DELIMITER +
-			ft.CONST.NODE_MODULE_FOLDER + ft.CONST.PATH_DELIMITER +
-			ft.CONST.IDK_FOLDER_NAME + ft.CONST.PATH_DELIMITER +
-			'tpl' + ft.CONST.PATH_DELIMITER + '.gitignore.tpl ' +
-			ft.getRootPath( ) + ft.CONST.PATH_DELIMITER + '.gitignore' );
+		ft.getRootPath( ) + ft.CONST.PATH_DELIMITER +
+		ft.CONST.NODE_MODULE_FOLDER + ft.CONST.PATH_DELIMITER +
+		ft.CONST.IDK_FOLDER_NAME + ft.CONST.PATH_DELIMITER +
+		'tpl' + ft.CONST.PATH_DELIMITER + '.gitignore.tpl ' +
+		ft.getRootPath( ) + ft.CONST.PATH_DELIMITER + '.gitignore' );
 
 	console.log( '[' + ( new Date( ) ).toISOString( ) + '] ' +
 
@@ -120,11 +134,11 @@ try{
 
 		'cp ' +
 
-			ft.getRootPath( ) + ft.CONST.PATH_DELIMITER +
-			ft.CONST.NODE_MODULE_FOLDER + ft.CONST.PATH_DELIMITER +
-			ft.CONST.IDK_FOLDER_NAME + ft.CONST.PATH_DELIMITER +
-			'tpl' + ft.CONST.PATH_DELIMITER + '.npmignore.tpl ' +
-			ft.getRootPath( ) + ft.CONST.PATH_DELIMITER + '.npmignore' );
+		ft.getRootPath( ) + ft.CONST.PATH_DELIMITER +
+		ft.CONST.NODE_MODULE_FOLDER + ft.CONST.PATH_DELIMITER +
+		ft.CONST.IDK_FOLDER_NAME + ft.CONST.PATH_DELIMITER +
+		'tpl' + ft.CONST.PATH_DELIMITER + '.npmignore.tpl ' +
+		ft.getRootPath( ) + ft.CONST.PATH_DELIMITER + '.npmignore' );
 
 }catch( e ){
 
@@ -138,51 +152,51 @@ try{
 // TODO: Add real production condition here.
 if( __dirname === ft.getRootPath( ) || (
 
-		ft.isDirExist(
+	ft.isDirExist(
 
-			ft.getRootPath( ) + ft.CONST.PATH_DELIMITER +
-			'lib' ) &&
+		ft.getRootPath( ) + ft.CONST.PATH_DELIMITER +
+		'lib' ) &&
 
-		ft.isDirExist(
+	ft.isDirExist(
 
-			ft.getRootPath( ) + ft.CONST.PATH_DELIMITER +
-			'lib' + ft.CONST.PATH_DELIMITER +
-			'sources' ) &&
+		ft.getRootPath( ) + ft.CONST.PATH_DELIMITER +
+		'lib' + ft.CONST.PATH_DELIMITER +
+		'sources' ) &&
 
-		ft.isFileExist(
+	ft.isFileExist(
 
-			ft.getRootPath( ) + ft.CONST.PATH_DELIMITER +
-			'lib' + ft.CONST.PATH_DELIMITER +
-			'sources' + ft.CONST.PATH_DELIMITER +
-			'base.js' ) &&
+		ft.getRootPath( ) + ft.CONST.PATH_DELIMITER +
+		'lib' + ft.CONST.PATH_DELIMITER +
+		'sources' + ft.CONST.PATH_DELIMITER +
+		'base.js' ) &&
 
-		ft.isFileExist(
+	ft.isFileExist(
 
-			ft.getRootPath( ) + ft.CONST.PATH_DELIMITER +
-			'lib' + ft.CONST.PATH_DELIMITER +
-			'sources' + ft.CONST.PATH_DELIMITER +
-			'cssmap.js' ) &&
+		ft.getRootPath( ) + ft.CONST.PATH_DELIMITER +
+		'lib' + ft.CONST.PATH_DELIMITER +
+		'sources' + ft.CONST.PATH_DELIMITER +
+		'cssmap.js' ) &&
 
-		ft.isDirExist(
+	ft.isDirExist(
 
-			ft.getRootPath( ) + ft.CONST.PATH_DELIMITER +
-			'lib' + ft.CONST.PATH_DELIMITER +
-			'stylesheets' ) &&
+		ft.getRootPath( ) + ft.CONST.PATH_DELIMITER +
+		'lib' + ft.CONST.PATH_DELIMITER +
+		'stylesheets' ) &&
 
-		ft.isDirExist(
+	ft.isDirExist(
 
-			ft.getRootPath( ) + ft.CONST.PATH_DELIMITER +
-			'lib' + ft.CONST.PATH_DELIMITER +
-			'stylesheets' + ft.CONST.PATH_DELIMITER +
-			'scss' ) &&
+		ft.getRootPath( ) + ft.CONST.PATH_DELIMITER +
+		'lib' + ft.CONST.PATH_DELIMITER +
+		'stylesheets' + ft.CONST.PATH_DELIMITER +
+		'scss' ) &&
 
-		ft.isFileExist(
+	ft.isFileExist(
 
-			ft.getRootPath( ) + ft.CONST.PATH_DELIMITER +
-			'lib' + ft.CONST.PATH_DELIMITER +
-			'stylesheets' + ft.CONST.PATH_DELIMITER +
-			'scss'+ ft.CONST.PATH_DELIMITER +
-			'deps.scss' ) ) ){
+		ft.getRootPath( ) + ft.CONST.PATH_DELIMITER +
+		'lib' + ft.CONST.PATH_DELIMITER +
+		'stylesheets' + ft.CONST.PATH_DELIMITER +
+		'scss'+ ft.CONST.PATH_DELIMITER +
+		'deps.scss' ) ) ){
 
 	// Terminate installing process for imazzine-developer-kit project itself.
 	console.log( '[' + ( new Date( ) ).toISOString() + '] done' );
@@ -198,11 +212,19 @@ if( ft.getRootPath( ) +
 	// Start installation process.
 	console.log( '[' + ( new Date( ) ).toISOString() + '] installation start...' );
 
+	var idkRoot = ft.getRootPath( ) +
+		ft.CONST.PATH_DELIMITER +
+		ft.CONST.NODE_MODULE_FOLDER +
+		ft.CONST.PATH_DELIMITER +
+		ft.CONST.IDK_FOLDER_NAME;
+
+	console.log('idkRoot = ' + idkRoot);
+
 	// Calculate default module name.
 	var tmpModuleName = ft.getRootPath( ).split( ft.CONST.PATH_DELIMITER );
-		tmpModuleName = tmpModuleName[ tmpModuleName.length - 1 ]
-			.replace( /\W+/g, '_' )
-			.toLowerCase( );
+	tmpModuleName = tmpModuleName[ tmpModuleName.length - 1 ]
+		.replace( /\W+/g, '_' )
+		.toLowerCase( );
 	var now = new Date( );
 	var modName = '';
 	var modVersion = '' +
@@ -259,9 +281,10 @@ if( ft.getRootPath( ) +
 
 												'[' + ft.getRootPath( ) + '/config.yaml] creating...' );
 
+
 											fileString = ft.openFile(
 
-												'.' + ft.CONST.PATH_DELIMITER +
+												idkRoot + ft.CONST.PATH_DELIMITER +
 												'tpl' + ft.CONST.PATH_DELIMITER +
 												'module.yaml' )
 												.replace(
@@ -269,10 +292,14 @@ if( ft.getRootPath( ) +
 													/\[\{\(NAMESPACE\)\}\]/g,
 													modName + '' );
 
+											//console.log('after open module.yaml');
+
 											ft.saveFile(
 
 												ft.getRootPath( ) + ft.CONST.PATH_DELIMITER + 'config.yaml',
 												fileString );
+
+											//console.log('after save config.yaml');
 
 										}catch( e ){
 
@@ -294,9 +321,9 @@ if( ft.getRootPath( ) +
 
 											fileString = ft.openFile(
 
-													'.' + ft.CONST.PATH_DELIMITER +
-													'tpl' + ft.CONST.PATH_DELIMITER +
-													'LICENSE' );
+												idkRoot + ft.CONST.PATH_DELIMITER +
+												'tpl' + ft.CONST.PATH_DELIMITER +
+												'LICENSE' );
 
 											ft.saveFile(
 
@@ -321,7 +348,7 @@ if( ft.getRootPath( ) +
 
 											var packageJson = ft.openFile(
 
-												'.' + ft.CONST.PATH_DELIMITER +
+												idkRoot + ft.CONST.PATH_DELIMITER +
 												'tpl' + ft.CONST.PATH_DELIMITER +
 												'package.tpl' );
 
@@ -368,8 +395,8 @@ if( ft.getRootPath( ) +
 
 												'mkdir ' +
 
-													ft.getRootPath( ) + ft.CONST.PATH_DELIMITER +
-													moduleConfig.PATH.LIB );
+												ft.getRootPath( ) + ft.CONST.PATH_DELIMITER +
+												moduleConfig.PATH.LIB );
 
 											console.log( '[' + ( new Date( ) ).toISOString( ) + '] ' +
 
@@ -381,9 +408,9 @@ if( ft.getRootPath( ) +
 
 												'mkdir ' +
 
-													ft.getRootPath( ) + ft.CONST.PATH_DELIMITER +
-													moduleConfig.PATH.LIB + ft.CONST.PATH_DELIMITER +
-													moduleConfig.PATH.SOURCES );
+												ft.getRootPath( ) + ft.CONST.PATH_DELIMITER +
+												moduleConfig.PATH.LIB + ft.CONST.PATH_DELIMITER +
+												moduleConfig.PATH.SOURCES );
 
 											console.log( '[' + ( new Date( ) ).toISOString( ) + '] ' +
 
@@ -395,9 +422,9 @@ if( ft.getRootPath( ) +
 
 												'mkdir ' +
 
-													ft.getRootPath( ) + ft.CONST.PATH_DELIMITER +
-													moduleConfig.PATH.LIB + ft.CONST.PATH_DELIMITER +
-													moduleConfig.PATH.SOURCES + '/controllers' );
+												ft.getRootPath( ) + ft.CONST.PATH_DELIMITER +
+												moduleConfig.PATH.LIB + ft.CONST.PATH_DELIMITER +
+												moduleConfig.PATH.SOURCES + '/controllers' );
 
 											console.log( '[' + ( new Date( ) ).toISOString( ) + '] ' +
 
@@ -409,9 +436,9 @@ if( ft.getRootPath( ) +
 
 												'mkdir ' +
 
-													ft.getRootPath( ) + ft.CONST.PATH_DELIMITER +
-													moduleConfig.PATH.LIB + ft.CONST.PATH_DELIMITER +
-													moduleConfig.PATH.SOURCES + '/models' );
+												ft.getRootPath( ) + ft.CONST.PATH_DELIMITER +
+												moduleConfig.PATH.LIB + ft.CONST.PATH_DELIMITER +
+												moduleConfig.PATH.SOURCES + '/models' );
 
 											console.log( '[' + ( new Date( ) ).toISOString( ) + '] ' +
 
@@ -423,9 +450,9 @@ if( ft.getRootPath( ) +
 
 												'mkdir ' +
 
-													ft.getRootPath( ) + ft.CONST.PATH_DELIMITER +
-													moduleConfig.PATH.LIB + ft.CONST.PATH_DELIMITER +
-													moduleConfig.PATH.SOURCES + '/views' );
+												ft.getRootPath( ) + ft.CONST.PATH_DELIMITER +
+												moduleConfig.PATH.LIB + ft.CONST.PATH_DELIMITER +
+												moduleConfig.PATH.SOURCES + '/views' );
 
 											console.log( '[' + ( new Date( ) ).toISOString( ) + '] ' +
 
@@ -437,9 +464,9 @@ if( ft.getRootPath( ) +
 
 												'mkdir ' +
 
-													ft.getRootPath( ) + ft.CONST.PATH_DELIMITER +
-													moduleConfig.PATH.LIB + ft.CONST.PATH_DELIMITER +
-													moduleConfig.PATH.SOURCES + '/events' );
+												ft.getRootPath( ) + ft.CONST.PATH_DELIMITER +
+												moduleConfig.PATH.LIB + ft.CONST.PATH_DELIMITER +
+												moduleConfig.PATH.SOURCES + '/events' );
 
 											console.log( '[' + ( new Date( ) ).toISOString( ) + '] ' +
 
@@ -451,9 +478,9 @@ if( ft.getRootPath( ) +
 
 												'mkdir ' +
 
-													ft.getRootPath( ) + ft.CONST.PATH_DELIMITER +
-													moduleConfig.PATH.LIB + ft.CONST.PATH_DELIMITER +
-													moduleConfig.PATH.SOURCES + '/services' );
+												ft.getRootPath( ) + ft.CONST.PATH_DELIMITER +
+												moduleConfig.PATH.LIB + ft.CONST.PATH_DELIMITER +
+												moduleConfig.PATH.SOURCES + '/services' );
 
 											console.log( '[' + ( new Date( ) ).toISOString( ) + '] ' +
 
@@ -465,9 +492,9 @@ if( ft.getRootPath( ) +
 
 												'mkdir ' +
 
-													ft.getRootPath( ) + ft.CONST.PATH_DELIMITER +
-													moduleConfig.PATH.LIB + ft.CONST.PATH_DELIMITER +
-													moduleConfig.PATH.SOURCES + '/tests' );
+												ft.getRootPath( ) + ft.CONST.PATH_DELIMITER +
+												moduleConfig.PATH.LIB + ft.CONST.PATH_DELIMITER +
+												moduleConfig.PATH.SOURCES + '/tests' );
 
 											console.log( '[' + ( new Date( ) ).toISOString( ) + '] ' +
 
@@ -479,9 +506,9 @@ if( ft.getRootPath( ) +
 
 												'mkdir ' +
 
-													ft.getRootPath( ) + ft.CONST.PATH_DELIMITER +
-													moduleConfig.PATH.LIB + ft.CONST.PATH_DELIMITER +
-													moduleConfig.PATH.SOURCES + '/factories' );
+												ft.getRootPath( ) + ft.CONST.PATH_DELIMITER +
+												moduleConfig.PATH.LIB + ft.CONST.PATH_DELIMITER +
+												moduleConfig.PATH.SOURCES + '/factories' );
 
 											console.log( '[' + ( new Date( ) ).toISOString( ) + '] ' +
 
@@ -493,9 +520,9 @@ if( ft.getRootPath( ) +
 
 												'mkdir ' +
 
-													ft.getRootPath( ) + ft.CONST.PATH_DELIMITER +
-													moduleConfig.PATH.LIB + ft.CONST.PATH_DELIMITER +
-													moduleConfig.PATH.SOURCES + '/errors' );
+												ft.getRootPath( ) + ft.CONST.PATH_DELIMITER +
+												moduleConfig.PATH.LIB + ft.CONST.PATH_DELIMITER +
+												moduleConfig.PATH.SOURCES + '/errors' );
 
 											console.log( '[' + ( new Date( ) ).toISOString( ) + '] ' +
 
@@ -507,9 +534,9 @@ if( ft.getRootPath( ) +
 
 												'mkdir ' +
 
-													ft.getRootPath( ) + ft.CONST.PATH_DELIMITER +
-													moduleConfig.PATH.LIB + ft.CONST.PATH_DELIMITER +
-													moduleConfig.PATH.SOURCES + '/enums' );
+												ft.getRootPath( ) + ft.CONST.PATH_DELIMITER +
+												moduleConfig.PATH.LIB + ft.CONST.PATH_DELIMITER +
+												moduleConfig.PATH.SOURCES + '/enums' );
 
 											console.log( '[' + ( new Date( ) ).toISOString( ) + '] ' +
 
@@ -521,9 +548,9 @@ if( ft.getRootPath( ) +
 
 												'mkdir ' +
 
-													ft.getRootPath( ) + ft.CONST.PATH_DELIMITER +
-													moduleConfig.PATH.LIB + ft.CONST.PATH_DELIMITER +
-													moduleConfig.PATH.SOURCES + '/docs' );
+												ft.getRootPath( ) + ft.CONST.PATH_DELIMITER +
+												moduleConfig.PATH.LIB + ft.CONST.PATH_DELIMITER +
+												moduleConfig.PATH.SOURCES + '/docs' );
 
 											console.log( '[' + ( new Date( ) ).toISOString( ) + '] ' +
 
@@ -535,9 +562,9 @@ if( ft.getRootPath( ) +
 
 												'mkdir ' +
 
-													ft.getRootPath( ) + ft.CONST.PATH_DELIMITER +
-													moduleConfig.PATH.LIB + ft.CONST.PATH_DELIMITER +
-													moduleConfig.PATH.MESSAGES );
+												ft.getRootPath( ) + ft.CONST.PATH_DELIMITER +
+												moduleConfig.PATH.LIB + ft.CONST.PATH_DELIMITER +
+												moduleConfig.PATH.MESSAGES );
 
 											console.log( '[' + ( new Date( ) ).toISOString() + '] ' +
 
@@ -549,9 +576,9 @@ if( ft.getRootPath( ) +
 
 												'mkdir ' +
 
-													ft.getRootPath( ) + ft.CONST.PATH_DELIMITER +
-													moduleConfig.PATH.LIB + ft.CONST.PATH_DELIMITER +
-													moduleConfig.PATH.TEMPLATES );
+												ft.getRootPath( ) + ft.CONST.PATH_DELIMITER +
+												moduleConfig.PATH.LIB + ft.CONST.PATH_DELIMITER +
+												moduleConfig.PATH.TEMPLATES );
 
 											console.log( '[' + ( new Date( ) ).toISOString() + '] ' +
 
@@ -563,9 +590,9 @@ if( ft.getRootPath( ) +
 
 												'mkdir ' +
 
-													ft.getRootPath( ) + ft.CONST.PATH_DELIMITER +
-													moduleConfig.PATH.LIB + ft.CONST.PATH_DELIMITER +
-													moduleConfig.PATH.RESOURCES );
+												ft.getRootPath( ) + ft.CONST.PATH_DELIMITER +
+												moduleConfig.PATH.LIB + ft.CONST.PATH_DELIMITER +
+												moduleConfig.PATH.RESOURCES );
 
 											console.log( '[' + ( new Date( ) ).toISOString() + '] ' +
 
@@ -577,9 +604,9 @@ if( ft.getRootPath( ) +
 
 												'mkdir ' +
 
-													ft.getRootPath( ) + ft.CONST.PATH_DELIMITER +
-													moduleConfig.PATH.LIB + ft.CONST.PATH_DELIMITER +
-													moduleConfig.PATH.STYLESHEETS );
+												ft.getRootPath( ) + ft.CONST.PATH_DELIMITER +
+												moduleConfig.PATH.LIB + ft.CONST.PATH_DELIMITER +
+												moduleConfig.PATH.STYLESHEETS );
 
 											console.log( '[' + ( new Date( ) ).toISOString() + '] ' +
 
@@ -592,10 +619,10 @@ if( ft.getRootPath( ) +
 
 												'mkdir ' +
 
-													ft.getRootPath( ) + ft.CONST.PATH_DELIMITER +
-													moduleConfig.PATH.LIB + ft.CONST.PATH_DELIMITER +
-													moduleConfig.PATH.STYLESHEETS + ft.CONST.PATH_DELIMITER +
-													moduleConfig.PATH.SCSS);
+												ft.getRootPath( ) + ft.CONST.PATH_DELIMITER +
+												moduleConfig.PATH.LIB + ft.CONST.PATH_DELIMITER +
+												moduleConfig.PATH.STYLESHEETS + ft.CONST.PATH_DELIMITER +
+												moduleConfig.PATH.SCSS);
 
 											console.log( '[' + ( new Date( ) ).toISOString() + '] ' +
 
@@ -608,10 +635,10 @@ if( ft.getRootPath( ) +
 
 												'mkdir ' +
 
-													ft.getRootPath( ) + ft.CONST.PATH_DELIMITER +
-													moduleConfig.PATH.LIB + ft.CONST.PATH_DELIMITER +
-													moduleConfig.PATH.STYLESHEETS + ft.CONST.PATH_DELIMITER +
-													moduleConfig.PATH.CSS);
+												ft.getRootPath( ) + ft.CONST.PATH_DELIMITER +
+												moduleConfig.PATH.LIB + ft.CONST.PATH_DELIMITER +
+												moduleConfig.PATH.STYLESHEETS + ft.CONST.PATH_DELIMITER +
+												moduleConfig.PATH.CSS);
 
 										}catch( e ){
 
@@ -634,9 +661,9 @@ if( ft.getRootPath( ) +
 
 											var baseJs = ft.openFile(
 
-												'.' + ft.CONST.PATH_DELIMITER +
-													'tpl' + ft.CONST.PATH_DELIMITER +
-													'base.js.tpl' );
+												idkRoot + ft.CONST.PATH_DELIMITER +
+												'tpl' + ft.CONST.PATH_DELIMITER +
+												'base.js.tpl' );
 
 											baseJs = baseJs.replace( /\[\{\(NAMESPACE\)\}\]/g, modName );
 											baseJs = baseJs.replace( /\[\{\(AUTHOR\)\}\]/g, modAuthName );
@@ -646,9 +673,9 @@ if( ft.getRootPath( ) +
 
 												ft.getRootPath( ) + ft.CONST.PATH_DELIMITER +
 
-													moduleConfig.PATH.LIB + ft.CONST.PATH_DELIMITER +
-													moduleConfig.PATH.SOURCES + ft.CONST.PATH_DELIMITER +
-													'base.js',
+												moduleConfig.PATH.LIB + ft.CONST.PATH_DELIMITER +
+												moduleConfig.PATH.SOURCES + ft.CONST.PATH_DELIMITER +
+												'base.js',
 
 												baseJs );
 
@@ -663,9 +690,9 @@ if( ft.getRootPath( ) +
 
 												ft.getRootPath( ) + ft.CONST.PATH_DELIMITER +
 
-													moduleConfig.PATH.LIB + ft.CONST.PATH_DELIMITER +
-													moduleConfig.PATH.SOURCES + ft.CONST.PATH_DELIMITER +
-													'cssmap.js',
+												moduleConfig.PATH.LIB + ft.CONST.PATH_DELIMITER +
+												moduleConfig.PATH.SOURCES + ft.CONST.PATH_DELIMITER +
+												'cssmap.js',
 
 												'' );
 
@@ -693,9 +720,9 @@ if( ft.getRootPath( ) +
 
 											var moduleScss = ft.openFile(
 
-												'.' + ft.CONST.PATH_DELIMITER +
-													'tpl' + ft.CONST.PATH_DELIMITER +
-													'module.scss.tpl' );
+												idkRoot + ft.CONST.PATH_DELIMITER +
+												'tpl' + ft.CONST.PATH_DELIMITER +
+												'module.scss.tpl' );
 
 											moduleScss = moduleScss.replace( /\[\{\(NAMESPACE\)\}\]/g, modName );
 											moduleScss = moduleScss.replace( /\[\{\(AUTHOR\)\}\]/g, modAuthName );
@@ -705,10 +732,10 @@ if( ft.getRootPath( ) +
 
 												ft.getRootPath( ) + ft.CONST.PATH_DELIMITER +
 
-													moduleConfig.PATH.LIB + ft.CONST.PATH_DELIMITER +
-													moduleConfig.PATH.STYLESHEETS + ft.CONST.PATH_DELIMITER +
-													moduleConfig.PATH.SCSS + ft.CONST.PATH_DELIMITER +
-													modName + '.scss',
+												moduleConfig.PATH.LIB + ft.CONST.PATH_DELIMITER +
+												moduleConfig.PATH.STYLESHEETS + ft.CONST.PATH_DELIMITER +
+												moduleConfig.PATH.SCSS + ft.CONST.PATH_DELIMITER +
+												modName + '.scss',
 
 												moduleScss );
 
@@ -721,9 +748,9 @@ if( ft.getRootPath( ) +
 
 											var depsScss = ft.openFile(
 
-												'.' + ft.CONST.PATH_DELIMITER +
-													'tpl' + ft.CONST.PATH_DELIMITER +
-													'deps.scss.tpl' );
+												idkRoot + ft.CONST.PATH_DELIMITER +
+												'tpl' + ft.CONST.PATH_DELIMITER +
+												'deps.scss.tpl' );
 
 											depsScss = depsScss.replace( /\[\{\(NAMESPACE\)\}\]/g, modName );
 											depsScss = depsScss.replace( /\[\{\(AUTHOR\)\}\]/g, modAuthName );
@@ -733,10 +760,10 @@ if( ft.getRootPath( ) +
 
 												ft.getRootPath( ) + ft.CONST.PATH_DELIMITER +
 
-													moduleConfig.PATH.LIB + ft.CONST.PATH_DELIMITER +
-													moduleConfig.PATH.STYLESHEETS + ft.CONST.PATH_DELIMITER +
-													moduleConfig.PATH.SCSS + ft.CONST.PATH_DELIMITER +
-													'deps.scss',
+												moduleConfig.PATH.LIB + ft.CONST.PATH_DELIMITER +
+												moduleConfig.PATH.STYLESHEETS + ft.CONST.PATH_DELIMITER +
+												moduleConfig.PATH.SCSS + ft.CONST.PATH_DELIMITER +
+												'deps.scss',
 
 												depsScss );
 
