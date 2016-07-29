@@ -55,12 +55,8 @@ if( ft.isFileExist( ft.getRootPath( ) + ft.CONST.PATH_DELIMITER + 'config.yaml' 
 				'[' + ft.getRootPath( ) + '/' +
 				moduleConfig.PATH.BIN + '] creating...' );
 
-			ft.execute(
-
-				'mkdir ' +
-
-				ft.getRootPath( ) + ft.CONST.PATH_DELIMITER +
-				moduleConfig.PATH.BIN );
+			ft.createDir(ft.getRootPath( ) + ft.CONST.PATH_DELIMITER +
+				moduleConfig.PATH.BIN);
 		}
 	}catch( e ){
 
@@ -79,26 +75,35 @@ try{
 
 		'[' + ft.getRootPath( ) + '/idk] copy...' );
 
-	ft.execute(
-
-		'cp ' +
-
-		ft.getRootPath( ) + ft.CONST.PATH_DELIMITER +
+	var fileFrom = ft.getRootPath( ) + ft.CONST.PATH_DELIMITER +
 		ft.CONST.NODE_MODULE_FOLDER + ft.CONST.PATH_DELIMITER +
 		ft.CONST.IDK_FOLDER_NAME + ft.CONST.PATH_DELIMITER +
 		'tpl' + ft.CONST.PATH_DELIMITER +
-		'cmd' + ft.CONST.PATH_DELIMITER + 'idk ' +
-		ft.getRootPath( ) + ft.CONST.PATH_DELIMITER + 'idk' );
+		'cmd' + ft.CONST.PATH_DELIMITER + 'idk';
+
+	var fileTo = ft.getRootPath( ) + ft.CONST.PATH_DELIMITER + 'idk';
+
+	if(!ft.copyFile( fileFrom, fileTo )){
+
+		throw new Error("Can't copy [" + fileFrom + "] to [" + fileTo + "]");
+	}
 
 	console.log( '[' + ( new Date( ) ).toISOString( ) + '] ' +
 
 		'[' + ft.getRootPath( ) + '/idk] change permissions...' );
 
-	ft.execute(
+	if( !ft.CONST.IS_WINDOWS_OS ){
 
-		'chmod u+x ' +
+		ft.setFilePermission(
 
-		ft.getRootPath( ) + ft.CONST.PATH_DELIMITER + 'idk' );
+			ft.getRootPath( ) +
+			ft.CONST.PATH_DELIMITER +
+			'idk',
+			( 0400 | 0200 | 0100 | 0040 | 0020 | 0004 ) );
+	}else{
+
+		console.log( 'setFilePermission is not supported for' )
+	}
 
 }catch( e ){
 
