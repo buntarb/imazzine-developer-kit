@@ -126,6 +126,34 @@ try{
 	console.log( e );
 }
 
+//Copy idk.cmd for run idk in Windows
+try{
+
+	console.log( '[' + ( new Date( ) ).toISOString( ) + '] ' +
+
+		'[' + ft.getRootPath( ) + '/idk.cmd] copy...' );
+
+	var fileFrom = ft.getRootPath( ) + ft.CONST.PATH_DELIMITER +
+		ft.CONST.NODE_MODULE_FOLDER + ft.CONST.PATH_DELIMITER +
+		ft.CONST.IDK_FOLDER_NAME + ft.CONST.PATH_DELIMITER +
+		'tpl' + ft.CONST.PATH_DELIMITER +
+		'cmd' + ft.CONST.PATH_DELIMITER + 'idk.cmd.tpl';
+
+	var fileTo = ft.getRootPath( ) + ft.CONST.PATH_DELIMITER + 'idk.cmd';
+
+	if(!ft.copyFile( fileFrom, fileTo )){
+
+		throw new Error("Can't copy [" + fileFrom + "] to [" + fileTo + "]");
+	}
+}catch( e ){
+
+	console.log( '[' + ( new Date( ) ).toISOString() + '] ' +
+
+		'Error while copy idk.cmd command file' );
+
+	console.log( e );
+}
+
 // Copy .ignore files.
 try{
 
