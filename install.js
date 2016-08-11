@@ -136,8 +136,7 @@ try{
 	var fileFrom = ft.getRootPath( ) + ft.CONST.PATH_DELIMITER +
 		ft.CONST.NODE_MODULE_FOLDER + ft.CONST.PATH_DELIMITER +
 		ft.CONST.IDK_FOLDER_NAME + ft.CONST.PATH_DELIMITER +
-		'tpl' + ft.CONST.PATH_DELIMITER +
-		'cmd' + ft.CONST.PATH_DELIMITER + 'idk.cmd.tpl';
+		'tpl' + ft.CONST.PATH_DELIMITER + 'idk.cmd.tpl';
 
 	var fileTo = ft.getRootPath( ) + ft.CONST.PATH_DELIMITER + 'idk.cmd';
 
