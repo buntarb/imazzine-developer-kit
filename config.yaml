@@ -27,6 +27,9 @@ SERVER:
   # Server port
   SERVER_PORT: 8888
 
+  # Documentation server sub-domain
+  SERVER_DOC: 'doc'
+
   # Developer server sub-domain
   SERVER_DEV: 'dev'
 
