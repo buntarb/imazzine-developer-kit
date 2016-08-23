@@ -33,3 +33,51 @@ PATH:
 
   # Stylesheets (.gss) compiled files folder
   CSS: '_css'
+
+# Default parameters
+DEFAULT:
+
+  # Locale
+  LOCALE: 'en'
+
+# Server settings
+SERVER:
+
+  # Server domain/IP
+  SERVER_DOMAIN: 'localhost'
+
+  # Server port
+  SERVER_PORT: 8888
+
+  # Documentation server sub-domain
+  SERVER_DOC: 'doc'
+
+  # Developer server sub-domain
+  SERVER_DEV: 'dev'
+
+  # Test server sub-domain
+  SERVER_TST: 'tst'
+
+  # Production-like server sub-domain
+  SERVER_APP: 'app'
+
+# Compile settings
+COMPILATION:
+
+  # Default locale
+  LOCALE: 'en'
+
+  # Compilation level
+  COMPILE_LEVEL: 'ADVANCED_OPTIMIZATIONS'
+
+  # Source code input ECMAScript version
+  INPUT_LANGUAGE: 'ECMASCRIPT5_STRICT'
+
+  # Compiled code ECMAScript version
+  OUTPUT_LANGUAGE: 'ECMASCRIPT5_STRICT'
+
+  # Enable/disable source map file generation
+  SOURCE_MAP_ENABLE: false
+
+  # Version of source map files
+  SOURCE_MAP: 'V3'
