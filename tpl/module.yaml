@@ -14,7 +14,7 @@ PATH:
   SOURCES: 'sources'
 
   # Compiled .soy templates folder
-  COMPILED_SOY: '_tpl'
+  COMPILED_SOY: '.tpl'
 
   # Messages files folder
   MESSAGES: 'messages'
@@ -32,7 +32,7 @@ PATH:
   SCSS: 'scss'
 
   # Stylesheets (.gss) compiled files folder
-  CSS: '_css'
+  CSS: '.css'
 
 # Default parameters
 DEFAULT:
