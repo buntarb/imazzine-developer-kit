@@ -34,6 +34,9 @@ PATH:
   # Stylesheets (.gss) compiled files folder
   CSS: '.css'
 
+  # Services compiling
+  SVC: 'svc'
+
 # Default parameters
 DEFAULT:
 
