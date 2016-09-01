@@ -153,6 +153,28 @@ try{
 	console.log( e );
 }
 
+//Create idk alias in Unix
+if( !ft.CONST.IS_WINDOWS_OS ){
+	try{
+
+		var res = ft.execute( 'cat ~/.bashrc');
+		if( res && !/alias\s*idk\s*=\s*['"]\.\/idk/.test( res.toString() ) ){
+
+			var aliasIdk = 'echo "alias idk=\'./idk\'" >> ~/.bashrc';
+			res = ft.execute( aliasIdk );
+			res = ft.execute( '. ~/.bashrc' );  //don't work for current session
+		}
+
+	}catch( e ){
+
+		console.log( '[' + ( new Date( ) ).toISOString() + '] ' +
+
+			'Error while creating idk alias' );
+
+		console.log( e );
+	}
+}
+
 // Copy .ignore files.
 try{
 
