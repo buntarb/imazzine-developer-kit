@@ -29,6 +29,8 @@ var ft = require( './lib/filetools.js' );
  */
 var yaml = require( 'yamljs' );
 
+var fileFrom, fileTo;
+
 /**
  * Read line interface.
  * @type {*}
@@ -38,6 +40,41 @@ var rl = readline.createInterface( {
 	input: process.stdin,
 	output: process.stdout
 } );
+
+/**
+ * Copy html templates to module's srv.
+ * @param {string} template's file name
+ * @private
+ */
+function _copyIndexHtmlTemplateIfNotExist( template ) {
+
+	var fileTo = ft.getRootPath( ) + ft.CONST.PATH_DELIMITER + 'srv' + ft.CONST.PATH_DELIMITER + template;
+
+	if( !ft.isFileExist( fileTo ) ){
+
+		try{
+
+			console.log( '[' + ( new Date( ) ).toISOString( ) + '] ' +
+
+				'[' + fileTo + '] copy...' );
+
+			var fileFrom = ft.getIdkPath() + ft.CONST.PATH_DELIMITER + 'tpl' + ft.CONST.PATH_DELIMITER + template;
+
+			if(!ft.copyFile( fileFrom, fileTo )){
+
+				throw new Error("Can't copy [" + fileFrom + "] to [" + fileTo + "]");
+			}
+
+		}catch( e ){
+
+			console.log( '[' + ( new Date( ) ).toISOString() + '] ' +
+
+				'Error while copy index.html template' );
+
+			console.log( e );
+		}
+	}
+}
 
 var createBinDir = function ( ) {
 
@@ -87,13 +124,13 @@ try{
 
 		'[' + ft.getRootPath( ) + '/idk] copy...' );
 
-	var fileFrom = ft.getRootPath( ) + ft.CONST.PATH_DELIMITER +
+	fileFrom = ft.getRootPath( ) + ft.CONST.PATH_DELIMITER +
 		ft.CONST.NODE_MODULE_FOLDER + ft.CONST.PATH_DELIMITER +
 		ft.CONST.IDK_FOLDER_NAME + ft.CONST.PATH_DELIMITER +
 		'tpl' + ft.CONST.PATH_DELIMITER +
 		'cmd' + ft.CONST.PATH_DELIMITER + 'idk';
 
-	var fileTo = ft.getRootPath( ) + ft.CONST.PATH_DELIMITER + 'idk';
+	fileTo = ft.getRootPath( ) + ft.CONST.PATH_DELIMITER + 'idk';
 
 	if(!ft.copyFile( fileFrom, fileTo )){
 
@@ -133,12 +170,12 @@ try{
 
 		'[' + ft.getRootPath( ) + '/idk.cmd] copy...' );
 
-	var fileFrom = ft.getRootPath( ) + ft.CONST.PATH_DELIMITER +
+	fileFrom = ft.getRootPath( ) + ft.CONST.PATH_DELIMITER +
 		ft.CONST.NODE_MODULE_FOLDER + ft.CONST.PATH_DELIMITER +
 		ft.CONST.IDK_FOLDER_NAME + ft.CONST.PATH_DELIMITER +
 		'tpl' + ft.CONST.PATH_DELIMITER + 'idk.cmd.tpl';
 
-	var fileTo = ft.getRootPath( ) + ft.CONST.PATH_DELIMITER + 'idk.cmd';
+	fileTo = ft.getRootPath( ) + ft.CONST.PATH_DELIMITER + 'idk.cmd';
 
 	if(!ft.copyFile( fileFrom, fileTo )){
 
@@ -158,11 +195,11 @@ if( !ft.CONST.IS_WINDOWS_OS ){
 	try{
 
 		var res = ft.execute( 'cat ~/.bashrc');
-		if( res && !/alias\s*idk\s*=\s*['"]\.\/idk/.test( res.toString() ) ){
+		if( res && !/alias\s*idk\s*=\s*['"]\.\/idk['"]/.test( res.toString() ) ){
 
 			var aliasIdk = 'echo "alias idk=\'./idk\'" >> ~/.bashrc';
 			res = ft.execute( aliasIdk );
-			res = ft.execute( '. ~/.bashrc' );  //don't work for current session
+			res = ft.execute( '. ~/.bashrc' );  //doesn't work for current session
 		}
 
 	}catch( e ){
@@ -183,12 +220,12 @@ try{
 		'[' + ft.getRootPath( ) + '/.gitignore] copy...' );
 
 
-	var fileFrom = ft.getRootPath( ) + ft.CONST.PATH_DELIMITER +
+	fileFrom = ft.getRootPath( ) + ft.CONST.PATH_DELIMITER +
 		ft.CONST.NODE_MODULE_FOLDER + ft.CONST.PATH_DELIMITER +
 		ft.CONST.IDK_FOLDER_NAME + ft.CONST.PATH_DELIMITER +
 		'tpl' + ft.CONST.PATH_DELIMITER + '.gitignore.tpl';
 
-	var fileTo = ft.getRootPath( ) + ft.CONST.PATH_DELIMITER + '.gitignore';
+	fileTo = ft.getRootPath( ) + ft.CONST.PATH_DELIMITER + '.gitignore';
 
 	if(!ft.copyFile( fileFrom, fileTo )){
 
@@ -219,6 +256,32 @@ try{
 
 	console.log( e );
 }
+
+// Copy index.html templates for different environments
+if( !ft.isDirExist( ft.getRootPath( ) + ft.CONST.PATH_DELIMITER + 'srv' ) ){
+
+	try{
+		console.log( '[' + ( new Date( ) ).toISOString( ) + '] ' +
+
+				'[' + ft.getRootPath( ) + '/srv] creating...' );
+
+		ft.createDir( ft.getRootPath( ) + ft.CONST.PATH_DELIMITER + 'srv' );
+
+	}catch( e ){
+
+		console.log( '[' + ( new Date( ) ).toISOString() + '] ' +
+
+			'Error create ' +  ft.getRootPath( ) + '/srv');
+
+		console.log( e );
+	}
+}
+
+_copyIndexHtmlTemplateIfNotExist( 'index.app.header.tpl' );
+_copyIndexHtmlTemplateIfNotExist( 'index.app.footer.tpl' );
+_copyIndexHtmlTemplateIfNotExist( 'index.dev.tpl' );
+_copyIndexHtmlTemplateIfNotExist( 'index.tst.tpl' );
+_copyIndexHtmlTemplateIfNotExist( 'index.doc.tpl' );
 
 // TODO: Add real production condition here.
 if( __dirname === ft.getRootPath( ) || (
