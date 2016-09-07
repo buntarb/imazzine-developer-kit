@@ -405,35 +405,32 @@ if( ft.getRootPath( ) +
 											'[' + modName + '] setting up...' );
 
 										// Creating module configuration file.
+										var fileString;
 										try{
 
-											var fileString;
+											if( !ft.isFileExist( ft.getRootPath( ) +
+													ft.CONST.PATH_DELIMITER + 'config.yaml' ) ){
 
-											console.log( '[' + ( new Date( ) ).toISOString() + '] ' +
+												console.log( '[' + ( new Date( ) ).toISOString() + '] ' +
 
-												'[' + ft.getRootPath( ) + '/config.yaml] creating...' );
+													'[' + ft.getRootPath( ) + '/config.yaml] creating...' );
 
 
-											fileString = ft.openFile(
+												fileString = ft.openFile(
 
-												idkRoot + ft.CONST.PATH_DELIMITER +
-												'tpl' + ft.CONST.PATH_DELIMITER +
-												'module.yaml' )
-												.replace(
+													idkRoot + ft.CONST.PATH_DELIMITER +
+													'tpl' + ft.CONST.PATH_DELIMITER +
+													'module.yaml' )
+													.replace(
 
-													/\[\{\(NAMESPACE\)\}\]/g,
-													modName + '' );
+														/\[\{\(NAMESPACE\)\}\]/g,
+														modName + '' );
 
-											ft.saveFile(
+												ft.saveFile(
 
-												ft.getRootPath( ) + ft.CONST.PATH_DELIMITER + 'config.yaml',
-												fileString );
-
-											if( !isCreatedBinDir ){
-
-												isCreatedBinDir = createBinDir();
+													ft.getRootPath( ) + ft.CONST.PATH_DELIMITER + 'config.yaml',
+													fileString );
 											}
-
 										}catch( e ){
 
 											console.log( '[' + ( new Date( ) ).toISOString() + '] ' +
@@ -441,6 +438,11 @@ if( ft.getRootPath( ) +
 												'Error while creating [' + ft.getRootPath( ) + '/config.yaml]' );
 
 											console.log( e );
+										}
+
+										if( !isCreatedBinDir ){
+
+											isCreatedBinDir = createBinDir();
 										}
 
 										// Creating license file.
@@ -475,35 +477,39 @@ if( ft.getRootPath( ) +
 										// Creating module package.json.
 										try{
 
-											console.log( '[' + ( new Date( ) ).toISOString() + '] ' +
+											if( !ft.isFileExist( ft.getRootPath( ) +
+													ft.CONST.PATH_DELIMITER + 'package.json' ) ){
 
-												'[' + ft.getRootPath( ) + '/package.json] creating...' );
+												console.log( '[' + ( new Date( ) ).toISOString() + '] ' +
 
-											var packageJson = ft.openFile(
+													'[' + ft.getRootPath( ) + '/package.json] creating...' );
 
-												idkRoot + ft.CONST.PATH_DELIMITER +
-												'tpl' + ft.CONST.PATH_DELIMITER +
-												'package.tpl' );
+												var packageJson = ft.openFile(
 
-											packageJson = packageJson.replace( /\[\{\(NAMESPACE\)\}\]/g, modName );
-											packageJson = packageJson.replace( /\[\{\(VERSION\)\}\]/g, modVersion );
-											packageJson = packageJson.replace( /\[\{\(DESCRIPTION\)\}\]/g, modDescription );
-											packageJson = packageJson.replace( /\[\{\(AUTHOR\)\}\]/g, modAuthName );
-											packageJson = packageJson.replace( /\[\{\(EMAIL\)\}\]/g, modAuthEmail );
-											packageJson = packageJson.replace( /\[\{\(LICENSE_TYPE\)\}\]/g, modLicense );
-											packageJson = packageJson.replace( /\[\{\(HOMEPAGE\)\}\]/g, modHomepage );
-											packageJson = packageJson.replace( /\[\{\(REPO_TYPE\)\}\]/g, modRepoType );
-											packageJson = packageJson.replace( /\[\{\(REPO_URL\)\}\]/g, modRepoUrl );
-											ft.saveFile(
+													idkRoot + ft.CONST.PATH_DELIMITER +
+													'tpl' + ft.CONST.PATH_DELIMITER +
+													'package.tpl' );
 
-												ft.getRootPath( ) + ft.CONST.PATH_DELIMITER + 'package.json',
-												packageJson );
+												packageJson = packageJson.replace( /\[\{\(NAMESPACE\)\}\]/g, modName );
+												packageJson = packageJson.replace( /\[\{\(VERSION\)\}\]/g, modVersion );
+												packageJson = packageJson.replace( /\[\{\(DESCRIPTION\)\}\]/g, modDescription );
+												packageJson = packageJson.replace( /\[\{\(AUTHOR\)\}\]/g, modAuthName );
+												packageJson = packageJson.replace( /\[\{\(EMAIL\)\}\]/g, modAuthEmail );
+												packageJson = packageJson.replace( /\[\{\(LICENSE_TYPE\)\}\]/g, modLicense );
+												packageJson = packageJson.replace( /\[\{\(HOMEPAGE\)\}\]/g, modHomepage );
+												packageJson = packageJson.replace( /\[\{\(REPO_TYPE\)\}\]/g, modRepoType );
+												packageJson = packageJson.replace( /\[\{\(REPO_URL\)\}\]/g, modRepoUrl );
+												ft.saveFile(
+
+													ft.getRootPath( ) + ft.CONST.PATH_DELIMITER + 'package.json',
+													packageJson );
+											}
 
 										}catch( e ){
 
 											console.log( '[' + ( new Date( ) ).toISOString() + '] ' +
 
-												'Error while creating [' + ft.getRootPath( ) + '/config.yaml]' );
+												'Error while creating [' + ft.getRootPath( ) + '/package.json]' );
 
 											console.log( e );
 										}
