@@ -151,7 +151,8 @@ try{
 			( 0400 | 0200 | 0100 | 0040 | 0020 | 0004 ) );
 	}else{
 
-		console.log( 'setFilePermission is not supported on Windows platform' );
+		console.log( '[' + ( new Date( ) ).toISOString() + '] ' +
+			'setFilePermission is not supported on Windows platform' );
 	}
 
 }catch( e ){
@@ -284,7 +285,9 @@ _copyIndexHtmlTemplateIfNotExist( 'index.tst.tpl' );
 _copyIndexHtmlTemplateIfNotExist( 'index.doc.tpl' );
 
 // TODO: Add real production condition here.
-if( __dirname === ft.getRootPath( ) || (
+if( __dirname === ft.getRootPath( ) ||
+	ft.isFileExist( ft.getRootPath() + ft.CONST.PATH_DELIMITER + 'config.yaml' ) ||
+	(
 
 	ft.isDirExist(
 
@@ -335,9 +338,8 @@ if( __dirname === ft.getRootPath( ) || (
 	// Terminate installing process for imazzine-developer-kit project itself.
 	console.log( '[' + ( new Date( ) ).toISOString() + '] done' );
 	process.exit( 0 );
-}
 
-if( ft.getRootPath( ) +
+}else if( ft.getRootPath( ) +
 	ft.CONST.PATH_DELIMITER +
 	ft.CONST.NODE_MODULE_FOLDER +
 	ft.CONST.PATH_DELIMITER +
