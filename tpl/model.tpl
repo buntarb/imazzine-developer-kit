@@ -43,7 +43,7 @@ goog.inherits( [{(NAMESPACE)}], zz.models.Dataset );
 * @overwrite
 * @type {[{(NAMESPACE)}]Datarow}
 */
-[{(NAMESPACE)}].prototype.DatarowConstructor = [{(NAMESPACE)}];
+[{(NAMESPACE)}].prototype.DatarowConstructor = [{(NAMESPACE)}]Datarow;
 
 /**
 * Return [{(NAMESPACE)}]Datarow schema object.
