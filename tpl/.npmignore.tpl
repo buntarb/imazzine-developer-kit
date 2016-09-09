@@ -5,7 +5,6 @@ node_modules/
 idk
 idk.cmd
 doc/
-lib/sources/cssmap.js
 lib/sources/deps-node.js
 lib/sources/deps.js
 lib/sources/.tpl/

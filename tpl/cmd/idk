@@ -7,8 +7,8 @@ if( args[ 0 ] === 'compile' ){
     if( !args[ 1 ] ){
 
         getHelp( );
-    }
-    if( args[ 1 ] === 'app' ){
+
+    }else if( args[ 1 ] === 'app' ){
 
         idk.compiler.compileApplication( );
 
@@ -36,9 +36,13 @@ if( args[ 0 ] === 'compile' ){
 
          idk.documentation.compileDocument( );
 
+    }else if( args[ 1 ] === 'models' ){
+
+         idk.compiler.compileModels( );
+
     }else if( args[ 1 ] === 'svc' && args[ 2 ] ){
 
-              idk.compiler.compileSvc( args[ 2 ] );
+         idk.compiler.compileSvc( args[ 2 ] );
 
     }else{
 
@@ -57,8 +61,8 @@ if( args[ 0 ] === 'compile' ){
     if( !args[ 1 ] ){
 
         getHelp( );
-    }
-    if( args[ 1 ] === 'server' ){
+
+    }else if( args[ 1 ] === 'server' ){
 
         idk.server.startServer( );
     }

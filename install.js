@@ -284,7 +284,9 @@ _copyIndexHtmlTemplateIfNotExist( 'index.tst.tpl' );
 _copyIndexHtmlTemplateIfNotExist( 'index.doc.tpl' );
 
 // TODO: Add real production condition here.
-if( __dirname === ft.getRootPath( ) || (
+if( __dirname === ft.getRootPath( ) ||
+	ft.isFileExist( ft.getIdkPath() + ft.CONST.PATH_DELIMITER + 'idk' )	||
+	(
 
 	ft.isDirExist(
 
