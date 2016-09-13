@@ -37,12 +37,6 @@ PATH:
   # Services compiling
   SVC: 'svc'
 
-# Default parameters
-DEFAULT:
-
-  # Locale
-  LOCALE: 'en'
-
 # Server settings
 SERVER:
 
@@ -63,6 +57,9 @@ SERVER:
 
   # Production-like server sub-domain
   SERVER_APP: 'app'
+
+  # Unit Test server sub-domain
+  SERVER_UT: 'ut'
 
 # Compile settings
 COMPILATION:

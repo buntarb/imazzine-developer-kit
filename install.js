@@ -264,7 +264,7 @@ if( !ft.isDirExist( ft.getRootPath( ) + ft.CONST.PATH_DELIMITER + 'srv' ) ){
 	try{
 		console.log( '[' + ( new Date( ) ).toISOString( ) + '] ' +
 
-				'[' + ft.getRootPath( ) + '/srv] creating...' );
+			'[' + ft.getRootPath( ) + '/srv] creating...' );
 
 		ft.createDir( ft.getRootPath( ) + ft.CONST.PATH_DELIMITER + 'srv' );
 
@@ -283,6 +283,7 @@ _copyIndexHtmlTemplateIfNotExist( 'index.app.footer.tpl' );
 _copyIndexHtmlTemplateIfNotExist( 'index.dev.tpl' );
 _copyIndexHtmlTemplateIfNotExist( 'index.tst.tpl' );
 _copyIndexHtmlTemplateIfNotExist( 'index.doc.tpl' );
+_copyIndexHtmlTemplateIfNotExist( 'index.ut.tpl' );
 
 // TODO: Add real production condition here.
 if( __dirname === ft.getRootPath( ) ||
@@ -553,7 +554,8 @@ if( __dirname === ft.getRootPath( ) ||
 
 											ft.createDir( ft.getRootPath( ) + ft.CONST.PATH_DELIMITER +
 												moduleConfig.PATH.LIB + ft.CONST.PATH_DELIMITER +
-												moduleConfig.PATH.SOURCES + '/controllers' );
+												moduleConfig.PATH.SOURCES +
+												ft.CONST.PATH_DELIMITER + 'controllers' );
 
 											console.log( '[' + ( new Date( ) ).toISOString( ) + '] ' +
 
@@ -563,7 +565,8 @@ if( __dirname === ft.getRootPath( ) ||
 
 											ft.createDir( ft.getRootPath( ) + ft.CONST.PATH_DELIMITER +
 												moduleConfig.PATH.LIB + ft.CONST.PATH_DELIMITER +
-												moduleConfig.PATH.SOURCES + '/models' );
+												moduleConfig.PATH.SOURCES +
+												ft.CONST.PATH_DELIMITER + 'models' );
 
 											console.log( '[' + ( new Date( ) ).toISOString( ) + '] ' +
 
@@ -573,7 +576,8 @@ if( __dirname === ft.getRootPath( ) ||
 
 											ft.createDir( ft.getRootPath( ) + ft.CONST.PATH_DELIMITER +
 												moduleConfig.PATH.LIB + ft.CONST.PATH_DELIMITER +
-												moduleConfig.PATH.SOURCES + '/views' );
+												moduleConfig.PATH.SOURCES +
+												ft.CONST.PATH_DELIMITER + 'views' );
 
 											console.log( '[' + ( new Date( ) ).toISOString( ) + '] ' +
 
@@ -583,7 +587,8 @@ if( __dirname === ft.getRootPath( ) ||
 
 											ft.createDir( ft.getRootPath( ) + ft.CONST.PATH_DELIMITER +
 												moduleConfig.PATH.LIB + ft.CONST.PATH_DELIMITER +
-												moduleConfig.PATH.SOURCES + '/events' );
+												moduleConfig.PATH.SOURCES +
+												ft.CONST.PATH_DELIMITER + 'events' );
 
 											console.log( '[' + ( new Date( ) ).toISOString( ) + '] ' +
 
@@ -593,7 +598,8 @@ if( __dirname === ft.getRootPath( ) ||
 
 											ft.createDir( ft.getRootPath( ) + ft.CONST.PATH_DELIMITER +
 												moduleConfig.PATH.LIB + ft.CONST.PATH_DELIMITER +
-												moduleConfig.PATH.SOURCES + '/services' );
+												moduleConfig.PATH.SOURCES +
+												ft.CONST.PATH_DELIMITER + 'services' );
 
 											console.log( '[' + ( new Date( ) ).toISOString( ) + '] ' +
 
@@ -603,7 +609,8 @@ if( __dirname === ft.getRootPath( ) ||
 
 											ft.createDir( ft.getRootPath( ) + ft.CONST.PATH_DELIMITER +
 												moduleConfig.PATH.LIB + ft.CONST.PATH_DELIMITER +
-												moduleConfig.PATH.SOURCES + '/tests' );
+												moduleConfig.PATH.SOURCES +
+												ft.CONST.PATH_DELIMITER + 'tests' );
 
 											console.log( '[' + ( new Date( ) ).toISOString( ) + '] ' +
 
@@ -613,7 +620,8 @@ if( __dirname === ft.getRootPath( ) ||
 
 											ft.createDir( ft.getRootPath( ) + ft.CONST.PATH_DELIMITER +
 												moduleConfig.PATH.LIB + ft.CONST.PATH_DELIMITER +
-												moduleConfig.PATH.SOURCES + '/factories' );
+												moduleConfig.PATH.SOURCES +
+												ft.CONST.PATH_DELIMITER + 'factories' );
 
 											console.log( '[' + ( new Date( ) ).toISOString( ) + '] ' +
 
@@ -623,7 +631,8 @@ if( __dirname === ft.getRootPath( ) ||
 
 											ft.createDir( ft.getRootPath( ) + ft.CONST.PATH_DELIMITER +
 												moduleConfig.PATH.LIB + ft.CONST.PATH_DELIMITER +
-												moduleConfig.PATH.SOURCES + '/errors' );
+												moduleConfig.PATH.SOURCES +
+												ft.CONST.PATH_DELIMITER + 'errors' );
 
 											console.log( '[' + ( new Date( ) ).toISOString( ) + '] ' +
 
@@ -633,7 +642,8 @@ if( __dirname === ft.getRootPath( ) ||
 
 											ft.createDir( ft.getRootPath( ) + ft.CONST.PATH_DELIMITER +
 												moduleConfig.PATH.LIB + ft.CONST.PATH_DELIMITER +
-												moduleConfig.PATH.SOURCES + '/enums' );
+												moduleConfig.PATH.SOURCES +
+												ft.CONST.PATH_DELIMITER + 'enums' );
 
 											console.log( '[' + ( new Date( ) ).toISOString( ) + '] ' +
 
@@ -643,7 +653,8 @@ if( __dirname === ft.getRootPath( ) ||
 
 											ft.createDir( ft.getRootPath( ) + ft.CONST.PATH_DELIMITER +
 												moduleConfig.PATH.LIB + ft.CONST.PATH_DELIMITER +
-												moduleConfig.PATH.SOURCES + '/docs' );
+												moduleConfig.PATH.SOURCES +
+												ft.CONST.PATH_DELIMITER + 'docs' );
 
 											console.log( '[' + ( new Date( ) ).toISOString( ) + '] ' +
 
@@ -726,7 +737,7 @@ if( __dirname === ft.getRootPath( ) ||
 												'[' + ft.getRootPath( ) + '/' +
 												moduleConfig.PATH.LIB + '/' +
 												moduleConfig.PATH.SOURCES + '/' +
-												'/base.js] creating...' );
+												'base.js] creating...' );
 
 											var baseJs = ft.openFile(
 
@@ -753,7 +764,7 @@ if( __dirname === ft.getRootPath( ) ||
 												'[' + ft.getRootPath( ) + '/' +
 												moduleConfig.PATH.LIB + '/' +
 												moduleConfig.PATH.SOURCES + '/' +
-												'/cssmap.js] creating...' );
+												'cssmap.js] creating...' );
 
 											ft.saveFile(
 
@@ -772,7 +783,7 @@ if( __dirname === ft.getRootPath( ) ||
 												'Error while creating [' + ft.getRootPath( ) + '/' +
 												moduleConfig.PATH.LIB + '/' +
 												moduleConfig.PATH.SOURCES + '/' +
-												'/base.js]' );
+												'base.js]' );
 
 											console.log( e );
 										}
@@ -840,10 +851,52 @@ if( __dirname === ft.getRootPath( ) ||
 
 											console.log( '[' + ( new Date( ) ).toISOString() + '] ' +
 
+												'Error while creating [module.scss, deps.scss]' );
+
+											console.log( e );
+										}
+
+										// Creating index.js for unit tests.
+										try{
+
+											console.log( '[' + ( new Date( ) ).toISOString() + '] ' +
+
+												'[' + ft.getRootPath( ) + '/' +
+												moduleConfig.PATH.LIB + '/' +
+												moduleConfig.PATH.SOURCES + '/' +
+												'tests/' +
+												'index.js] creating...' );
+
+											var utJs = ft.openFile(
+
+												idkRoot + ft.CONST.PATH_DELIMITER +
+												'tpl' + ft.CONST.PATH_DELIMITER +
+												'ut.js.tpl' );
+
+											utJs = utJs.replace( /\[\{\(NAMESPACE\)\}\]/g, modName );
+											utJs = utJs.replace( /\[\{\(AUTHOR\)\}\]/g, modAuthName );
+											utJs = utJs.replace( /\[\{\(EMAIL\)\}\]/g, modAuthEmail );
+											utJs = utJs.replace( /\[\{\(LICENSE_TYPE\)\}\]/g, modLicense );
+
+											ft.saveFile(
+
+												ft.getRootPath( ) + ft.CONST.PATH_DELIMITER +
+
+												moduleConfig.PATH.LIB + ft.CONST.PATH_DELIMITER +
+												moduleConfig.PATH.SOURCES + ft.CONST.PATH_DELIMITER +
+												'tests' + ft.CONST.PATH_DELIMITER +
+												'index.js',
+
+												utJs );
+
+										}catch( e ){
+
+											console.log( '[' + ( new Date( ) ).toISOString() + '] ' +
+
 												'Error while creating [' + ft.getRootPath( ) + '/' +
 												moduleConfig.PATH.LIB + '/' +
 												moduleConfig.PATH.SOURCES + '/' +
-												'/base.js]' );
+												'tests/index.js]' );
 
 											console.log( e );
 										}
