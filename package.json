@@ -1,6 +1,6 @@
 {
   "name": "imazzine-developer-kit",
-  "version": "20160909.0.8",
+  "version": "20160913.0.0",
   "description": "Imazzine developer toolkit",
   "author": {
     "name": "Artem Lytvynov",
@@ -42,6 +42,7 @@
     "google-closure-compiler": "20160619.0.0",
     "closurecompiler-externs": "",
     "ws": "",
-    "jsdoc-api": "1.1.0"
+    "jsdoc-api": "1.1.0",
+    "js-dossier": "0.10.0"
   }
 }
