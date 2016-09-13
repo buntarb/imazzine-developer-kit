@@ -1,4 +1,4 @@
-// Copyright 2016 The Imazzine Developer Kit. All Rights Reserved.
+// Copyright 2016 Artem Lytvynov <buntarb@gmail.com>. All Rights Reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -13,9 +13,10 @@
 // limitations under the License.
 
 /**
+ * @license Apache-2.0
+ * @copyright Artem Lytvynov <buntarb@gmail.com>
  * @fileoverview Imazzine Developer Kit NodeJs index file. This file must be
  * used instead of ./goog/bootstrap/nodejs.js.
- * @author buntarb@gmail.com (Artem Lytvynov)
  * @nocompile
  */
 
