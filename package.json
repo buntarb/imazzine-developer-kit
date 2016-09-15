@@ -1,17 +1,16 @@
 {
   "name": "imazzine-developer-kit",
-  "version": "20160913.0.1",
+  "version": "20160914.0.1",
   "description": "Imazzine developer toolkit",
   "author": {
     "name": "Artem Lytvynov",
     "email": "buntarb@gmail.com",
     "url": "http://buntarb.github.io/"
   },
-  "maintainers": [
-    {
-      "name": "buntarb",
-      "email": "buntarb@gmail.com"
-    }
+  "contributors": [
+    "Artem Lytvynov <buntarb@gmail.com>",
+    "Alexander Popkov <popkov.aleksander@gmail.com>",
+    "Igor Zinchenko <zinychz@gmail.com>"
   ],
   "license": "Apache-2.0",
   "homepage": "https://github.com/buntarb/imazzine-developer-kit",
