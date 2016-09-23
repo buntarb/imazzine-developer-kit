@@ -18,6 +18,14 @@
  * @fileoverview IDK installation file.
  */
 
+require( 'google-closure-library' );
+goog.require('goog.structs.Map');
+goog.require( 'goog.object' );
+
+/**********************************************************************************************************************
+ * Globals                                                                                                          *
+ **********************************************************************************************************************/
+
 var readline = require('readline');
 
 /**
@@ -30,7 +38,7 @@ var ft = require( './lib/filetools.js' );
  */
 var yaml = require( 'yamljs' );
 
-var fileFrom, fileTo;
+// var fileFrom, fileTo;
 
 /**
  * Read line interface.
@@ -38,883 +46,723 @@ var fileFrom, fileTo;
  */
 var rl = readline.createInterface( {
 
-	input: process.stdin,
-	output: process.stdout
+    input: process.stdin,
+    output: process.stdout
 } );
 
 /**
- * Copy html templates to module's srv.
- * @param {string} template's file name
+ * Object for request parameters from user.
+ * It is used in the folowing functions:
+ * createPackageJson(),
+ * createPackageJsonAndStructure()
+ */
+var requestObj;
+
+/**
+ * Matches to a installconfig.yaml file.
+ * It is used in the folowing functions:
+ * getInstallConfigObj(),
+ * createStructure()
+ */
+var installConfig = undefined;
+
+/**
+ * It is used in main procedure.
+ * @type {string}
+ */
+var error = '';
+
+/**
+ * Map for replace substitutes in templates with real values from configuration files.
+ * It is used in the folowing functions:
+ * createPackageJson(),
+ * getInstallConfigObj(),
+ * createStructure(),
+ * Main procedure
+ * @type {goog.structs.Map}
+ */
+var regExpsMap = new goog.structs.Map();
+
+/**
+ * It is used in main procedure.
+ * @type {string}
+ */
+var modName = '';
+
+/**********************************************************************************************************************
+ * Functions                                                                                                          *
+ **********************************************************************************************************************/
+
+/**
+ * Formatting print to log console
+ * @param {string} message
+ */
+function toLog( message ) {
+
+    console.log( '[' + ( new Date( ) ).toISOString( ) + '] ' + message );
+}
+
+/**
+ * Transforming passed pseudo path into a real absolute path independently of OS.
+ * @param {string} path is pseudo or absolute path.
+ * 		moduleRoot in path param matches to a path for a module root.
+ * 		idkRoot in path param matches to a path for a idk root.
+ * 		Symbol / in path param matches to a path delimeter for current OS.
+ * @return {string}
+ */
+function normalizePath( path ) {
+
+    return path.replace( /\//g, ft.CONST.PATH_DELIMITER )
+        .replace( /moduleRoot/g, ft.getRootPath() )
+        .replace( /idkRoot/g, ft.getIdkPath() );
+}
+
+/**
+ * Create directory
+ * @param {string} path must be an absolute path to a directory.
+ * @param {?boolean|undefined} disableLog is flag whether print message to log or not. Defaul is false.
+ * @return {string} if is empty than there were no errors.
+ */
+function createDir( path, disableLog ) {
+
+    var error = '';
+    disableLog = disableLog || false;
+
+    try {
+
+        if( !disableLog ){
+
+            toLog( '[' + path + '] creating...' );
+        }
+
+        ft.createDir( path );
+
+        if( !ft.isDirExist( path ) ){
+
+            error =  'Error while creating ' + path;
+        }
+
+    }catch ( e ){
+
+        error =  '' + e;
+    }
+
+    return error;
+}
+
+/**
+ * Save file
+ * @param {string} path must be an absolute path to a file.
+ * @param {string} data is a content of the file.
+ * @param {?boolean|undefined} disableLog is flag whether print message to log or not. Defaul is false.
+ * @return {string} if is empty than there were no errors.
+ */
+function saveFile( path, data, disableLog ) {
+
+    var error = '';
+    disableLog = disableLog || false;
+
+    try {
+
+        if( !disableLog ){
+
+            toLog( '[' + path + '] creating...' );
+        }
+
+        ft.saveFile( path, data );
+        if( !ft.isFileExist( path ) ){
+
+            error =  'Error while creating ' + path;
+        }
+
+    }catch ( e ){
+
+        error =  '' + e;
+    }
+
+    return error;
+}
+
+/**
+ * Copy file
+ * @param {string} source must be an absolute path to a file which should be copied.
+ * @param {string} target must be an absolute path to a file where should be copied a source file.
+ * @param {?boolean|undefined} disableLog is flag whether print message to log or not. Defaul is false.
+ * @return {string} if is empty than there were no errors.
+ */
+function copyFile( source, target, disableLog ) {
+
+    var error = '';
+    disableLog = disableLog || false;
+
+    try {
+
+        if( !disableLog ){
+
+            toLog( '[' + target + '] copying...' );
+        }
+
+        if( !ft.copyFile( source, target ) ){
+
+            error = "Can't copy " + source + " to " + target;
+        }
+
+    }catch ( e ){
+
+        error =  '' + e;
+    }
+
+    return error;
+}
+
+/**
+ * Replace substitutions in the passed text with the values form passed hash map.
+ * Substitutions in the text must be written in form [{(somesubstitution)}].
+ * @param {string} content is text to replace.
+ * @param {goog.structs.Map} transformMap is Hash Map where key maches to substitution name
+ * 		and value is an Object as {re: RegExp, value: replacingText}
+ * @return {string} if is empty than there were no errors.
+ */
+function transformText( content, transformMap ) {
+
+    var text = content;
+
+    var valReArray = transformMap.getValues();
+    for( var i = 0; i < valReArray.length; i++ ){
+
+        text = text.replace( valReArray[ i ].re, valReArray[ i ].value + '' );
+    }
+
+    return text;
+}
+
+/**
+ * Copy file with replacing substitutions in source file by using transformText() function.
+ * @param {string} source must be an absolute path to a file which should be copied.
+ * @param {string} target must be an absolute path to a file where should be copied a source file.
+ * @param {goog.structs.Map} transformMap is Hash Map where key maches to substitution name
+ * 		and value is an Object as {re: RegExp, value: replacingText}
+ * @param {?boolean|undefined} disableLog is flag whether print message to log or not. Defaul is false.
+ * @return {string} if is empty than there were no errors.
+ */
+function copyFileWithTransform( source, target, transformMap, disableLog ) {
+
+    var error = '';
+    disableLog = disableLog || false;
+
+    try {
+
+        if( !disableLog ){
+
+            toLog( '[' + target + '] transforming and copying...' );
+        }
+
+        var content = ft.openFile( source );
+        content = transformText( content, transformMap  );
+
+        var disableLog = true;
+        error = saveFile( target, content, disableLog );
+
+    }catch ( e ){
+
+        error =  '' + e;
+    }
+
+    return error;
+}
+
+/**
+ * Helper function. It makes formatting string for error message.
+ * @param {Object} obj must be in form { paramName: paramValue, ...}.
+ * @return {string} if is empty than there were no errors.
  * @private
  */
-function _copyIndexHtmlTemplateIfNotExist( template ) {
+function _buildErrorForMissedParams( obj ) {
 
-	var fileTo = ft.getRootPath( ) + ft.CONST.PATH_DELIMITER + 'srv' + ft.CONST.PATH_DELIMITER + template;
+    var error = '';
 
-	if( !ft.isFileExist( fileTo ) ){
+    for( var param in obj ){
 
-		try{
+        if( !obj[ param ] ){
 
-			console.log( '[' + ( new Date( ) ).toISOString( ) + '] ' +
+            if( '' === error ){
 
-				'[' + fileTo + '] copy...' );
+                error = 'Must be defined ' + param;
+            }else{
 
-			var fileFrom = ft.getIdkPath() + ft.CONST.PATH_DELIMITER + 'tpl' + ft.CONST.PATH_DELIMITER + template;
+                error += ' and ' + param;
+            }
+        }
+    }
 
-			if(!ft.copyFile( fileFrom, fileTo )){
-
-				throw new Error("Can't copy [" + fileFrom + "] to [" + fileTo + "]");
-			}
-
-		}catch( e ){
-
-			console.log( '[' + ( new Date( ) ).toISOString() + '] ' +
-
-				'Error while copy index.html template' );
-
-			console.log( e );
-		}
-	}
+    return error;
 }
 
-var createBinDir = function ( ) {
+/**
+ * Copy file with replacing substitutions in source file and overwrite target file if it already exists.
+ * @param {string} source could be a pseudo or an absolute path to a file which should be copied.
+ * @param {string} target could be a pseudo or an absolute path to a file where should be copied a source file.
+ * @param {?goog.structs.Map|undefined} transformMap is Hash Map where key maches to substitution name
+ * 		and value is an Object as {re: RegExp, value: replacingText}.
+ * 		If it is missed the file will be copied without transformation.
+ * @return {string} if is empty than there were no errors.
+ */
+function copyFileOverwrite( source, target, transformMap ) {
 
-	var isCreated = false;
+    var error = '';
 
-	if( ft.isFileExist( ft.getRootPath( ) + ft.CONST.PATH_DELIMITER + 'config.yaml' )){
+    if( target && source ){
 
-		try{
+        var pathTarget = normalizePath( target );
+        var pathSource = normalizePath( source );
 
-			var moduleConfig = yaml.load(
+        if( transformMap ){
 
-				ft.getRootPath( ) + ft.CONST.PATH_DELIMITER + 'config.yaml' );
+            error = copyFileWithTransform( pathSource, pathTarget, transformMap );
 
-			if( !ft.isDirExist( ft.getRootPath( ) + ft.CONST.PATH_DELIMITER + moduleConfig.PATH.BIN ) ){
+        }else{
 
-				console.log( '[' + ( new Date( ) ).toISOString( ) + '] ' +
+            error = copyFile( pathSource, pathTarget );
+        }
+    }else{
 
-					'[' + ft.getRootPath( ) + '/' +
-					moduleConfig.PATH.BIN + '] creating...' );
+        error = _buildErrorForMissedParams( { 'TARGET': target, 'SOURCE': source } );
+    }
 
-				ft.createDir( ft.getRootPath( ) + ft.CONST.PATH_DELIMITER +
-					moduleConfig.PATH.BIN );
-
-				isCreated = ft.isDirExist( ft.getRootPath( ) + ft.CONST.PATH_DELIMITER +
-					moduleConfig.PATH.BIN );
-			}
-		}catch( e ){
-
-			console.log( '[' + ( new Date( ) ).toISOString() + '] ' +
-
-				'Error create ' +  ft.getRootPath( ) + ft.CONST.PATH_DELIMITER +
-				moduleConfig.PATH.BIN);
-
-			console.log( e );
-		}
-	}
-
-	return isCreated;
+    return error;
 }
 
-var isCreatedBinDir = createBinDir();
+/**
+ * Copy file only when target file doesn't exist with replacing substitutions in source file.
+ * @param {string} source could be a pseudo or an absolute path to a file which should be copied.
+ * @param {string} target could be a pseudo or an absolute path to a file where should be copied a source file.
+ * @param {?goog.structs.Map|undefined} transformMap is Hash Map where key maches to substitution name
+ * 		and value is an Object as {re: RegExp, value: replacingText}.
+ * 		If it is missed the file will be copied without transformation.
+ * @return {string} if is empty than there were no errors.
+ */
+function copyFileIfNotExist( source, target, transformMap ) {
 
-// Copy command files.
-try{
+    var error = '';
 
-	console.log( '[' + ( new Date( ) ).toISOString( ) + '] ' +
+    if( target && source ){
 
-		'[' + ft.getRootPath( ) + '/idk] copy...' );
+        var pathTarget = normalizePath( target );
 
-	fileFrom = ft.getRootPath( ) + ft.CONST.PATH_DELIMITER +
-		ft.CONST.NODE_MODULE_FOLDER + ft.CONST.PATH_DELIMITER +
-		ft.CONST.IDK_FOLDER_NAME + ft.CONST.PATH_DELIMITER +
-		'tpl' + ft.CONST.PATH_DELIMITER +
-		'cmd' + ft.CONST.PATH_DELIMITER + 'idk';
+        if( !ft.isFileExist( pathTarget ) ){
 
-	fileTo = ft.getRootPath( ) + ft.CONST.PATH_DELIMITER + 'idk';
+            var pathSource = normalizePath( source );
 
-	if(!ft.copyFile( fileFrom, fileTo )){
+            if( transformMap ){
 
-		throw new Error("Can't copy [" + fileFrom + "] to [" + fileTo + "]");
-	}
+                error = copyFileWithTransform( pathSource, pathTarget, transformMap );
 
-	console.log( '[' + ( new Date( ) ).toISOString( ) + '] ' +
+            }else{
 
-		'[' + ft.getRootPath( ) + '/idk] change permissions...' );
+                error = copyFile( pathSource, pathTarget );
+            }
+        }
 
-	if( !ft.CONST.IS_WINDOWS_OS ){
+    }else{
 
-		ft.setFilePermission(
+        error = _buildErrorForMissedParams( { 'TARGET': target, 'SOURCE': source } );
+    }
 
-			ft.getRootPath( ) +
-			ft.CONST.PATH_DELIMITER +
-			'idk',
-			( 0400 | 0200 | 0100 | 0040 | 0020 | 0004 ) );
-	}else{
-
-		console.log( '[' + ( new Date( ) ).toISOString() + '] ' +
-			'setFilePermission is not supported on Windows platform' );
-	}
-
-}catch( e ){
-
-	console.log( '[' + ( new Date( ) ).toISOString() + '] ' +
-
-		'Error while copy command files' );
-
-	console.log( e );
+    return error;
 }
 
-//Copy idk.cmd for run idk in Windows
-try{
+/**
+ * Create file or directory depending on the passed parameter type only if it doesn't exist.
+ * @param {string} target could be a pseudo or an absolute path.
+ * @param {string} type if dir - create a directory, if file - create a file, otherwise - return error message.
+ * @param {?string|undefined} data is a file content in case when type equals file. Default is empty string.
+ * @return {string} if is empty than there were no errors.
+ */
+function createIfNotExist( target, type, data) {
 
-	console.log( '[' + ( new Date( ) ).toISOString( ) + '] ' +
+    var error = '';
+    data = data || '';
 
-		'[' + ft.getRootPath( ) + '/idk.cmd] copy...' );
+    if( target && type ){
 
-	fileFrom = ft.getRootPath( ) + ft.CONST.PATH_DELIMITER +
-		ft.CONST.NODE_MODULE_FOLDER + ft.CONST.PATH_DELIMITER +
-		ft.CONST.IDK_FOLDER_NAME + ft.CONST.PATH_DELIMITER +
-		'tpl' + ft.CONST.PATH_DELIMITER + 'idk.cmd.tpl';
+        type = type.toLowerCase();
+        var isFile = false;
+        var path;
 
-	fileTo = ft.getRootPath( ) + ft.CONST.PATH_DELIMITER + 'idk.cmd';
+        if( 'dir' === type ){
 
-	if(!ft.copyFile( fileFrom, fileTo )){
+            isFile = false;
 
-		throw new Error("Can't copy [" + fileFrom + "] to [" + fileTo + "]");
-	}
-}catch( e ){
+        }else if( 'file' === type ){
 
-	console.log( '[' + ( new Date( ) ).toISOString() + '] ' +
+            isFile = true;
 
-		'Error while copy idk.cmd command file' );
+        }else{
 
-	console.log( e );
+            return 'Unsupported TYPE=' + type;
+        }
+
+        path = normalizePath( target );
+
+        if( isFile  ){
+            if( !ft.isFileExist( path ) ){
+
+                error = saveFile( path, data );
+            }
+        }else if( !ft.isDirExist( path ) ){
+
+            error = createDir( path );
+        }
+
+    }else{
+
+        error = _buildErrorForMissedParams( { 'TARGET': target, 'TYPE': type } );
+    }
+
+    return error;
 }
 
-//Create idk alias in Unix
-if( !ft.CONST.IS_WINDOWS_OS ){
-	try{
+/**
+ * Create file or directory depending on the passed parameter type with overwriting if it is a file and it already exists.
+ * @param {string} target could be a pseudo or an absolute path.
+ * @param {string} type if dir - create a directory, if file - create a file, otherwise - return error message.
+ * @param {?string|undefined} data is a file content in case when type equals file. Default is empty string.
+ * @return {string} if is empty than there were no errors.
+ */
+function createOverwrite( target, type, data) {
 
-		var res = ft.execute( 'cat ~/.bashrc');
-		if( res && !/alias\s*idk\s*=\s*['"]\.\/idk['"]/.test( res.toString() ) ){
+    var error = '';
+    data = data || '';
 
-			var aliasIdk = 'echo "alias idk=\'./idk\'" >> ~/.bashrc';
-			res = ft.execute( aliasIdk );
-			res = ft.execute( '. ~/.bashrc' );  //doesn't work for current session
-		}
+    if( target && type ){
 
-	}catch( e ){
+        type = type.toLowerCase();
+        var isFile = false;
+        var path;
 
-		console.log( '[' + ( new Date( ) ).toISOString() + '] ' +
+        if( 'dir' === type ){
 
-			'Error while creating idk alias' );
+            isFile = false;
 
-		console.log( e );
-	}
+        }else if( 'file' === type ){
+
+            isFile = true;
+
+        }else{
+
+            return 'Unsupported TYPE=' + type;
+        }
+
+        path = normalizePath( target );
+
+        if( isFile  ){
+            if( ft.isFileExist( path ) ){
+
+                try{
+
+                    ft.removeFile( path );
+
+                    if( !ft.isFileExist( path ) ){
+
+                        error = saveFile( path, data );
+                    }else{
+
+                        throw new Error( 'Existing file ' + path + ' cannot be removed' );
+                    }
+                }catch ( e ){
+
+                    error =  'Error while creating ' + path;
+                }
+            }else{
+
+                error = saveFile( path, data );
+            }
+        }else if( !ft.isDirExist( path ) ){
+
+            error = createDir( path );
+        }
+
+    }else{
+
+        error = _buildErrorForMissedParams( { 'TARGET': target, 'TYPE': type } );
+    }
+
+    return error;
 }
 
-// Copy .ignore files.
-try{
+/**
+ * Select and launch an action such copy or create for directory or file depending on parameters.
+ * @param {?string|undefined} source could be a pseudo or an absolute path to a file which should be copied.
+ * 		If it is missed there will be a create action instead of a copy action.
+ * @param {string} target could be a pseudo or an absolute path to a target file or directory.
+ * @param {?boolean|undefined} isOverwrite is flag to overwrite target file.
+ * 		In case a directory this parameter means nothing.
+ * @param {string} type if dir - create a directory, if file - create a file.
+ * 		This parameter implies a create action - when source parameter is missed.
+ * @param {?goog.structs.Map|undefined} transformMap is Hash Map where key maches to substitution name
+ * 		and value is an Object as {re: RegExp, value: replacingText}.
+ * 		If it is missed the file will be copied without transformation.
+ * 		This parameter implies a copy action - when source parameter exists.
+ * @return {string} if is empty than there were no errors.
+ */
+function action( source, target, isOverwrite, type, transformMap ) {
 
-	console.log( '[' + ( new Date( ) ).toISOString( ) + '] ' +
+    var error = '';
 
-		'[' + ft.getRootPath( ) + '/.gitignore] copy...' );
+    if( source ){
 
+        if( isOverwrite ){
 
-	fileFrom = ft.getRootPath( ) + ft.CONST.PATH_DELIMITER +
-		ft.CONST.NODE_MODULE_FOLDER + ft.CONST.PATH_DELIMITER +
-		ft.CONST.IDK_FOLDER_NAME + ft.CONST.PATH_DELIMITER +
-		'tpl' + ft.CONST.PATH_DELIMITER + '.gitignore.tpl';
+            error = copyFileOverwrite( source, target, transformMap );
+        }else{
 
-	fileTo = ft.getRootPath( ) + ft.CONST.PATH_DELIMITER + '.gitignore';
+            error = copyFileIfNotExist( source, target, transformMap );
+        }
+    }else{
 
-	if(!ft.copyFile( fileFrom, fileTo )){
+        if( isOverwrite ){
 
-		throw new Error("Can't copy [" + fileFrom + "] to [" + fileTo + "]");
-	}
+            error = createOverwrite( target, type );
+        }else{
 
-	console.log( '[' + ( new Date( ) ).toISOString( ) + '] ' +
+            error = createIfNotExist( target, type );
+        }
+    }
 
-		'[' + ft.getRootPath( ) + '/.npmignore] copy...' );
-
-	fileFrom = ft.getRootPath( ) + ft.CONST.PATH_DELIMITER +
-		ft.CONST.NODE_MODULE_FOLDER + ft.CONST.PATH_DELIMITER +
-		ft.CONST.IDK_FOLDER_NAME + ft.CONST.PATH_DELIMITER +
-		'tpl' + ft.CONST.PATH_DELIMITER + '.npmignore.tpl';
-
-	fileTo = ft.getRootPath( ) + ft.CONST.PATH_DELIMITER + '.npmignore';
-
-	if(!ft.copyFile( fileFrom, fileTo )){
-
-		throw new Error("Can't copy [" + fileFrom + "] to [" + fileTo + "]");
-	}
-
-}catch( e ){
-
-	console.log( '[' + ( new Date( ) ).toISOString() + '] ' +
-
-		'Error while copy ignore files' );
-
-	console.log( e );
+    return error;
 }
 
-// Copy index.html templates for different environments
-if( !ft.isDirExist( ft.getRootPath( ) + ft.CONST.PATH_DELIMITER + 'srv' ) ){
+/**
+ * Input values from command line recursively for object's properties defined in propsArray parameter.
+ * @param {Object} obj according to a PACKAGEJSON part in installconfig.yaml file.
+ * 		Value for each property will be stored in its property called value.
+ * @param {string} prop is a current property name for request from user.
+ * @param {Array.<string>} propsArray is a list of properies for request from user.
+ * @param {number} currentIndex is a current index in array of the propsArray parameter.
+ * 		Initially it usually equals 0 and then it will increase while next recursive iteration occur.
+ * @param {?Array.<Function>|undefined} chainFunctionsArray is an array of functions
+ * 		to launch them at the end of all recursion.
+ */
+function question( obj, prop, propsArray, currentIndex, chainFunctionsArray ) {
 
-	try{
-		console.log( '[' + ( new Date( ) ).toISOString( ) + '] ' +
+    rl.question( 'Please enter ' + obj[prop].desc + ' [' + obj[prop].default + ']: ', function( input ){
 
-			'[' + ft.getRootPath( ) + '/srv] creating...' );
+        obj[prop].value = input || obj[prop].default;
 
-		ft.createDir( ft.getRootPath( ) + ft.CONST.PATH_DELIMITER + 'srv' );
+        if( propsArray.length > ( currentIndex + 1 ) ){
 
-	}catch( e ){
+            question( obj, propsArray[ currentIndex + 1 ], propsArray, ( currentIndex + 1 ), chainFunctionsArray );
+        }else{
 
-		console.log( '[' + ( new Date( ) ).toISOString() + '] ' +
+            if( chainFunctionsArray ){
 
-			'Error create ' +  ft.getRootPath( ) + '/srv');
+                for( var i = 0; i < chainFunctionsArray.length; i++ ){
 
-		console.log( e );
-	}
+                    chainFunctionsArray[ i ]();
+                }
+            }
+        }
+    });
 }
 
-_copyIndexHtmlTemplateIfNotExist( 'index.app.header.tpl' );
-_copyIndexHtmlTemplateIfNotExist( 'index.app.footer.tpl' );
-_copyIndexHtmlTemplateIfNotExist( 'index.dev.tpl' );
-_copyIndexHtmlTemplateIfNotExist( 'index.tst.tpl' );
-_copyIndexHtmlTemplateIfNotExist( 'index.doc.tpl' );
-_copyIndexHtmlTemplateIfNotExist( 'index.ut.tpl' );
-
-// TODO: Add real production condition here.
-if( __dirname === ft.getRootPath( ) ||
-	ft.isFileExist( ft.getRootPath() + ft.CONST.PATH_DELIMITER + 'config.yaml' ) ||
-	(
-
-	ft.isDirExist(
-
-		ft.getRootPath( ) + ft.CONST.PATH_DELIMITER +
-		'lib' ) &&
-
-	ft.isDirExist(
-
-		ft.getRootPath( ) + ft.CONST.PATH_DELIMITER +
-		'lib' + ft.CONST.PATH_DELIMITER +
-		'sources' ) &&
-
-	ft.isFileExist(
-
-		ft.getRootPath( ) + ft.CONST.PATH_DELIMITER +
-		'lib' + ft.CONST.PATH_DELIMITER +
-		'sources' + ft.CONST.PATH_DELIMITER +
-		'base.js' ) &&
+/**
+ * Release resources.
+ * @private
+ */
+function _cleanUp() {
 
-	ft.isFileExist(
+    rl.close( );
+    toLog( 'Done' );
+}
 
-		ft.getRootPath( ) + ft.CONST.PATH_DELIMITER +
-		'lib' + ft.CONST.PATH_DELIMITER +
-		'sources' + ft.CONST.PATH_DELIMITER +
-		'cssmap.js' ) &&
+/**
+ * Initial creating modul's package.json file.
+ * It takes values from global variable requestObj that must already have been filled at the moment.
+ * Use question() function for it.
+ */
+function createPackageJson() {
 
-	ft.isDirExist(
+    var moduleConfig = yaml.load( ft.getRootPath( ) + ft.CONST.PATH_DELIMITER + 'config.yaml' );
+    regExpsMap = ft.getSubstitutionsMap( moduleConfig, '', new goog.structs.Map() );
 
-		ft.getRootPath( ) + ft.CONST.PATH_DELIMITER +
-		'lib' + ft.CONST.PATH_DELIMITER +
-		'stylesheets' ) &&
+    for( var template in requestObj ){
 
-	ft.isDirExist(
+        regExpsMap.set( template,
+            { re: new RegExp( '\\[\\{\\(' + template + '\\)\\}\\]', 'g' ),
+                value: requestObj[ template ].value } );
+    }
 
-		ft.getRootPath( ) + ft.CONST.PATH_DELIMITER +
-		'lib' + ft.CONST.PATH_DELIMITER +
-		'stylesheets' + ft.CONST.PATH_DELIMITER +
-		'scss' ) &&
+    error = copyFileIfNotExist( 'idkRoot/tpl/package.tpl', 'moduleRoot/package.json', regExpsMap );
 
-	ft.isFileExist(
+    if( '' !== error ){
 
-		ft.getRootPath( ) + ft.CONST.PATH_DELIMITER +
-		'lib' + ft.CONST.PATH_DELIMITER +
-		'stylesheets' + ft.CONST.PATH_DELIMITER +
-		'scss'+ ft.CONST.PATH_DELIMITER +
-		'deps.scss' ) ) ){
+        toLog( 'Error while creating package.json: ' + error );
+    }
+}
 
-	// Terminate installing process for imazzine-developer-kit project itself.
-	console.log( '[' + ( new Date( ) ).toISOString() + '] done' );
-	process.exit( 0 );
+/**
+ * Get object that matches to a installconfig.yaml file
+ * with replaced substitution variables from config.yaml and package.json files if latest is existed.
+ */
+function getInstallConfigObj() {
 
-}else if( ft.getRootPath( ) +
-	ft.CONST.PATH_DELIMITER +
-	ft.CONST.NODE_MODULE_FOLDER +
-	ft.CONST.PATH_DELIMITER +
-	ft.CONST.IDK_FOLDER_NAME === __dirname ){
+    if( !installConfig ) {
 
-	// Start installation process.
-	console.log( '[' + ( new Date( ) ).toISOString() + '] installation start...' );
+        var moduleConfig = yaml.load( ft.getRootPath() + ft.CONST.PATH_DELIMITER + 'config.yaml' );
+        regExpsMap = ft.getSubstitutionsMap( moduleConfig, '', new goog.structs.Map() );
 
-	var idkRoot = ft.getRootPath( ) +
-		ft.CONST.PATH_DELIMITER +
-		ft.CONST.NODE_MODULE_FOLDER +
-		ft.CONST.PATH_DELIMITER +
-		ft.CONST.IDK_FOLDER_NAME;
+        if ( ft.isFileExist( ft.getRootPath() + ft.CONST.PATH_DELIMITER + 'package.json' )) {
 
-	// Calculate default module name.
-	var tmpModuleName = ft.getRootPath( ).split( ft.CONST.PATH_DELIMITER );
-	tmpModuleName = tmpModuleName[ tmpModuleName.length - 1 ]
-		.replace( /\W+/g, '_' )
-		.toLowerCase( );
-	var now = new Date( );
-	var modName = '';
-	var modVersion = '' +
-		now.getFullYear( ) +
-		( ( now.getMonth( ) + 1 ) < 10 ? '0' + ( now.getMonth( ) + 1 ) : ( now.getMonth( ) + 1 ) ) +
-		now.getDate( ) + '.0.0';
-	var modDescription = 'Module description.';
-	var modAuthName = 'Author Name';
-	var modAuthEmail = 'Email@example.com';
-	var modLicense = 'Apache-2.0';
-	var modHomepage = 'http://www.example.com';
-	var modRepoType = 'git';
-	var modRepoUrl = 'git+https://github.com/author/' + tmpModuleName + '.git';
+            var packageJson = ft.openJson( ft.getRootPath() + ft.CONST.PATH_DELIMITER + 'package.json' );
+            regExpsMap.addAll( ft.getSubstitutionsMap( packageJson, '', new goog.structs.Map() ) );
+        }
 
-	rl.question( 'Please enter module name [' + tmpModuleName + ']: ', function( input ){
 
-		modName = input || tmpModuleName;
-		rl.question( 'Please enter module version [' + modVersion + ']: ', function( input ){
+        var installConfigStr = ft.openFile( ft.getIdkPath() + ft.CONST.PATH_DELIMITER + 'installconfig.yaml' );
+        installConfigStr = transformText( installConfigStr, regExpsMap );
 
-			modVersion = input || modVersion;
-			rl.question( 'Please enter module description [Module description.]: ', function( input ){
+        installConfig = yaml.parse( installConfigStr );
+    }
 
-				modDescription = input || modDescription;
-				rl.question( 'Please enter module author name [Author Name]: ', function( input ){
+    return installConfig;
+}
 
-					modAuthName = input || modAuthName;
-					rl.question( 'Please enter module author email [email@example.com]: ', function( input ){
+/**
+ * Create module's package.json with request needed parameters and then module's stucture.
+ */
+function createPackageJsonAndStructure() {
 
-						modAuthEmail = input || modAuthEmail;
-						rl.question( 'Please enter module license [Apache-2.0]: ', function( input ){
+    var now = new Date( );
+    var modVersion = '' +
+        now.getFullYear( ) +
+        ( ( now.getMonth( ) + 1 ) < 10 ? '0' + ( now.getMonth( ) + 1 ) : ( now.getMonth( ) + 1 ) ) +
+        now.getDate( ) + '.0.0';
 
-							modLicense = input || modLicense;
-							rl.question( 'Please enter module homepage [http://www.example.com]: ', function( input ){
+    requestObj = getInstallConfigObj().PACKAGEJSON;
+    requestObj.VERSION.default = modVersion;
 
-								modHomepage = input || modHomepage;
-								rl.question( 'Please enter module repository type [git]: ', function( input ){
+    var propsArray = goog.object.getKeys( requestObj );
+    question( requestObj, propsArray[ 0 ], propsArray, 0, [ createPackageJson, createStructure ] );
+}
 
-									modRepoType = input || modRepoType;
-									rl.question( 'Please enter module repository url [' + modRepoUrl + ']: ', function( input ){
+/**
+ * Create module's stucture according to a installconfif.yaml file.
+ * Do other administrative actions.
+ * You must use this as a final function.
+ */
+function createStructure() {
 
-										modRepoUrl = input || modRepoUrl;
-										rl.close( );
+    if( ft.isFileExist( ft.getRootPath( ) + ft.CONST.PATH_DELIMITER + 'package.json' ) ){
 
-										console.log( '[' + ( new Date( ) ).toISOString() + '] ' +
+        installConfig = undefined; // clear cache for this variable
+        var structure = getInstallConfigObj().STRUCTURE;
 
-											'[' + modName + '] setting up...' );
+        for( var subj in structure ){
 
-										// Creating module configuration file.
-										var fileString;
-										try{
+            error = action( structure[subj].SOURCE, structure[subj].TARGET,
+                structure[subj].OVERWRITE, structure[subj].TYPE,
+                structure[subj].APPLYTEMPLATE ? regExpsMap: undefined );
 
-											if( !ft.isFileExist( ft.getRootPath( ) +
-													ft.CONST.PATH_DELIMITER + 'config.yaml' ) ){
+            if( '' !== error ){
+                toLog( 'Error while creating structure by installconfig.yaml for ' + subj + ': ' + error );
+            }
+        }
+    }else{
 
-												console.log( '[' + ( new Date( ) ).toISOString() + '] ' +
+        toLog( 'Error: structure cannot be built completely because of ' +
+            ft.getRootPath( ) + ft.CONST.PATH_DELIMITER + 'package.json file is missed');
+    }
 
-													'[' + ft.getRootPath( ) + '/config.yaml] creating...' );
+    // Copy command files.
+    error = copyFileOverwrite( 'idkRoot/tpl/cmd/idk', 'moduleRoot/idk' );
+    if( '' === error ){
 
+        if( !ft.CONST.IS_WINDOWS_OS ){
+            try{
 
-												fileString = ft.openFile(
+                toLog( '[' + ft.getRootPath( ) + '/idk] change permissions...' );
 
-													idkRoot + ft.CONST.PATH_DELIMITER +
-													'tpl' + ft.CONST.PATH_DELIMITER +
-													'module.yaml' )
-													.replace(
+                ft.setFilePermission(
 
-														/\[\{\(NAMESPACE\)\}\]/g,
-														modName + '' );
+                    ft.getRootPath( ) +
+                    ft.CONST.PATH_DELIMITER +
+                    'idk',
+                    ( 0400 | 0200 | 0100 | 0040 | 0020 | 0004 ) );
+            }catch ( e ){
 
-												ft.saveFile(
+                toLog( 'Error while change permissions idk file: ' + e );
+            }
+        }
+    }else{
 
-													ft.getRootPath( ) + ft.CONST.PATH_DELIMITER + 'config.yaml',
-													fileString );
-											}
-										}catch( e ){
+        toLog( 'Error while copying idk file: ' + error );
+    }
 
-											console.log( '[' + ( new Date( ) ).toISOString() + '] ' +
+    //Create idk alias in Unix
+    if( !ft.CONST.IS_WINDOWS_OS ){
+        try{
 
-												'Error while creating [' + ft.getRootPath( ) + '/config.yaml]' );
+            var res = ft.execute( 'cat ~/.bashrc');
+            if( res && !/alias\s*idk\s*=\s*['"]\.\/idk['"]/.test( res.toString() ) ){
 
-											console.log( e );
-										}
+                var aliasIdk = 'echo "alias idk=\'./idk\'" >> ~/.bashrc';
+                res = ft.execute( aliasIdk );
+                res = ft.execute( '. ~/.bashrc' );  //doesn't work for current session
+            }
 
-										if( !isCreatedBinDir ){
+        }catch( e ){
 
-											isCreatedBinDir = createBinDir();
-										}
+            toLog( 'Error while creating idk alias: ' + e );
+        }
+    }
 
-										// Creating license file.
-										try{
+    _cleanUp();
+    process.exit( 0 );
+}
 
-											var licenseString;
+/**********************************************************************************************************************
+ * Main procedure                                                                                                     *
+ **********************************************************************************************************************/
 
-											console.log( '[' + ( new Date( ) ).toISOString() + '] ' +
+toLog( 'installation start...' );
 
-												'[' + ft.getRootPath( ) + '/LICENSE] creating...' );
+if( !ft.isFileExist( ft.getRootPath( ) + ft.CONST.PATH_DELIMITER + 'config.yaml' ) ){
 
-											fileString = ft.openFile(
+    var tmpModuleName = ft.getRootPath( ).split( ft.CONST.PATH_DELIMITER );
+    tmpModuleName = tmpModuleName[ tmpModuleName.length - 1 ]
+        .replace( /\W+/g, '_' )
+        .toLowerCase( );
 
-												idkRoot + ft.CONST.PATH_DELIMITER +
-												'tpl' + ft.CONST.PATH_DELIMITER +
-												'LICENSE' );
+    rl.question( 'Please enter module name [' + tmpModuleName + ']: ', function( input ){
 
-											ft.saveFile(
+        modName = input || tmpModuleName;
 
-												ft.getRootPath( ) + ft.CONST.PATH_DELIMITER + 'LICENSE',
-												fileString );
+        regExpsMap.set( 'NAMESPACE', { re: /\[\{\(NAMESPACE\)\}\]/g, value: modName } );
+        error = copyFileIfNotExist( 'idkRoot/tpl/module.yaml', 'moduleRoot/config.yaml', regExpsMap );
 
-										}catch( e ){
+        if( '' === error){
 
-											console.log( '[' + ( new Date( ) ).toISOString() + '] ' +
+            if( !ft.isFileExist( ft.getRootPath( ) + ft.CONST.PATH_DELIMITER + 'package.json' ) ){
 
-												'Error while creating [' + ft.getRootPath( ) + '/LICENSE]' );
+                createPackageJsonAndStructure();
+            }else{
 
-											console.log( e );
-										}
+                createStructure();
+            }
+        }else{
 
-										// Creating module package.json.
-										try{
+            toLog( 'Error while creating config.yaml: ' + error );
+            _cleanUp();
+        }
+    });
 
-											if( !ft.isFileExist( ft.getRootPath( ) +
-													ft.CONST.PATH_DELIMITER + 'package.json' ) ){
+}else {
 
-												console.log( '[' + ( new Date( ) ).toISOString() + '] ' +
+    if( !ft.isFileExist( ft.getRootPath( ) + ft.CONST.PATH_DELIMITER + 'package.json' ) ){
 
-													'[' + ft.getRootPath( ) + '/package.json] creating...' );
+        createPackageJsonAndStructure();
+    }else{
 
-												var packageJson = ft.openFile(
-
-													idkRoot + ft.CONST.PATH_DELIMITER +
-													'tpl' + ft.CONST.PATH_DELIMITER +
-													'package.tpl' );
-
-												packageJson = packageJson.replace( /\[\{\(NAMESPACE\)\}\]/g, modName );
-												packageJson = packageJson.replace( /\[\{\(VERSION\)\}\]/g, modVersion );
-												packageJson = packageJson.replace( /\[\{\(DESCRIPTION\)\}\]/g, modDescription );
-												packageJson = packageJson.replace( /\[\{\(AUTHOR\)\}\]/g, modAuthName );
-												packageJson = packageJson.replace( /\[\{\(EMAIL\)\}\]/g, modAuthEmail );
-												packageJson = packageJson.replace( /\[\{\(LICENSE_TYPE\)\}\]/g, modLicense );
-												packageJson = packageJson.replace( /\[\{\(HOMEPAGE\)\}\]/g, modHomepage );
-												packageJson = packageJson.replace( /\[\{\(REPO_TYPE\)\}\]/g, modRepoType );
-												packageJson = packageJson.replace( /\[\{\(REPO_URL\)\}\]/g, modRepoUrl );
-												ft.saveFile(
-
-													ft.getRootPath( ) + ft.CONST.PATH_DELIMITER + 'package.json',
-													packageJson );
-											}
-
-										}catch( e ){
-
-											console.log( '[' + ( new Date( ) ).toISOString() + '] ' +
-
-												'Error while creating [' + ft.getRootPath( ) + '/package.json]' );
-
-											console.log( e );
-										}
-
-										// Creating paths for module.
-										try{
-
-											/**
-											 * Created module configuration.
-											 * @type {*}
-											 */
-											var moduleConfig = yaml.load(
-
-												ft.getRootPath( ) + ft.CONST.PATH_DELIMITER + 'config.yaml' );
-
-											console.log( '[' + ( new Date( ) ).toISOString( ) + '] ' +
-
-												'[' + ft.getRootPath( ) + '/' +
-												moduleConfig.PATH.LIB + '] creating...' );
-
-											ft.createDir( ft.getRootPath( ) + ft.CONST.PATH_DELIMITER +
-												moduleConfig.PATH.LIB );
-
-											console.log( '[' + ( new Date( ) ).toISOString( ) + '] ' +
-
-												'[' + ft.getRootPath( ) + '/' +
-												moduleConfig.PATH.LIB + '/' +
-												moduleConfig.PATH.SOURCES + '] creating...' );
-
-											ft.createDir( ft.getRootPath( ) + ft.CONST.PATH_DELIMITER +
-												moduleConfig.PATH.LIB + ft.CONST.PATH_DELIMITER +
-												moduleConfig.PATH.SOURCES );
-
-											console.log( '[' + ( new Date( ) ).toISOString( ) + '] ' +
-
-												'[' + ft.getRootPath( ) + '/' +
-												moduleConfig.PATH.LIB + '/' +
-												moduleConfig.PATH.SOURCES + '/controllers] creating...' );
-
-											ft.createDir( ft.getRootPath( ) + ft.CONST.PATH_DELIMITER +
-												moduleConfig.PATH.LIB + ft.CONST.PATH_DELIMITER +
-												moduleConfig.PATH.SOURCES +
-												ft.CONST.PATH_DELIMITER + 'controllers' );
-
-											console.log( '[' + ( new Date( ) ).toISOString( ) + '] ' +
-
-												'[' + ft.getRootPath( ) + '/' +
-												moduleConfig.PATH.LIB + '/' +
-												moduleConfig.PATH.SOURCES + '/models] creating...' );
-
-											ft.createDir( ft.getRootPath( ) + ft.CONST.PATH_DELIMITER +
-												moduleConfig.PATH.LIB + ft.CONST.PATH_DELIMITER +
-												moduleConfig.PATH.SOURCES +
-												ft.CONST.PATH_DELIMITER + 'models' );
-
-											console.log( '[' + ( new Date( ) ).toISOString( ) + '] ' +
-
-												'[' + ft.getRootPath( ) + '/' +
-												moduleConfig.PATH.LIB + '/' +
-												moduleConfig.PATH.SOURCES + '/views] creating...' );
-
-											ft.createDir( ft.getRootPath( ) + ft.CONST.PATH_DELIMITER +
-												moduleConfig.PATH.LIB + ft.CONST.PATH_DELIMITER +
-												moduleConfig.PATH.SOURCES +
-												ft.CONST.PATH_DELIMITER + 'views' );
-
-											console.log( '[' + ( new Date( ) ).toISOString( ) + '] ' +
-
-												'[' + ft.getRootPath( ) + '/' +
-												moduleConfig.PATH.LIB + '/' +
-												moduleConfig.PATH.SOURCES + '/events] creating...' );
-
-											ft.createDir( ft.getRootPath( ) + ft.CONST.PATH_DELIMITER +
-												moduleConfig.PATH.LIB + ft.CONST.PATH_DELIMITER +
-												moduleConfig.PATH.SOURCES +
-												ft.CONST.PATH_DELIMITER + 'events' );
-
-											console.log( '[' + ( new Date( ) ).toISOString( ) + '] ' +
-
-												'[' + ft.getRootPath( ) + '/' +
-												moduleConfig.PATH.LIB + '/' +
-												moduleConfig.PATH.SOURCES + '/services] creating...' );
-
-											ft.createDir( ft.getRootPath( ) + ft.CONST.PATH_DELIMITER +
-												moduleConfig.PATH.LIB + ft.CONST.PATH_DELIMITER +
-												moduleConfig.PATH.SOURCES +
-												ft.CONST.PATH_DELIMITER + 'services' );
-
-											console.log( '[' + ( new Date( ) ).toISOString( ) + '] ' +
-
-												'[' + ft.getRootPath( ) + '/' +
-												moduleConfig.PATH.LIB + '/' +
-												moduleConfig.PATH.SOURCES + '/tests] creating...' );
-
-											ft.createDir( ft.getRootPath( ) + ft.CONST.PATH_DELIMITER +
-												moduleConfig.PATH.LIB + ft.CONST.PATH_DELIMITER +
-												moduleConfig.PATH.SOURCES +
-												ft.CONST.PATH_DELIMITER + 'tests' );
-
-											console.log( '[' + ( new Date( ) ).toISOString( ) + '] ' +
-
-												'[' + ft.getRootPath( ) + '/' +
-												moduleConfig.PATH.LIB + '/' +
-												moduleConfig.PATH.SOURCES + '/factories] creating...' );
-
-											ft.createDir( ft.getRootPath( ) + ft.CONST.PATH_DELIMITER +
-												moduleConfig.PATH.LIB + ft.CONST.PATH_DELIMITER +
-												moduleConfig.PATH.SOURCES +
-												ft.CONST.PATH_DELIMITER + 'factories' );
-
-											console.log( '[' + ( new Date( ) ).toISOString( ) + '] ' +
-
-												'[' + ft.getRootPath( ) + '/' +
-												moduleConfig.PATH.LIB + '/' +
-												moduleConfig.PATH.SOURCES + '/errors] creating...' );
-
-											ft.createDir( ft.getRootPath( ) + ft.CONST.PATH_DELIMITER +
-												moduleConfig.PATH.LIB + ft.CONST.PATH_DELIMITER +
-												moduleConfig.PATH.SOURCES +
-												ft.CONST.PATH_DELIMITER + 'errors' );
-
-											console.log( '[' + ( new Date( ) ).toISOString( ) + '] ' +
-
-												'[' + ft.getRootPath( ) + '/' +
-												moduleConfig.PATH.LIB + '/' +
-												moduleConfig.PATH.SOURCES + '/enums] creating...' );
-
-											ft.createDir( ft.getRootPath( ) + ft.CONST.PATH_DELIMITER +
-												moduleConfig.PATH.LIB + ft.CONST.PATH_DELIMITER +
-												moduleConfig.PATH.SOURCES +
-												ft.CONST.PATH_DELIMITER + 'enums' );
-
-											console.log( '[' + ( new Date( ) ).toISOString( ) + '] ' +
-
-												'[' + ft.getRootPath( ) + '/' +
-												moduleConfig.PATH.LIB + '/' +
-												moduleConfig.PATH.SOURCES + '/docs] creating...' );
-
-											ft.createDir( ft.getRootPath( ) + ft.CONST.PATH_DELIMITER +
-												moduleConfig.PATH.LIB + ft.CONST.PATH_DELIMITER +
-												moduleConfig.PATH.SOURCES +
-												ft.CONST.PATH_DELIMITER + 'docs' );
-
-											console.log( '[' + ( new Date( ) ).toISOString( ) + '] ' +
-
-												'[' + ft.getRootPath( ) + '/' +
-												moduleConfig.PATH.LIB + '/' +
-												moduleConfig.PATH.MESSAGES + '] creating...' );
-
-											ft.createDir( ft.getRootPath( ) + ft.CONST.PATH_DELIMITER +
-												moduleConfig.PATH.LIB + ft.CONST.PATH_DELIMITER +
-												moduleConfig.PATH.MESSAGES );
-
-											console.log( '[' + ( new Date( ) ).toISOString() + '] ' +
-
-												'[' + ft.getRootPath( ) + '/' +
-												moduleConfig.PATH.LIB + '/' +
-												moduleConfig.PATH.TEMPLATES + '] creating...' );
-
-											ft.createDir( ft.getRootPath( ) + ft.CONST.PATH_DELIMITER +
-												moduleConfig.PATH.LIB + ft.CONST.PATH_DELIMITER +
-												moduleConfig.PATH.TEMPLATES );
-
-											console.log( '[' + ( new Date( ) ).toISOString() + '] ' +
-
-												'[' + ft.getRootPath( ) + '/' +
-												moduleConfig.PATH.LIB + '/' +
-												moduleConfig.PATH.RESOURCES + '] creating...' );
-
-											ft.createDir( ft.getRootPath( ) + ft.CONST.PATH_DELIMITER +
-												moduleConfig.PATH.LIB + ft.CONST.PATH_DELIMITER +
-												moduleConfig.PATH.RESOURCES );
-
-											console.log( '[' + ( new Date( ) ).toISOString() + '] ' +
-
-												'[' + ft.getRootPath( ) + '/' +
-												moduleConfig.PATH.LIB + '/' +
-												moduleConfig.PATH.STYLESHEETS + '] creating...' );
-
-											ft.createDir( ft.getRootPath( ) + ft.CONST.PATH_DELIMITER +
-												moduleConfig.PATH.LIB + ft.CONST.PATH_DELIMITER +
-												moduleConfig.PATH.STYLESHEETS );
-
-											console.log( '[' + ( new Date( ) ).toISOString() + '] ' +
-
-												'[' + ft.getRootPath( ) + '/' +
-												moduleConfig.PATH.LIB + '/' +
-												moduleConfig.PATH.STYLESHEETS + '/' +
-												moduleConfig.PATH.SCSS + '] creating...' );
-
-											ft.createDir( ft.getRootPath( ) + ft.CONST.PATH_DELIMITER +
-												moduleConfig.PATH.LIB + ft.CONST.PATH_DELIMITER +
-												moduleConfig.PATH.STYLESHEETS + ft.CONST.PATH_DELIMITER +
-												moduleConfig.PATH.SCSS );
-
-											console.log( '[' + ( new Date( ) ).toISOString() + '] ' +
-
-												'[' + ft.getRootPath( ) + '/' +
-												moduleConfig.PATH.LIB + '/' +
-												moduleConfig.PATH.STYLESHEETS + '/' +
-												moduleConfig.PATH.CSS + '] creating...' );
-
-											ft.createDir( ft.getRootPath( ) + ft.CONST.PATH_DELIMITER +
-												moduleConfig.PATH.LIB + ft.CONST.PATH_DELIMITER +
-												moduleConfig.PATH.STYLESHEETS + ft.CONST.PATH_DELIMITER +
-												moduleConfig.PATH.CSS );
-
-										}catch( e ){
-
-											console.log( '[' + ( new Date( ) ).toISOString() + '] ' +
-
-												'Error while creating paths' );
-
-											console.log( e );
-										}
-
-										// Creating base.js.
-										try{
-
-											console.log( '[' + ( new Date( ) ).toISOString() + '] ' +
-
-												'[' + ft.getRootPath( ) + '/' +
-												moduleConfig.PATH.LIB + '/' +
-												moduleConfig.PATH.SOURCES + '/' +
-												'base.js] creating...' );
-
-											var baseJs = ft.openFile(
-
-												idkRoot + ft.CONST.PATH_DELIMITER +
-												'tpl' + ft.CONST.PATH_DELIMITER +
-												'base.js.tpl' );
-
-											baseJs = baseJs.replace( /\[\{\(NAMESPACE\)\}\]/g, modName );
-											baseJs = baseJs.replace( /\[\{\(AUTHOR\)\}\]/g, modAuthName );
-											baseJs = baseJs.replace( /\[\{\(EMAIL\)\}\]/g, modAuthEmail );
-											baseJs = baseJs.replace( /\[\{\(LICENSE_TYPE\)\}\]/g, modLicense );
-											ft.saveFile(
-
-												ft.getRootPath( ) + ft.CONST.PATH_DELIMITER +
-
-												moduleConfig.PATH.LIB + ft.CONST.PATH_DELIMITER +
-												moduleConfig.PATH.SOURCES + ft.CONST.PATH_DELIMITER +
-												'base.js',
-
-												baseJs );
-
-											console.log( '[' + ( new Date( ) ).toISOString() + '] ' +
-
-												'[' + ft.getRootPath( ) + '/' +
-												moduleConfig.PATH.LIB + '/' +
-												moduleConfig.PATH.SOURCES + '/' +
-												'cssmap.js] creating...' );
-
-											ft.saveFile(
-
-												ft.getRootPath( ) + ft.CONST.PATH_DELIMITER +
-
-												moduleConfig.PATH.LIB + ft.CONST.PATH_DELIMITER +
-												moduleConfig.PATH.SOURCES + ft.CONST.PATH_DELIMITER +
-												'cssmap.js',
-
-												'' );
-
-										}catch( e ){
-
-											console.log( '[' + ( new Date( ) ).toISOString() + '] ' +
-
-												'Error while creating [' + ft.getRootPath( ) + '/' +
-												moduleConfig.PATH.LIB + '/' +
-												moduleConfig.PATH.SOURCES + '/' +
-												'base.js]' );
-
-											console.log( e );
-										}
-
-										// Creating module.scss, deps.scss.
-										try{
-
-											console.log( '[' + ( new Date( ) ).toISOString() + '] ' +
-
-												'[' + ft.getRootPath( ) + '/' +
-												moduleConfig.PATH.LIB + '/' +
-												moduleConfig.PATH.STYLESHEETS + '/' +
-												modName + '.scss] creating...' );
-
-											var moduleScss = ft.openFile(
-
-												idkRoot + ft.CONST.PATH_DELIMITER +
-												'tpl' + ft.CONST.PATH_DELIMITER +
-												'module.scss.tpl' );
-
-											moduleScss = moduleScss.replace( /\[\{\(NAMESPACE\)\}\]/g, modName );
-											moduleScss = moduleScss.replace( /\[\{\(AUTHOR\)\}\]/g, modAuthName );
-											moduleScss = moduleScss.replace( /\[\{\(EMAIL\)\}\]/g, modAuthEmail );
-											moduleScss = moduleScss.replace( /\[\{\(LICENSE_TYPE\)\}\]/g, modLicense );
-											ft.saveFile(
-
-												ft.getRootPath( ) + ft.CONST.PATH_DELIMITER +
-
-												moduleConfig.PATH.LIB + ft.CONST.PATH_DELIMITER +
-												moduleConfig.PATH.STYLESHEETS + ft.CONST.PATH_DELIMITER +
-												moduleConfig.PATH.SCSS + ft.CONST.PATH_DELIMITER +
-												modName + '.scss',
-
-												moduleScss );
-
-											console.log( '[' + ( new Date( ) ).toISOString() + '] ' +
-
-												'[' + ft.getRootPath( ) + '/' +
-												moduleConfig.PATH.LIB + '/' +
-												moduleConfig.PATH.SOURCES + '/' +
-												'deps.scss] creating...' );
-
-											var depsScss = ft.openFile(
-
-												idkRoot + ft.CONST.PATH_DELIMITER +
-												'tpl' + ft.CONST.PATH_DELIMITER +
-												'deps.scss.tpl' );
-
-											depsScss = depsScss.replace( /\[\{\(NAMESPACE\)\}\]/g, modName );
-											depsScss = depsScss.replace( /\[\{\(AUTHOR\)\}\]/g, modAuthName );
-											depsScss = depsScss.replace( /\[\{\(EMAIL\)\}\]/g, modAuthEmail );
-											depsScss = depsScss.replace( /\[\{\(LICENSE_TYPE\)\}\]/g, modLicense );
-											ft.saveFile(
-
-												ft.getRootPath( ) + ft.CONST.PATH_DELIMITER +
-
-												moduleConfig.PATH.LIB + ft.CONST.PATH_DELIMITER +
-												moduleConfig.PATH.STYLESHEETS + ft.CONST.PATH_DELIMITER +
-												moduleConfig.PATH.SCSS + ft.CONST.PATH_DELIMITER +
-												'deps.scss',
-
-												depsScss );
-
-										}catch( e ){
-
-											console.log( '[' + ( new Date( ) ).toISOString() + '] ' +
-
-												'Error while creating [module.scss, deps.scss]' );
-
-											console.log( e );
-										}
-
-										// Creating index.js for unit tests.
-										try{
-
-											console.log( '[' + ( new Date( ) ).toISOString() + '] ' +
-
-												'[' + ft.getRootPath( ) + '/' +
-												moduleConfig.PATH.LIB + '/' +
-												moduleConfig.PATH.SOURCES + '/' +
-												'tests/' +
-												'index.js] creating...' );
-
-											var utJs = ft.openFile(
-
-												idkRoot + ft.CONST.PATH_DELIMITER +
-												'tpl' + ft.CONST.PATH_DELIMITER +
-												'ut.js.tpl' );
-
-											utJs = utJs.replace( /\[\{\(NAMESPACE\)\}\]/g, modName );
-											utJs = utJs.replace( /\[\{\(AUTHOR\)\}\]/g, modAuthName );
-											utJs = utJs.replace( /\[\{\(EMAIL\)\}\]/g, modAuthEmail );
-											utJs = utJs.replace( /\[\{\(LICENSE_TYPE\)\}\]/g, modLicense );
-
-											ft.saveFile(
-
-												ft.getRootPath( ) + ft.CONST.PATH_DELIMITER +
-
-												moduleConfig.PATH.LIB + ft.CONST.PATH_DELIMITER +
-												moduleConfig.PATH.SOURCES + ft.CONST.PATH_DELIMITER +
-												'tests' + ft.CONST.PATH_DELIMITER +
-												'index.js',
-
-												utJs );
-
-										}catch( e ){
-
-											console.log( '[' + ( new Date( ) ).toISOString() + '] ' +
-
-												'Error while creating [' + ft.getRootPath( ) + '/' +
-												moduleConfig.PATH.LIB + '/' +
-												moduleConfig.PATH.SOURCES + '/' +
-												'tests/index.js]' );
-
-											console.log( e );
-										}
-									} );
-								} );
-							} );
-						} );
-					} );
-				} );
-			} );
-
-		} );
-	} );
-}else{
-
-	// Terminate installing process and console error.
-	console.log( '[' + ( new Date( ) ).toISOString() + '] ' +
-
-		'Installation error. Please check project file structure.' );
+        createStructure();
+    }
 }

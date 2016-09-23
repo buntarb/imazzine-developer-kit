@@ -1,0 +1,195 @@
+# Initial info for package.json
+PACKAGEJSON:
+
+  VERSION:
+    desc: 'module version'
+    default:
+
+  DESCRIPTION:
+    desc: 'module description'
+    default: 'Module description.'
+
+  AUTHOR:
+    desc: 'module author name'
+    default: 'Author Name'
+
+  EMAIL:
+    desc: 'module author email'
+    default: 'Email@example.com'
+
+  LICENSE_TYPE:
+    desc: 'module license'
+    default: 'Apache-2.0'
+
+  HOMEPAGE:
+    desc: 'module homepage'
+    default: 'http://www.example.com'
+
+  REPO_TYPE:
+    desc: 'module repository type'
+    default: 'git'
+
+  REPO_URL:
+    desc: 'module repository url'
+    default: 'git+https://github.com/author/[{(NAMESPACE)}].git'
+
+# Module structure
+#
+# TARGET is required. It defines path to a target directory or file.
+# SOURCE is optional. It defines path to a file which should be copied. Its absence means creation not copying.
+# OVERWRITE is optional. It indicates to overwrite target file. Otherwise copying ocuur only if file doesn't exist.
+# TYPE is optional. For creation action. dir - directory, file - file.
+# APPLYTEMPLATE is optional. Use for copying file with replacing substitution variables from config files.
+#
+# This file can itself use substitutions from config.yaml.
+# Special words: moduleRoot means path to module's root, idkRoot means path to idk module's root.
+# Use symbol / as path delimiter independently for OS.
+STRUCTURE:
+
+  # Compiled files folder
+  BIN:
+    TARGET: 'moduleRoot/[{(PATH.BIN)}]'
+    TYPE:   'dir'
+
+  IDKCMD:
+    TARGET: 'moduleRoot/idk.cmd'
+    SOURCE: 'idkRoot/tpl/idk.cmd.tpl'
+    OVERWRITE: true
+
+  GITIGNORE:
+    TARGET: 'moduleRoot/.gitignore'
+    SOURCE: 'idkRoot/tpl/.gitignore.tpl'
+    OVERWRITE: true
+
+  NPMIGNORE:
+    TARGET: 'moduleRoot/.npmignore'
+    SOURCE: 'idkRoot/tpl/.npmignore.tpl'
+    OVERWRITE: true
+
+  SRV:
+    TARGET: 'moduleRoot/srv'
+    TYPE:   'dir'
+
+  INDEXAPPHEADER:
+    TARGET: 'moduleRoot/srv/index.app.header.tpl'
+    SOURCE: 'idkRoot/tpl/index.app.header.tpl'
+
+  INDEXAPPFOOTER:
+    TARGET: 'moduleRoot/srv/index.app.footer.tpl'
+    SOURCE: 'idkRoot/tpl/index.app.footer.tpl'
+
+  INDEXDEVTPL:
+    TARGET: 'moduleRoot/srv/index.dev.tpl'
+    SOURCE: 'idkRoot/tpl/index.dev.tpl'
+
+  INDEXTSTTPL:
+    TARGET: 'moduleRoot/srv/index.tst.tpl'
+    SOURCE: 'idkRoot/tpl/index.tst.tpl'
+
+  INDEXDOCTPL:
+    TARGET: 'moduleRoot/srv/index.doc.tpl'
+    SOURCE: 'idkRoot/tpl/index.doc.tpl'
+
+  INDEXUTTPL:
+    TARGET: 'moduleRoot/srv/index.ut.tpl'
+    SOURCE: 'idkRoot/tpl/index.ut.tpl'
+
+  LICENSE:
+    TARGET: 'moduleRoot/LICENSE'
+    SOURCE: 'idkRoot/tpl/LICENSE'
+
+  LIB:
+    TARGET: 'moduleRoot/[{(PATH.LIB)}]'
+    TYPE:   'dir'
+
+  SOURCES:
+    TARGET: 'moduleRoot/[{(PATH.LIB)}]/[{(PATH.SOURCES)}]'
+    TYPE:   'dir'
+
+  CONTROLLERS:
+    TARGET: 'moduleRoot/[{(PATH.LIB)}]/[{(PATH.SOURCES)}]/controllers'
+    TYPE:   'dir'
+
+  MODELS:
+    TARGET: 'moduleRoot/[{(PATH.LIB)}]/[{(PATH.SOURCES)}]/models'
+    TYPE:   'dir'
+
+  VIEWS:
+    TARGET: 'moduleRoot/[{(PATH.LIB)}]/[{(PATH.SOURCES)}]/views'
+    TYPE:   'dir'
+
+  EVENTS:
+    TARGET: 'moduleRoot/[{(PATH.LIB)}]/[{(PATH.SOURCES)}]/events'
+    TYPE:   'dir'
+
+  SERVICES:
+    TARGET: 'moduleRoot/[{(PATH.LIB)}]/[{(PATH.SOURCES)}]/services'
+    TYPE:   'dir'
+
+  TESTS:
+    TARGET: 'moduleRoot/[{(PATH.LIB)}]/[{(PATH.SOURCES)}]/tests'
+    TYPE:   'dir'
+
+  FACTORIES:
+    TARGET: 'moduleRoot/[{(PATH.LIB)}]/[{(PATH.SOURCES)}]/factories'
+    TYPE:   'dir'
+
+  ERRORS:
+    TARGET: 'moduleRoot/[{(PATH.LIB)}]/[{(PATH.SOURCES)}]/errors'
+    TYPE:   'dir'
+
+  ENUMS:
+    TARGET: 'moduleRoot/[{(PATH.LIB)}]/[{(PATH.SOURCES)}]/enums'
+    TYPE:   'dir'
+
+  DOCS:
+    TARGET: 'moduleRoot/[{(PATH.LIB)}]/[{(PATH.SOURCES)}]/docs'
+    TYPE:   'dir'
+
+  MESSAGES:
+    TARGET: 'moduleRoot/[{(PATH.LIB)}]/[{(PATH.SOURCES)}]/[{(PATH.MESSAGES)}]'
+    TYPE:   'dir'
+
+  TEMPLATES:
+    TARGET: 'moduleRoot/[{(PATH.LIB)}]/[{(PATH.SOURCES)}]/[{(PATH.TEMPLATES)}]'
+    TYPE:   'dir'
+
+  RESOURCES:
+    TARGET: 'moduleRoot/[{(PATH.LIB)}]/[{(PATH.SOURCES)}]/[{(PATH.RESOURCES)}]'
+    TYPE:   'dir'
+
+  STYLESHEETS:
+    TARGET: 'moduleRoot/[{(PATH.LIB)}]/[{(PATH.SOURCES)}]/[{(PATH.STYLESHEETS)}]'
+    TYPE:   'dir'
+
+  SCSS:
+    TARGET: 'moduleRoot/[{(PATH.LIB)}]/[{(PATH.SOURCES)}]/[{(PATH.STYLESHEETS)}]/[{(PATH.SCSS)}]'
+    TYPE:   'dir'
+
+  CSS:
+    TARGET: 'moduleRoot/[{(PATH.LIB)}]/[{(PATH.SOURCES)}]/[{(PATH.STYLESHEETS)}]/[{(PATH.CSS)}]'
+    TYPE:   'dir'
+
+  BASEJS:
+    TARGET: 'moduleRoot/[{(PATH.LIB)}]/[{(PATH.SOURCES)}]/base.js'
+    SOURCE: 'idkRoot/tpl/base.js.tpl'
+    APPLYTEMPLATE: true
+
+  CSSMAPJS:
+    TARGET: 'moduleRoot/[{(PATH.LIB)}]/[{(PATH.SOURCES)}]/cssmap.js'
+    TYPE:   'file'
+
+  MODULESCSS:
+    TARGET: 'moduleRoot/[{(PATH.LIB)}]/[{(PATH.SOURCES)}]/[{(PATH.STYLESHEETS)}]/[{(PATH.SCSS)}]/[{(NAMESPACE)}].scss'
+    SOURCE: 'idkRoot/tpl/module.scss.tpl'
+    APPLYTEMPLATE: true
+
+  DEPSSCSS:
+    TARGET: 'moduleRoot/[{(PATH.LIB)}]/[{(PATH.SOURCES)}]/[{(PATH.STYLESHEETS)}]/[{(PATH.SCSS)}]/deps.scss'
+    SOURCE: 'idkRoot/tpl/deps.scss.tpl'
+    APPLYTEMPLATE: true
+
+  UTJS:
+    TARGET: 'moduleRoot/[{(PATH.LIB)}]/[{(PATH.SOURCES)}]/tests/index.js'
+    SOURCE: 'idkRoot/tpl/ut.js.tpl'
+    APPLYTEMPLATE: true
