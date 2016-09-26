@@ -1,6 +1,6 @@
 {
   "name": "imazzine-developer-kit",
-  "version": "20160923.0.0",
+  "version": "20160926.0.2",
   "description": "Imazzine developer toolkit",
   "author": {
     "name": "Artem Lytvynov",
@@ -42,6 +42,7 @@
     "closurecompiler-externs": "",
     "ws": "",
     "jsdoc-api": "1.1.0",
-    "js-dossier": "0.10.0"
+    "js-dossier": "0.10.0",
+    "ace-builds": "1.2.5"
   }
 }

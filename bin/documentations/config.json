@@ -6,18 +6,4 @@
   ],
   "closureDepFiles": [ "./lib/sources/deps-node.js" ],
   "output": "./doc"
-
-//  "closureLibraryDir": "./node_modules/imazzine-developer-kit/node_modules/google-closure-library/closure/goog",
-//  "sources": ["./**.js"],
-//  "output": "./doc",
-//    "excludes": [
-//      "./**deps.js",
-//      "./**deps-node.js",
-//      "./node_modules/imazzine-developer-kit/lib",
-//      "./node_modules/imazzine-developer-kit/node_modules",
-//      "./node_modules/imazzine-developer-kit/tpl",
-//      "./node_modules/imazzine-developer-kit/index.js",
-//      "./node_modules/imazzine-developer-kit/install.js",
-//      "./node_modules/imazzine-developer-kit/bin/templates/soyutils.js"
-//    ]
 }

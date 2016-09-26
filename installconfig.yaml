@@ -43,7 +43,7 @@ PACKAGEJSON:
 #
 # This file can itself use substitutions from config.yaml.
 # Special words: moduleRoot means path to module's root, idkRoot means path to idk module's root.
-# Use symbol / as path delimiter independently for OS.
+# Use symbol / as path delimiter independently of OS.
 STRUCTURE:
 
   # Compiled files folder
@@ -102,6 +102,10 @@ STRUCTURE:
     TARGET: 'moduleRoot/[{(PATH.LIB)}]'
     TYPE:   'dir'
 
+  LIBMODELS:
+    TARGET: 'moduleRoot/[{(PATH.LIB)}]/models'
+    TYPE:   'dir'
+
   SOURCES:
     TARGET: 'moduleRoot/[{(PATH.LIB)}]/[{(PATH.SOURCES)}]'
     TYPE:   'dir'
@@ -147,27 +151,27 @@ STRUCTURE:
     TYPE:   'dir'
 
   MESSAGES:
-    TARGET: 'moduleRoot/[{(PATH.LIB)}]/[{(PATH.SOURCES)}]/[{(PATH.MESSAGES)}]'
+    TARGET: 'moduleRoot/[{(PATH.LIB)}]/[{(PATH.MESSAGES)}]'
     TYPE:   'dir'
 
   TEMPLATES:
-    TARGET: 'moduleRoot/[{(PATH.LIB)}]/[{(PATH.SOURCES)}]/[{(PATH.TEMPLATES)}]'
+    TARGET: 'moduleRoot/[{(PATH.LIB)}]/[{(PATH.TEMPLATES)}]'
     TYPE:   'dir'
 
   RESOURCES:
-    TARGET: 'moduleRoot/[{(PATH.LIB)}]/[{(PATH.SOURCES)}]/[{(PATH.RESOURCES)}]'
+    TARGET: 'moduleRoot/[{(PATH.LIB)}]/[{(PATH.RESOURCES)}]'
     TYPE:   'dir'
 
   STYLESHEETS:
-    TARGET: 'moduleRoot/[{(PATH.LIB)}]/[{(PATH.SOURCES)}]/[{(PATH.STYLESHEETS)}]'
+    TARGET: 'moduleRoot/[{(PATH.LIB)}]/[{(PATH.STYLESHEETS)}]'
     TYPE:   'dir'
 
   SCSS:
-    TARGET: 'moduleRoot/[{(PATH.LIB)}]/[{(PATH.SOURCES)}]/[{(PATH.STYLESHEETS)}]/[{(PATH.SCSS)}]'
+    TARGET: 'moduleRoot/[{(PATH.LIB)}]/[{(PATH.STYLESHEETS)}]/[{(PATH.SCSS)}]'
     TYPE:   'dir'
 
   CSS:
-    TARGET: 'moduleRoot/[{(PATH.LIB)}]/[{(PATH.SOURCES)}]/[{(PATH.STYLESHEETS)}]/[{(PATH.CSS)}]'
+    TARGET: 'moduleRoot/[{(PATH.LIB)}]/[{(PATH.STYLESHEETS)}]/[{(PATH.CSS)}]'
     TYPE:   'dir'
 
   BASEJS:
@@ -180,12 +184,12 @@ STRUCTURE:
     TYPE:   'file'
 
   MODULESCSS:
-    TARGET: 'moduleRoot/[{(PATH.LIB)}]/[{(PATH.SOURCES)}]/[{(PATH.STYLESHEETS)}]/[{(PATH.SCSS)}]/[{(NAMESPACE)}].scss'
+    TARGET: 'moduleRoot/[{(PATH.LIB)}]/[{(PATH.STYLESHEETS)}]/[{(PATH.SCSS)}]/[{(NAMESPACE)}].scss'
     SOURCE: 'idkRoot/tpl/module.scss.tpl'
     APPLYTEMPLATE: true
 
   DEPSSCSS:
-    TARGET: 'moduleRoot/[{(PATH.LIB)}]/[{(PATH.SOURCES)}]/[{(PATH.STYLESHEETS)}]/[{(PATH.SCSS)}]/deps.scss'
+    TARGET: 'moduleRoot/[{(PATH.LIB)}]/[{(PATH.STYLESHEETS)}]/[{(PATH.SCSS)}]/deps.scss'
     SOURCE: 'idkRoot/tpl/deps.scss.tpl'
     APPLYTEMPLATE: true
 
