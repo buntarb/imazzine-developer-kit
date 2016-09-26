@@ -14,7 +14,7 @@ PATH:
   SOURCES: 'sources'
 
   # Compiled .soy templates folder
-  COMPILED_SOY: '.tpl'
+  COMPILED_SOY: '_tpl'
 
   # Messages files folder
   MESSAGES: 'messages'
