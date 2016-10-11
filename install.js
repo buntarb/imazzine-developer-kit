@@ -103,21 +103,6 @@ function toLog( message ) {
 }
 
 /**
- * Transforming passed pseudo path into a real absolute path independently of OS.
- * @param {string} path is pseudo or absolute path.
- * 		moduleRoot in path param matches to a path for a module root.
- * 		idkRoot in path param matches to a path for a idk root.
- * 		Symbol / in path param matches to a path delimeter for current OS.
- * @return {string}
- */
-function normalizePath( path ) {
-
-    return path.replace( /\//g, ft.CONST.PATH_DELIMITER )
-        .replace( /moduleRoot/g, ft.getRootPath() )
-        .replace( /idkRoot/g, ft.getIdkPath() );
-}
-
-/**
  * Create directory
  * @param {string} path must be an absolute path to a directory.
  * @param {?boolean|undefined} disableLog is flag whether print message to log or not. Defaul is false.
@@ -313,8 +298,8 @@ function copyFileOverwrite( source, target, transformMap ) {
 
     if( target && source ){
 
-        var pathTarget = normalizePath( target );
-        var pathSource = normalizePath( source );
+        var pathTarget = ft.normalizePath( target );
+        var pathSource = ft.normalizePath( source );
 
         if( transformMap ){
 
@@ -347,11 +332,11 @@ function copyFileIfNotExist( source, target, transformMap ) {
 
     if( target && source ){
 
-        var pathTarget = normalizePath( target );
+        var pathTarget = ft.normalizePath( target );
 
         if( !ft.isFileExist( pathTarget ) ){
 
-            var pathSource = normalizePath( source );
+            var pathSource = ft.normalizePath( source );
 
             if( transformMap ){
 
@@ -402,7 +387,7 @@ function createIfNotExist( target, type, data) {
             return 'Unsupported TYPE=' + type;
         }
 
-        path = normalizePath( target );
+        path = ft.normalizePath( target );
 
         if( isFile  ){
             if( !ft.isFileExist( path ) ){
@@ -453,7 +438,7 @@ function createOverwrite( target, type, data) {
             return 'Unsupported TYPE=' + type;
         }
 
-        path = normalizePath( target );
+        path = ft.normalizePath( target );
 
         if( isFile  ){
             if( ft.isFileExist( path ) ){
