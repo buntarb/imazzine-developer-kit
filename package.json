@@ -1,6 +1,6 @@
 {
   "name": "imazzine-developer-kit",
-  "version": "20161017.0.0",
+  "version": "20161020.0.0",
   "description": "Imazzine developer toolkit",
   "author": {
     "name": "Artem Lytvynov",
@@ -8,9 +8,18 @@
     "url": "http://buntarb.github.io/"
   },
   "contributors": [
-    "Artem Lytvynov <buntarb@gmail.com>",
-    "Alexander Popkov <popkov.aleksander@gmail.com>",
-    "Igor Zinchenko <zinychz@gmail.com>"
+    {
+      "name": "Artem Lytvynov",
+      "email": "buntarb@gmail.com"
+    },
+    {
+      "name": "Alexander Popkov",
+      "email": "popkov.aleksander@gmail.com"
+    },
+    {
+      "name": "Igor Zinchenko",
+      "email": "zinychz@gmail.com"
+    }
   ],
   "license": "Apache-2.0",
   "homepage": "https://github.com/buntarb/imazzine-developer-kit",
@@ -44,5 +53,11 @@
     "jsdoc-api": "1.1.0",
     "js-dossier": "0.10.0",
     "ace-builds": "1.2.5"
-  }
+  },
+  "readme": "# Imazzine Developer Kit",
+  "readmeFilename": "README.md",
+  "gitHead": "ccf791d7be13de0aad8161e054322b0bba490535",
+  "_id": "imazzine-developer-kit@20161017.0.0",
+  "_shasum": "abe8e2aea79de33ea767866353acaa37d211d9c8",
+  "_from": "imazzine-developer-kit@latest"
 }
