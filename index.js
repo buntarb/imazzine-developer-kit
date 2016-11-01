@@ -29,6 +29,7 @@ var stylesheet = require( './lib/stylesheet.js' );
 var server = require( './lib/server.js' );
 var yaml = require( 'yamljs' );
 var ws = require( 'ws' );
+var ide = require( './lib/ide.js' );
 
 // Base environment variables.
 var d = filetools.CONST.PATH_DELIMITER;
@@ -62,5 +63,6 @@ module.exports = {
 	template: template,
 	stylesheet: stylesheet,
 	server: server,
-	ws: ws
+	ws: ws,
+	ide: ide
 };
