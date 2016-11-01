@@ -81,3 +81,15 @@ COMPILATION:
 
   # Version of source map files
   SOURCE_MAP: 'V3'
+
+# IDE setting
+IDE:
+
+  #WSServer host
+  WS_SERVER_HOST: 'localhost'
+
+  #WSServer port
+  WS_SERVER_PORT: '7777'
+
+  #WSServer path
+  WS_SERVER_PATH: ''
