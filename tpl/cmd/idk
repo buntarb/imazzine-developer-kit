@@ -69,7 +69,7 @@ if( args[ 0 ] === 'compile' ){
 
     }else if( args[ 1 ] === 'ide' ){
 
-        idk.ide.startIde( idk );
+        idk.ide.startIde( );
     }
 
 }else if( args[ 0 ] === 'update' ){
