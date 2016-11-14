@@ -46,6 +46,9 @@ SERVER:
   # Server port
   SERVER_PORT: 8888
 
+  # Server IDE port
+  SERVER_IDE_PORT: 8887
+
   # Documentation server sub-domain
   SERVER_DOC: 'doc'
 
