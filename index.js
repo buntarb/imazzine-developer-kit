@@ -30,6 +30,7 @@ var server = require( './lib/server.js' );
 var yaml = require( 'yamljs' );
 var ws = require( 'ws' );
 var ide = require( './lib/ide.js' );
+var ternserver = require( './lib/ternserver.js' );
 
 // Base environment variables.
 var d = filetools.CONST.PATH_DELIMITER;
@@ -41,7 +42,7 @@ require( './node_modules/google-closure-library/closure/goog/bootstrap/nodejs.js
 // Module dependencies for node if exist.
 if( filetools.isFileExist(
 
-	filetools.getRootPath( ) + d +
+		filetools.getRootPath( ) + d +
 		cfg.PATH.LIB + d +
 		cfg.PATH.SOURCES + d +
 		'deps-node.js' ) ){
@@ -49,9 +50,9 @@ if( filetools.isFileExist(
 	require(
 
 		filetools.getRootPath( ) + d +
-			cfg.PATH.LIB + d +
-			cfg.PATH.SOURCES + d +
-			'deps-node.js' );
+		cfg.PATH.LIB + d +
+		cfg.PATH.SOURCES + d +
+		'deps-node.js' );
 }
 
 // Exporting API
@@ -64,5 +65,6 @@ module.exports = {
 	stylesheet: stylesheet,
 	server: server,
 	ws: ws,
-	ide: ide
+	ide: ide,
+	ternserver: ternserver
 };
