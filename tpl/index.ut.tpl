@@ -10,6 +10,8 @@
     <script
             src="/[{(PATH.LIB)}]/[{(PATH.SOURCES)}]/deps.js">
     </script>
+    <script>goog.require("goog.soy");</script>
+    <script src="/node_modules/imazzine-developer-kit/[{(PATH.BIN)}]/[{(PATH.TEMPLATES)}]/soyutils_usegoog.js"></script>
     <script>
         goog.require( '[{(NAMESPACE)}].TestRunner' );
     </script>
