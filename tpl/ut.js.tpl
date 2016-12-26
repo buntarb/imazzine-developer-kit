@@ -19,3 +19,31 @@
 
 goog.provide( '[{(NAMESPACE)}].TestRunner' );
 goog.setTestOnly( '[{(NAMESPACE)}].TestRunner' );
+
+
+
+
+/**
+* Test on existence of members
+* @param {Array.<string>} members
+* @param {*} subjToTest
+*/
+[{(NAMESPACE)}].TestRunner.checkMembers = function ( members, subjToTest, opt_titleErrMessage ){
+
+    opt_titleErrMessage = opt_titleErrMessage? ( opt_titleErrMessage + '\n' ): '';
+
+    var errors = '';
+    goog.array.forEach( members, function( member ){
+
+        if( !goog.object.containsKey( subjToTest, member ) ){
+
+            errors += 'Must have ' + member + '\n';
+        }
+    } );
+
+    assertTrue(
+
+        ( opt_titleErrMessage + errors ),
+        errors === ''
+    );
+}
