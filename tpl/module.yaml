@@ -80,7 +80,7 @@ COMPILATION:
   INPUT_LANGUAGE: 'ECMASCRIPT6_STRICT'
 
   # Compiled code ECMAScript version
-  OUTPUT_LANGUAGE: 'ECMASCRIPT6_STRICT'
+  OUTPUT_LANGUAGE: 'ECMASCRIPT5_STRICT'
 
   # Enable/disable source map file generation
   SOURCE_MAP_ENABLE: false
