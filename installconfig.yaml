@@ -37,7 +37,7 @@ PACKAGEJSON:
 #
 # TARGET is required. It defines path to a target directory or file.
 # SOURCE is optional. It defines path to a file which should be copied. Its absence means creation not copying.
-# OVERWRITE is optional. It indicates to overwrite target file. Otherwise copying ocuur only if file doesn't exist.
+# OVERWRITE is optional. It indicates to overwrite target file. Otherwise copying occur only if file doesn't exist.
 # TYPE is optional. For creation action. dir - directory, file - file.
 # APPLYTEMPLATE is optional. Use for copying file with replacing substitution variables from config files.
 #
@@ -45,6 +45,10 @@ PACKAGEJSON:
 # Special words: moduleRoot means path to module's root, idkRoot means path to idk module's root.
 # Use symbol / as path delimiter independently of OS.
 STRUCTURE:
+
+  TERNCONFIG:
+    TARGET: 'moduleRoot/.tern-project'
+    SOURCE: 'idkRoot/tpl/tern-project.tpl'
 
   # Compiled files folder
   BIN:
