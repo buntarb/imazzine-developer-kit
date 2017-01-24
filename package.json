@@ -1,6 +1,6 @@
 {
   "name": "imazzine-developer-kit",
-  "version": "20170120.0.0",
+  "version": "20170124.0.0",
   "description": "Imazzine developer toolkit",
   "author": {
     "name": "Artem Lytvynov",
@@ -54,7 +54,8 @@
     "js-dossier": "0.10.0",
     "ace-builds": "1.2.5",
     "tern-closure": "0.1.3",
-    "acorn": "0.5.0"
+    "acorn": "0.5.0",
+    "mongoose": ""
   },
   "readme": "# Imazzine Developer Kit",
   "readmeFilename": "README.md",
