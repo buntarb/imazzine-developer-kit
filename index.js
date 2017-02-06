@@ -30,8 +30,7 @@ var server = require( './lib/server.js' );
 var yaml = require( 'yamljs' );
 var ws = require( 'ws' );
 var ide = require( './lib/ide.js' );
-var ternserver = require( './lib/ternserver.js' );
-var mongoose = require( 'mongoose' );
+var ternserver = require( './lib/ternserver.js' )
 
 // Base environment variables.
 var d = filetools.CONST.PATH_DELIMITER;
@@ -67,6 +66,5 @@ module.exports = {
 	server: server,
 	ws: ws,
 	ide: ide,
-	ternserver: ternserver,
-    mongoose: mongoose
+	ternserver: ternserver
 };
